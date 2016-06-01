@@ -4,6 +4,8 @@
     Author     : Ari
 --%>
 
+<%@page import="java.sql.ResultSet"%>
+<%@page import="BD.Select"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,7 +17,13 @@
     <body>
          <div>
             <p class="greeting-id">The ID is </p>
-            
+            <p><%
+                Select seleccion=new Select();
+                String datos[]={"daniStone"};
+                ResultSet lista = seleccion.simpleSelect(datos);
+                if(lista.next())
+                    out.println(lista.getString("usuario"));
+                %>
         </div>
     </body>
 </html>

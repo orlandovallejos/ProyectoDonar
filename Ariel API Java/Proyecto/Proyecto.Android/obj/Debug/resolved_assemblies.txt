@@ -1,0 +1,12 @@
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\Proyecto.Android.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\Mono.Android.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\mscorlib.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\Newtonsoft.Json.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\RestSharp.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\System.Core.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\System.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\System.Net.Http.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\System.Xml.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\System.Xml.Linq.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\System.Runtime.Serialization.dll
+D:\Orlando\ProyectoDonar\Proyecto\Proyecto.Android\obj\Debug\assemblies\System.ServiceModel.Internals.dll
