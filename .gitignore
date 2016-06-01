@@ -41,3 +41,12 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+/Proyecto/Proyecto.Android/obj/Release
+/Proyecto/Proyecto.Web/obj/Release
+/Proyecto/Proyecto.API/Properties/PublishProfiles
+*.dll
+*.pdb
+/Proyecto/Proyecto.API/bin/
+/Proyecto/Proyecto.API/obj/
+*.pdb
+*.pdb
