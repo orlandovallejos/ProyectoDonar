@@ -1,9 +1,12 @@
 /* ocLazyLoad config */
+(function(){
+    'use strict';
 
-altairApp
+    angular
+    .module('altairApp')
     .config([
         '$ocLazyLoadProvider',
-        function($ocLazyLoadProvider) {
+        function ($ocLazyLoadProvider) {
             $ocLazyLoadProvider.config({
                 debug: false,
                 events: false,
@@ -365,3 +368,4 @@ altairApp
             })
         }
     ]);
+})();

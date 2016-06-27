@@ -1,19 +1,23 @@
-altairApp
+(function(){
+    'use strict';
+
+    angular
+    .module('altairApp')
     .service('detectBrowser', [
         '$window',
-        function($window) {
+        function ($window) {
             // http://stackoverflow.com/questions/22947535/how-to-detect-browser-using-angular
-            return function() {
+            return function () {
                 var userAgent = $window.navigator.userAgent,
-                    browsers  = {
-                        chrome  : /chrome/i,
-                        safari  : /safari/i,
-                        firefox : /firefox/i,
-                        ie      : /internet explorer/i
+                    browsers = {
+                        chrome: /chrome/i,
+                        safari: /safari/i,
+                        firefox: /firefox/i,
+                        ie: /internet explorer/i
                     };
 
-                for ( var key in browsers ) {
-                    if ( browsers[key].test(userAgent) ) {
+                for (var key in browsers) {
+                    if (browsers[key].test(userAgent)) {
                         return key;
                     }
                 }
@@ -25,11 +29,11 @@ altairApp
         '$rootScope',
         '$timeout',
         'utils',
-        function($rootScope,$timeout,utils) {
-            $rootScope.content_preloader_show = function(style,container) {
+        function ($rootScope, $timeout, utils) {
+            $rootScope.content_preloader_show = function (style, container) {
                 var $body = $('body');
-                if(!$body.find('.content-preloader').length) {
-                    var image_density = utils.isHighDensity() ? '@2x' : '' ;
+                if (!$body.find('.content-preloader').length) {
+                    var image_density = utils.isHighDensity() ? '@2x' : '';
 
                     var preloader_content = (typeof style !== 'undefined' && style == 'regular')
                         ? '<img src="assets/img/spinners/spinner' + image_density + '.gif" alt="" width="32" height="32">'
@@ -38,18 +42,18 @@ altairApp
                     var thisContainer = (typeof container !== 'undefined') ? container : $body;
 
                     thisContainer.append('<div class="content-preloader">' + preloader_content + '</div>');
-                    $timeout(function() {
+                    $timeout(function () {
                         $('.content-preloader').addClass('preloader-active');
                     });
                 }
             };
-            $rootScope.content_preloader_hide = function() {
+            $rootScope.content_preloader_hide = function () {
                 var $body = $('body');
-                if($body.find('.content-preloader').length) {
+                if ($body.find('.content-preloader').length) {
                     // hide preloader
                     $('.content-preloader').removeClass('preloader-active');
                     // remove preloader
-                    $timeout(function() {
+                    $timeout(function () {
                         $('.content-preloader').remove();
                     }, 500);
                 }
@@ -57,19 +61,18 @@ altairApp
 
         }
     ])
+    .factory('ServerService', ServerService);
 
-    .factory('ServerService', ServerService)
-;
+    ServerService.$inject = ['$http'];
+    function ServerService($http) {
+        var service = {
+            myFunc: myFunc
+        };
 
-ServerService.$inject = ['$http'];
-function ServerService($http) {
-    var service = {
-        myFunc:myFunc
-    };
+        return service;
 
-    return service;
+        function myFunc() {
 
-    function myFunc() {
-
+        }
     }
-}
+})();

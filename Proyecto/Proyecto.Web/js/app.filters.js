@@ -1,7 +1,11 @@
-altairApp
+(function(){
+    'use strict';
+
+    angular
+    .module('altairApp')
     .filter('multiSelectFilter', function () {
         return function (items, filterData) {
-            if(filterData == undefined)
+            if (filterData == undefined)
                 return items;
             var keys = Object.keys(filterData);
             var filtered = [];
@@ -10,9 +14,9 @@ altairApp
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
                 populate = true;
-                for(var j = 0; j < keys.length ; j++){
-                    if(filterData[keys[j]] != undefined){
-                        if(filterData[keys[j]].length == 0 || filterData[keys[j]].contains(item[keys[j]])){
+                for (var j = 0; j < keys.length ; j++) {
+                    if (filterData[keys[j]] != undefined) {
+                        if (filterData[keys[j]].length == 0 || filterData[keys[j]].contains(item[keys[j]])) {
                             populate = true;
                         } else {
                             populate = false;
@@ -20,23 +24,23 @@ altairApp
                         }
                     }
                 }
-                if(populate){
+                if (populate) {
                     filtered.push(item);
                 }
             }
             return filtered;
         };
     })
-    .filter("jsonDate", function() {
-        return function(x) {
-            if(x) return new Date(x);
+    .filter("jsonDate", function () {
+        return function (x) {
+            if (x) return new Date(x);
             else return null;
         };
     })
-    .filter("momentDate", function() {
-        return function(x,date_format_i,date_format_o) {
-            if(x) {
-                if(date_format_i) {
+    .filter("momentDate", function () {
+        return function (x, date_format_i, date_format_o) {
+            if (x) {
+                if (date_format_i) {
                     return moment(x, date_format_i).format(date_format_o)
                 } else {
                     return moment(new Date(x)).format(date_format_o)
@@ -45,9 +49,9 @@ altairApp
             else return null;
         };
     })
-    .filter("initials", function() {
-        return function(x) {
-            if(x) {
+    .filter("initials", function () {
+        return function (x) {
+            if (x) {
                 return x.split(' ').map(function (s) {
                     return s.charAt(0);
                 }).join('');
@@ -55,5 +59,5 @@ altairApp
                 return null;
             }
         };
-    })
-;
+    });
+})();
