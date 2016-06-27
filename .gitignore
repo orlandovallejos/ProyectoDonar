@@ -56,3 +56,5 @@ Proyecto/Proyecto.API/Proyecto.API.csproj.user
 *.dll
 Proyecto/Proyecto.API/bin/Proyecto.API.pdb
 /Proyecto/Proyecto.Web/node_modules
+/Proyecto/Proyecto.Web/bin
+/Proyecto/Proyecto.Web/obj

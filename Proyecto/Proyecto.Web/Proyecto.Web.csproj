@@ -68,14 +68,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\app.controller.js" />
-    <Content Include="app\app.directive.js" />
-    <Content Include="app\app.factory.js" />
-    <Content Include="app\app.filters.js" />
-    <Content Include="app\app.js" />
-    <Content Include="app\app.oc_lazy_load.js" />
-    <Content Include="app\app.service.js" />
-    <Content Include="app\app.states.js" />
     <Content Include="app\components\components\accordionView.html" />
     <Content Include="app\components\components\buttonsView.html" />
     <Content Include="app\components\components\cardsController.js" />
@@ -8299,6 +8291,14 @@
     <Content Include="data\loremIpsum.html" />
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
+    <Content Include="js\app.controller.js" />
+    <Content Include="js\app.directive.js" />
+    <Content Include="js\app.factory.js" />
+    <Content Include="js\app.filters.js" />
+    <Content Include="js\app.js" />
+    <Content Include="js\app.oc_lazy_load.js" />
+    <Content Include="js\app.service.js" />
+    <Content Include="js\app.states.js" />
     <Content Include="packages.config" />
     <Content Include="bower.json" />
     <Content Include="package.json" />

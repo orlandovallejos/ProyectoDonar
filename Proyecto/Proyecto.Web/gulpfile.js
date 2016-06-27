@@ -192,10 +192,25 @@ gulp.task('json_minify', function() {
 
 //});
 
+// main
+gulp.task('main_js', function () {
+    return gulp.src(['js/app.js','js/*.js'])
+        .pipe(plugins.concat('app.js'))
+        .pipe(gulp.dest('app/'));
+        //.pipe(plugins.uglify({
+        //    mangle: true
+        //}))
+        //.pipe(plugins.rename('uikit_custom.min.js'))
+        //.pipe(plugins.size({
+        //    showFiles: true
+        //}))
+        //.pipe(gulp.dest('assets/js/'));
+});
+
 // -------------------- DEFAULT TASK ----------------------
 gulp.task('default', function(callback) {
     return plugins.runSequence(
-        ['common_js','custom_js_minify','uikit_js','less_main','json_minify'],
+        ['common_js','custom_js_minify','uikit_js','less_main','json_minify', 'main_js'],
         callback
     );
 });
