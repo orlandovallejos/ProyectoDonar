@@ -1,4 +1,4 @@
-(function(){
+(function () {
     'use strict';
 
     angular
@@ -11,7 +11,7 @@
             // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
             $urlRouterProvider
                 .when('/dashboard', '/')
-                .otherwise('/');
+                .otherwise('/home');
 
             $stateProvider
             // -- ERROR PAGES --
@@ -27,6 +27,7 @@
                     url: "/500",
                     templateUrl: 'app/components/pages/error_500View.html'
                 })
+                
             // -- LOGIN PAGE --
                 .state("login", {
                     url: "/login",
@@ -50,10 +51,10 @@
                             templateUrl: 'app/shared/header/headerView.html',
                             controller: 'main_headerCtrl'
                         },
-                        'main_sidebar': {
-                            templateUrl: 'app/shared/main_sidebar/main_sidebarView.html',
-                            controller: 'main_sidebarCtrl'
-                        },
+                        //'main_sidebar': {
+                        //    templateUrl: 'app/shared/main_sidebar/main_sidebarView.html',
+                        //    controller: 'main_sidebarCtrl'
+                        //},
                         '': {
                             templateUrl: 'app/views/restricted.html'
                         }
@@ -70,6 +71,20 @@
                             ], { serie: true });
                         }]
                     }
+                })
+                //Home
+                .state("restricted.home", {
+                url: "/home",
+                    templateUrl: 'app/views/home/index.html',
+                        controller: 'HomeController',
+                        controllerAs: 'vm',
+                        resolve: {
+                                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_iCheck'
+                            ]);
+                        }]
+                            }
                 })
             // -- DASHBOARD --
                 .state("restricted.dashboard", {

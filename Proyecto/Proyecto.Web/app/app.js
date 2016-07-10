@@ -2751,7 +2751,7 @@
         }
     }
 })();
-(function(){
+(function () {
     'use strict';
 
     angular
@@ -2764,7 +2764,7 @@
             // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
             $urlRouterProvider
                 .when('/dashboard', '/')
-                .otherwise('/');
+                .otherwise('/home');
 
             $stateProvider
             // -- ERROR PAGES --
@@ -2780,6 +2780,7 @@
                     url: "/500",
                     templateUrl: 'app/components/pages/error_500View.html'
                 })
+                
             // -- LOGIN PAGE --
                 .state("login", {
                     url: "/login",
@@ -2823,6 +2824,20 @@
                             ], { serie: true });
                         }]
                     }
+                })
+                //Home
+                .state("restricted.home", {
+                url: "/home",
+                    templateUrl: 'app/views/home/index.html',
+                        controller: 'HomeController',
+                        controllerAs: 'vm',
+                        resolve: {
+                                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_iCheck'
+                            ]);
+                        }]
+                            }
                 })
             // -- DASHBOARD --
                 .state("restricted.dashboard", {
@@ -4070,4 +4085,22 @@
                 })
         }
     ]);
+})();
+/*
+ *  Altair Admin angularjs
+ *  controller
+ */
+(function () {
+    "use strict";
+
+    angular
+    .module('altairApp')
+    .controller('HomeController', HomeController);
+
+    HomeController.$inject = ['$scope', '$rootScope'];
+
+    function HomeController($scope, $rootScope) {
+        console.log('estoy desde el controller');
+
+    }
 })();

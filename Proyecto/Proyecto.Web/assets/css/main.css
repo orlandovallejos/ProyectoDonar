@@ -5907,7 +5907,7 @@ label.md-label {
   -webkit-font-feature-settings: 'liga';
   font-feature-settings: 'liga';
   vertical-align: -4px;
-  color: rgba(0, 0, 0, 0.54);
+  /*color: rgba(0, 0, 0, 0.54);*/
 }
 .material-icons.md-inactive {
   color: rgba(0, 0, 0, 0.26);
@@ -9477,12 +9477,13 @@ a.waves-effect .waves-ripple {
   background: #1976d2;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   padding: 0 25px;
-  height: 48px;
+  height: 55px;
   left: 0;
   position: fixed;
   right: 0;
   top: 0;
   z-index: 1104;
+  padding-top:10px;
 }
 #header_main:before,
 #header_main:after {
@@ -10293,17 +10294,23 @@ a.waves-effect .waves-ripple {
   -webkit-transform-origin: right top;
   transform-origin: right top;
 }
+
+.menu-right {
+    float:right;
+}
 /* top bar */
 #top_bar {
-  background: #fff;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  /*background: #fff;*/
+  /*box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);*/
   height: 40px;
-  position: fixed;
-  top: 48px;
-  left: 0;
-  right: 0;
+  /*position: fixed;*/
+  padding-top: 5px;
+  /*left: 0;*/
+  /*right: 0;*/
   z-index: 100;
-  padding: 0 25px;
+  /*padding: 0 25px;*/
+  display:table;
+  float:left;
 }
 #top_bar,
 #top_bar:before,
@@ -10421,7 +10428,7 @@ a.waves-effect .waves-ripple {
   height: 40px;
   line-height: 40px;
   display: block;
-  color: #212121;
+  color: #ececec;
   padding: 0 16px;
   min-width: 60px;
   text-align: center;

@@ -37,11 +37,9 @@
     <!-- altairApp -->
     <script src="app/app.js"></script>
     <!-- main stylesheet -->
-    <link rel="stylesheet" href="assets/css/main.min.css" media="all" id="main_stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css" media="all" id="main_stylesheet">
 </head>
 <body class="{{main_theme}}" data-uk-observe ng-class="{
-    'sidebar_main_active': primarySidebarActive && !miniSidebarActive && !topMenuActive && (!$state.is('login') && !$state.includes('error')),
-    'sidebar_main_open': primarySidebarOpen && !miniSidebarActive && !topMenuActive && largeScreen && (!$state.is('login') && !$state.includes('error')),
     'sidebar_mini': miniSidebarActive && largeScreen && (!$state.is('login') && !$state.includes('error')),
     'sidebar_main_hiding': primarySidebarHiding,
     'sidebar_secondary_active': secondarySidebarActive && (!$state.is('login') && !$state.includes('error')),
@@ -55,9 +53,9 @@
     'error_page': $state.includes('error'),
     'uk-height-1-1': page_full_height
 }" content-sidebar>
-    <div id="page_preloader" ng-hide="hidePreloader"><img src="assets/img/page_preloader.gif" alt="" /></div>
+    <div id="page_preloader" ng-hide="hidePreloader"><img src="assets/img/loading.gif" alt="" /></div>
     <div ui-view="main_header"></div>
     <div ui-view id="main_view" ng-class="{'uk-height-1-1': page_full_height }"></div>
-    <div ui-view="main_sidebar" ng-hide="topMenuActive"></div>
+    <!--<div ui-view="main_sidebar" ng-hide="topMenuActive"></div>-->
 </body>
 </html>

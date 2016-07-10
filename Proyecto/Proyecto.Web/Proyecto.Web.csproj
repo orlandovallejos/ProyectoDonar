@@ -237,6 +237,7 @@
     <Content Include="app\templates\wizard.step.tpl.html" />
     <Content Include="app\templates\wizard.tpl.html" />
     <Content Include="app\views\error.html" />
+    <Content Include="app\views\home\index.html" />
     <Content Include="app\views\restricted.html" />
     <Content Include="assets\css\codemirror_themes.min.css" />
     <Content Include="assets\css\main.css" />
@@ -365,6 +366,7 @@
     <Content Include="assets\img\gallery\Image23.jpg" />
     <Content Include="assets\img\gallery\Image24%402x.jpg" />
     <Content Include="assets\img\gallery\Image24.jpg" />
+    <Content Include="assets\img\loading.gif" />
     <Content Include="assets\img\logo_main%402x.png" />
     <Content Include="assets\img\logo_main.png" />
     <Content Include="assets\img\logo_main_small%402x.png" />
@@ -397,6 +399,9 @@
     <Content Include="assets\img\spinners\spinner_success.gif" />
     <Content Include="assets\img\spinners\spinner_warning%402x.gif" />
     <Content Include="assets\img\spinners\spinner_warning.gif" />
+    <Content Include="assets\img\temp\poor1.jpg" />
+    <Content Include="assets\img\temp\poor2.jpg" />
+    <Content Include="assets\img\temp\poor3.png" />
     <Content Include="assets\js\common.js" />
     <Content Include="assets\js\common.min.js" />
     <Content Include="assets\js\custom\ckeditor_config.js" />
@@ -8291,6 +8296,7 @@
     <Content Include="data\loremIpsum.html" />
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
+    <Content Include="js\custom.controller.js" />
     <Content Include="js\app.controller.js" />
     <Content Include="js\app.directive.js" />
     <Content Include="js\app.factory.js" />
