@@ -4,7 +4,7 @@
 (function () {
     "use strict";
 
-    var altairApp = angular.module('altairApp', [
+    var donarApp = angular.module('donarApp', [
         'ui.router',
         'oc.lazyLoad',
         'ngSanitize',
@@ -13,13 +13,13 @@
         'ConsoleLogger'
     ]);
 
-    altairApp.constant('variables', {
+    donarApp.constant('variables', {
         header__main_height: 48,
         easing_swiftOut: [0.4, 0, 0.2, 1],
         bez_easing_swiftOut: $.bez([0.4, 0, 0.2, 1])
     });
 
-    altairApp.config(function ($sceDelegateProvider) {
+    donarApp.config(function ($sceDelegateProvider) {
         $sceDelegateProvider.resourceUrlWhitelist([
             'self',
             'https://www.youtube.com/**',
@@ -28,7 +28,7 @@
     });
 
     /* Run Block */
-    altairApp
+    donarApp
         .run([
             '$rootScope',
             '$state',
@@ -141,7 +141,7 @@
     "use strict";
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .controller('mainCtrl', [
         '$scope',
         '$rootScope',
@@ -752,7 +752,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     // page title
     .directive('pageTitle', [
         '$rootScope',
@@ -2108,7 +2108,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .factory('windowDimensions', [
         '$window',
         function ($window) {
@@ -2243,7 +2243,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .filter('multiSelectFilter', function () {
         return function (items, filterData) {
             if (filterData == undefined)
@@ -2307,7 +2307,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .config([
         '$ocLazyLoadProvider',
         function ($ocLazyLoadProvider) {
@@ -2677,7 +2677,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .service('detectBrowser', [
         '$window',
         function ($window) {
@@ -2755,7 +2755,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .config([
         '$stateProvider',
         '$urlRouterProvider',
@@ -4094,7 +4094,7 @@
     "use strict";
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .controller('HomeController', HomeController);
 
     HomeController.$inject = ['$scope', '$rootScope'];

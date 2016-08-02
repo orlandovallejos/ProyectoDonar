@@ -1,5 +1,5 @@
 angular
-    .module('altairApp')
+    .module('donarApp')
     .controller('file_uploadCtrl', [
         '$scope',
         '$timeout',

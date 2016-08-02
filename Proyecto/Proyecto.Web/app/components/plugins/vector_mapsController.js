@@ -1,5 +1,5 @@
 angular
-    .module('altairApp')
+    .module('donarApp')
     .controller('vector_mapsCtrl', [
         '$rootScope',
         'utils',

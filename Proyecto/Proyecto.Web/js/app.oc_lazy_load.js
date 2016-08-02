@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .config([
         '$ocLazyLoadProvider',
         function ($ocLazyLoadProvider) {

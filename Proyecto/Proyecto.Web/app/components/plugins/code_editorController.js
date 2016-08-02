@@ -1,5 +1,5 @@
 angular
-    .module('altairApp')
+    .module('donarApp')
     .controller('code_editorCtrl', [
         '$scope',
         '$rootScope',

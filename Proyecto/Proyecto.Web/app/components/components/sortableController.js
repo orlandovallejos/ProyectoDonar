@@ -1,5 +1,5 @@
 angular
-    .module('altairApp',[angularDragula(angular)])
+    .module('donarApp',[angularDragula(angular)])
     .controller('sortableCtrl', [
         '$scope',
         '$rootScope',

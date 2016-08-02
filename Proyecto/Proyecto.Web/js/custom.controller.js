@@ -6,7 +6,7 @@
     "use strict";
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .controller('HomeController', HomeController);
 
     HomeController.$inject = ['$scope', '$rootScope'];

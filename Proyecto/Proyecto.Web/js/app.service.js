@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .service('detectBrowser', [
         '$window',
         function ($window) {

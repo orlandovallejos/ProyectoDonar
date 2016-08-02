@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     .config([
         '$stateProvider',
         '$urlRouterProvider',

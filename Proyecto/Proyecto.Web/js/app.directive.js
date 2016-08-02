@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-    .module('altairApp')
+    .module('donarApp')
     // page title
     .directive('pageTitle', [
         '$rootScope',

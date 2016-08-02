@@ -1,5 +1,5 @@
 angular
-    .module('altairApp')
+    .module('donarApp')
     .controller('numericTextboxCtrl', [
         '$scope',
         function ($scope) {
