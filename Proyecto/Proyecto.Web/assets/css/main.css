@@ -9474,7 +9474,8 @@ a.waves-effect .waves-ripple {
 /* 7. partials (header,sidebars,top bar) ============= */
 /* main header */
 #header_main {
-  background: #1976d2;
+  /*background: #1976d2;*/
+  background: #FFF;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   padding: 0 25px;
   height: 55px;
@@ -10428,7 +10429,8 @@ a.waves-effect .waves-ripple {
   height: 40px;
   line-height: 40px;
   display: block;
-  color: #ececec;
+  /*color: #ececec;*/
+  color: #676767;
   padding: 0 16px;
   min-width: 60px;
   text-align: center;

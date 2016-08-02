@@ -20,7 +20,7 @@
 
             $scope.user_data = {
                 name: "Lue Feest",
-                avatar: "assets/img/avatars/avatar_11_tn.png",
+                avatar: "assets/img/avatars/user.png",
                 alerts: [
                     {
                         "title": "Hic expedita eaque.",

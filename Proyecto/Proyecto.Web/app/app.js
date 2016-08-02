@@ -155,7 +155,7 @@
 
             $scope.user_data = {
                 name: "Lue Feest",
-                avatar: "assets/img/avatars/avatar_11_tn.png",
+                avatar: "assets/img/avatars/user.png",
                 alerts: [
                     {
                         "title": "Hic expedita eaque.",
@@ -2804,10 +2804,10 @@
                             templateUrl: 'app/shared/header/headerView.html',
                             controller: 'main_headerCtrl'
                         },
-                        'main_sidebar': {
-                            templateUrl: 'app/shared/main_sidebar/main_sidebarView.html',
-                            controller: 'main_sidebarCtrl'
-                        },
+                        //'main_sidebar': {
+                        //    templateUrl: 'app/shared/main_sidebar/main_sidebarView.html',
+                        //    controller: 'main_sidebarCtrl'
+                        //},
                         '': {
                             templateUrl: 'app/views/restricted.html'
                         }
