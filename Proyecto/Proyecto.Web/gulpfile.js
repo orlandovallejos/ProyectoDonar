@@ -194,7 +194,7 @@ gulp.task('json_minify', function() {
 
 // main
 gulp.task('main_js', function () {
-    return gulp.src(['js/app.js','js/*.js'])
+    return gulp.src(['js/app.js', 'js/*.js', 'js/controllers/*.js'])
         .pipe(plugins.concat('app.js'))
         .pipe(gulp.dest('app/'));
         //.pipe(plugins.uglify({
@@ -210,7 +210,8 @@ gulp.task('main_js', function () {
 // -------------------- DEFAULT TASK ----------------------
 gulp.task('default', function(callback) {
     return plugins.runSequence(
-        ['common_js','custom_js_minify','uikit_js','less_main','json_minify', 'main_js'],
+        //['common_js','custom_js_minify','uikit_js','less_main','json_minify', 'main_js'],
+        ['common_js', 'custom_js_minify', 'uikit_js', 'json_minify', 'main_js'],
         callback
     );
 });
