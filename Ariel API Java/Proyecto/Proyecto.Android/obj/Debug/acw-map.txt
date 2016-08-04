@@ -1,4 +1,0 @@
-Proyecto.Android.MainActivity, Proyecto.Android;md520611eb9309401ccf662f5152a2c90ec.MainActivity
-Proyecto.Android.MainActivity, Proyecto.Android, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md520611eb9309401ccf662f5152a2c90ec.MainActivity
-Proyecto.Android.MainActivity;md520611eb9309401ccf662f5152a2c90ec.MainActivity
-proyecto.android.MainActivity;md520611eb9309401ccf662f5152a2c90ec.MainActivity
