@@ -67,6 +67,7 @@ angular
                 $event.preventDefault();
                 utils.card_show_hide($login_card,undefined,password_reset_show,undefined);
             };
-        //Este es un comentario de Pao
+            //Este es un comentario de Pao
+            //Este es un comentario en otro commit.
         }
     ]);
