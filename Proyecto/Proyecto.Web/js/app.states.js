@@ -31,13 +31,12 @@
             // -- LOGIN PAGE --
                 .state("login", {
                     url: "/login",
-                    templateUrl: 'app/components/pages/loginView.html',
+                    templateUrl: 'app/views/login/loginView.html',
                     controller: 'loginCtrl',
                     resolve: {
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
-                                'lazy_iCheck',
-                                'app/components/pages/loginController.js'
+                                'lazy_iCheck'
                             ]);
                         }]
                     }
