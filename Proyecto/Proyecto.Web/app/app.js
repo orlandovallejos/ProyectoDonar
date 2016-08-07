@@ -4099,8 +4099,40 @@
     HomeController.$inject = ['$scope', '$rootScope'];
 
     function HomeController($scope, $rootScope) {
-        console.log('estoy desde el controller');
+        var vm = this;
 
+        vm.donaciones = [
+        {
+            titulo: "Dolores atque quibusdam enim sed aperiam",
+            descripcion: "Omnis ipsum sunt similique sit eum fugiat incidunt sit sunt quis eveniet quo qui et et mollitia laboriosam ut voluptatum ut.",
+            fecha: "10/07/2016",
+            likes: 160,
+            comentarios: 23,
+            imagen: "assets/img/temp/poor1.jpg"
+        },
+        {
+            titulo: "Dolores atque quibusdam enim sed aperiam",
+            descripcion: "Omnis ipsum sunt similique sit eum fugiat incidunt sit sunt quis eveniet quo qui et et mollitia laboriosam ut voluptatum ut.",
+            fecha: "10/07/2016",
+            likes: 160,
+            comentarios: 23,
+            imagen: "assets/img/temp/poor1.jpg"
+        },
+        {
+            titulo: "Dolores atque quibusdam enim sed aperiam",
+            descripcion: "Omnis ipsum sunt similique sit eum fugiat incidunt sit sunt quis eveniet quo qui et et mollitia laboriosam ut voluptatum ut.",
+            fecha: "10/07/2016",
+            likes: 160,
+            comentarios: 23,
+            imagen: "assets/img/temp/poor1.jpg"
+        }];
+
+        vm.titulo = "Dolores atque quibusdam enim sed aperiam";
+        vm.descripcion = "Omnis ipsum sunt similique sit eum fugiat incidunt sit sunt quis eveniet quo qui et et mollitia laboriosam ut voluptatum ut.";
+        vm.fecha = "10/07/2016";
+        vm.likes = 160;
+        vm.comentarios = 23;
+        vm.imagen = "assets/img/temp/poor1.jpg";
     }
 })();
 angular

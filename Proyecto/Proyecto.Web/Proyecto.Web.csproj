@@ -238,7 +238,7 @@
     <Content Include="app\templates\wizard.tpl.html" />
     <Content Include="app\views\error.html" />
     <Content Include="app\views\home\index.html" />
-    <Content Include="js\controllers\loginController.js" />
+    <Content Include="js\controllers\login.controller.js" />
     <Content Include="app\views\login\loginView.html" />
     <Content Include="app\views\restricted.html" />
     <Content Include="assets\css\codemirror_themes.min.css" />
@@ -8298,7 +8298,7 @@
     <Content Include="data\loremIpsum.html" />
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
-    <Content Include="js\controllers\custom.controller.js" />
+    <Content Include="js\controllers\home.controller.js" />
     <Content Include="js\app.controller.js" />
     <Content Include="js\app.directive.js" />
     <Content Include="js\app.factory.js" />
