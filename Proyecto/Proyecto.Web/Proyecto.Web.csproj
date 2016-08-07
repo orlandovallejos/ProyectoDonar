@@ -9608,6 +9608,7 @@
     <Content Include="bower_components\weather-icons\sass\weather-icons-wind.scss" />
     <Content Include="bower_components\weather-icons\sass\weather-icons.min.scss" />
     <Content Include="bower_components\weather-icons\sass\weather-icons.scss" />
+    <Content Include="data\donar\home_donaciones.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

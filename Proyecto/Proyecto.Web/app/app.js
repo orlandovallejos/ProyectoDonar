@@ -2741,13 +2741,16 @@
     ServerService.$inject = ['$http'];
     function ServerService($http) {
         var service = {
-            myFunc: myFunc
+            homeGetDonaciones: homeGetDonaciones
         };
 
         return service;
 
-        function myFunc() {
-
+        function homeGetDonaciones() {
+            return $http.get('data/donar/home_donaciones.json')
+                .then(function (response) {
+                    return response.data;
+                });
         }
     }
 })();
@@ -4096,43 +4099,21 @@
     .module('donarApp')
     .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$rootScope'];
+    HomeController.$inject = ['$scope', '$rootScope', 'ServerService'];
 
-    function HomeController($scope, $rootScope) {
+    function HomeController($scope, $rootScope, ServerService) {
         var vm = this;
 
-        vm.donaciones = [
-        {
-            titulo: "Dolores atque quibusdam enim sed aperiam",
-            descripcion: "Omnis ipsum sunt similique sit eum fugiat incidunt sit sunt quis eveniet quo qui et et mollitia laboriosam ut voluptatum ut.",
-            fecha: "10/07/2016",
-            likes: 160,
-            comentarios: 23,
-            imagen: "assets/img/temp/poor1.jpg"
-        },
-        {
-            titulo: "Dolores atque quibusdam enim sed aperiam",
-            descripcion: "Omnis ipsum sunt similique sit eum fugiat incidunt sit sunt quis eveniet quo qui et et mollitia laboriosam ut voluptatum ut.",
-            fecha: "10/07/2016",
-            likes: 160,
-            comentarios: 23,
-            imagen: "assets/img/temp/poor1.jpg"
-        },
-        {
-            titulo: "Dolores atque quibusdam enim sed aperiam",
-            descripcion: "Omnis ipsum sunt similique sit eum fugiat incidunt sit sunt quis eveniet quo qui et et mollitia laboriosam ut voluptatum ut.",
-            fecha: "10/07/2016",
-            likes: 160,
-            comentarios: 23,
-            imagen: "assets/img/temp/poor1.jpg"
-        }];
+        vm.donaciones = [];
 
-        vm.titulo = "Dolores atque quibusdam enim sed aperiam";
-        vm.descripcion = "Omnis ipsum sunt similique sit eum fugiat incidunt sit sunt quis eveniet quo qui et et mollitia laboriosam ut voluptatum ut.";
-        vm.fecha = "10/07/2016";
-        vm.likes = 160;
-        vm.comentarios = 23;
-        vm.imagen = "assets/img/temp/poor1.jpg";
+        activate();
+
+        function activate() {
+            ServerService.homeGetDonaciones()
+            .then(function (data) {
+                vm.donaciones = data;
+            });
+        }
     }
 })();
 angular
