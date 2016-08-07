@@ -66,13 +66,32 @@
     ServerService.$inject = ['$http'];
     function ServerService($http) {
         var service = {
-            homeGetDonaciones: homeGetDonaciones
+            homeGetDonaciones: homeGetDonaciones,
+            login: login
         };
 
         return service;
 
         function homeGetDonaciones() {
             return $http.get('data/donar/home_donaciones.json')
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function login(request) {
+
+            //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
+            return $http.get('data/donar/login.json')
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function register(request) {
+
+            //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
+            return $http.post('url/hacerPost/', { params: request })
                 .then(function (response) {
                     return response.data;
                 });

@@ -10,6 +10,14 @@
 
         //Variables
         vm.registerFormActive = false;
+        vm.login_username = '';
+        vm.login_password = '';
+        vm.register_username = '';
+        vm.register_password = '';
+        vm.register_password_repeat = '';
+        vm.register_name = '';
+        vm.register_lastname = '';
+
         var $login_card = $('#login_card'),
             $login_form = $('#login_form'),
             $login_help = $('#login_help'),
@@ -53,6 +61,8 @@
         vm.backToLogin = backToLogin;
         vm.registerForm = registerForm;
         vm.passwordReset = passwordReset;
+        vm.login = login;
+        vm.register = register;
 
         //Method definitions
         function loginHelp($event) {
@@ -76,5 +86,31 @@
             $event.preventDefault();
             utils.card_show_hide($login_card, undefined, password_reset_show, undefined);
         };
+
+        function login() {
+            var request = {
+                username: vm.login_username,
+                password: vm.login_password
+            };
+
+            ServerService.login(request)
+            .then(function () {
+                //Redireccionar al home.
+            });
+        }
+
+        function register() {
+            var request = {
+                username: vm.login_username,
+                password: vm.login_password,
+                name: vm.register_name,
+                lastname: vm.register_lastname
+            };
+
+            ServerService.register(request)
+            .then(function () {
+                //Redireccionar al login.
+            });
+        }
     }
 })();
