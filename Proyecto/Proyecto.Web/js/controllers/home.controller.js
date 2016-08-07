@@ -1,7 +1,3 @@
-/*
- *  Altair Admin angularjs
- *  controller
- */
 (function () {
     "use strict";
 

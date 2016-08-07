@@ -32,7 +32,8 @@
                 .state("login", {
                     url: "/login",
                     templateUrl: 'app/views/login/loginView.html',
-                    controller: 'loginCtrl',
+                    controller: 'LoginController',
+                    controllerAs: 'vm',
                     resolve: {
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
