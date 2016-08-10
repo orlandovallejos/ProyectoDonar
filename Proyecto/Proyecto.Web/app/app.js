@@ -2755,9 +2755,13 @@
         }
 
         function login(request) {
+            request = {
+                username: 'juan@gmail.com',
+                password: '1234'
+            };
 
             //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
-            return $http.get('data/donar/login.json')
+            return $http.get('http://soydonar.com/webservices/webresources/Login/'+request.username+'&'+request.password )
                 .then(function (response) {
                     return response.data;
                 });
@@ -2766,7 +2770,7 @@
         function register(request) {
 
             //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
-            return $http.post('url/hacerPost/', { params: request })
+            return $http.post('url/hacerPost/', $.param(request),{headers:{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}})
                 .then(function (response) {
                     return response.data;
                 });
@@ -4223,8 +4227,8 @@
 
         function login() {
             var request = {
-                username: vm.login_username,
-                password: vm.login_password
+                user: vm.login_username,
+                pass: vm.login_password
             };
 
             ServerService.login(request)

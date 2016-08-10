@@ -1,5 +1,24 @@
 ﻿<div id="page_content">
     <div id="page_content_inner">
+
+        <!--Buscador-->
+        <div class="md-card">
+            <div class="md-card-content">
+                <div class="uk-grid" data-uk-grid-margin="">
+                    <div class="uk-width-medium-8-10">
+                        <!--<label for="product_search_name">Buscar</label>-->
+                        <input type="text" class="md-input" id="product_search_name" ng-model="filter.name" md-input>
+                    </div>
+                    <div class="uk-width-medium-2-10">
+                        <a class="md-btn md-btn-primary md-btn-wave-light md-btn-icon waves-effect waves-button waves-light" href="javascript:void(0)">
+                            <i class="uk-icon-search"></i>
+                            Buscar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- info cards -->
         <div class="uk-grid uk-grid-medium uk-grid-width-medium-1-2 uk-grid-width-large-1-3" data-uk-grid-margin data-uk-grid-match="{target:'.md-card-content'}">
             <div ng-repeat="d in vm.donaciones">
