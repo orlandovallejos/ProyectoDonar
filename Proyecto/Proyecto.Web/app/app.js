@@ -2917,8 +2917,7 @@
                         }
                 })
                 .state("restricted.donacion", {
-                    //url: "/donacion/{id}",
-                    url: "/donacion",
+                    url: "/donacion/{id}",
                     controller: 'DonacionController',
                     controllerAs: 'vm',
                     templateUrl: 'app/views/donacion/view.html',
@@ -4184,8 +4183,8 @@
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$rootScope', '$scope', 'user_data', 'SessionStorageService'];
-    function DonacionController($rootScope, $scope, user_data, SessionStorageService) {
+    DonacionController.$inject = ['$rootScope', '$scope', 'user_data', 'SessionStorageService', '$stateParams'];
+    function DonacionController($rootScope, $scope, user_data, SessionStorageService, $stateParams) {
         var vm = this;
 
         console.log(user_data);

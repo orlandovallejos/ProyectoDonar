@@ -78,7 +78,6 @@
         function homeGetDonaciones() {
             return $http.get('http://soydonar.com/webservices/webresources/necesidadesHome')
                 .then(function (response) {
-                    console.log(response);
                     return response.data;
                 });
         }
