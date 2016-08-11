@@ -2754,14 +2754,17 @@
     function ServerService($http) {
         var service = {
             homeGetDonaciones: homeGetDonaciones,
-            login: login
+            login: login,
+            register: register,
+            getDonacion:getDonacion
         };
 
         return service;
 
         function homeGetDonaciones() {
-            return $http.get('data/donar/home_donaciones.json')
+            return $http.get('http://soydonar.com/webservices/webresources/necesidadesHome')
                 .then(function (response) {
+                    console.log(response);
                     return response.data;
                 });
         }
@@ -2783,6 +2786,13 @@
 
             //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
             return $http.post('url/hacerPost/', $.param(request),{headers:{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}})
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function getDonacion(id) {
+            return $http.get('data/donar/home_donaciones.json')
                 .then(function (response) {
                     return response.data;
                 });
@@ -2909,11 +2919,12 @@
                 .state("restricted.donacion", {
                     //url: "/donacion/{id}",
                     url: "/donacion",
-                    controller: 'blogCtrl',
+                    controller: 'DonacionController',
+                    controllerAs: 'vm',
                     templateUrl: 'app/views/donacion/view.html',
                     resolve: {
-                        blog_articles: function ($http) {
-                            return $http({ method: 'GET', url: 'data/blog_articles.json' })
+                        user_data: function ($http) {
+                            return $http({ method: 'GET', url: 'data/user_data.json' })
                                 .then(function (data) {
                                     return data.data;
                                 });
@@ -4167,29 +4178,25 @@
         }
     ]);
 })();
-angular
-    .module('donarApp')
-    .controller('blogCtrl', [
-        '$stateParams',
-        '$scope',
-        'utils',
-        'blog_articles',
-        function ($stateParams,$scope,utils,blog_articles) {
+(function () {
+    "use strict";
+    angular
+        .module('donarApp')
+        .controller('DonacionController', DonacionController);
 
-            $scope.blog_articles = blog_articles;
+    DonacionController.$inject = ['$rootScope', '$scope', 'user_data', 'SessionStorageService'];
+    function DonacionController($rootScope, $scope, user_data, SessionStorageService) {
+        var vm = this;
 
-            $scope.article = blog_articles[0];//utils.findByItemId($scope.blog_articles, $stateParams.articleId);
+        console.log(user_data);
+        vm.user_data = user_data[0];
 
-            $scope.getYTSrc = function(src) {
-                return 'https://www.youtube.com/v/' + src + '?rel=0';
-            };
+        vm.user_data_contacts = user_data[0].contact;
 
-            $scope.getSoundCloudSrc = function(src) {
-                return 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + src + '&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true';
-            };
+    }
 
-        }
-    ]);
+
+})();
 (function () {
     "use strict";
 
@@ -4211,8 +4218,6 @@ angular
             .then(function (data) {
                 vm.donaciones = data;
             });
-
-            console.log(SessionStorageService.get('usuario'));
         }
     }
 })();

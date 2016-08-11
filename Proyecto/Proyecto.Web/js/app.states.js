@@ -90,11 +90,12 @@
                 .state("restricted.donacion", {
                     //url: "/donacion/{id}",
                     url: "/donacion",
-                    controller: 'blogCtrl',
+                    controller: 'DonacionController',
+                    controllerAs: 'vm',
                     templateUrl: 'app/views/donacion/view.html',
                     resolve: {
-                        blog_articles: function ($http) {
-                            return $http({ method: 'GET', url: 'data/blog_articles.json' })
+                        user_data: function ($http) {
+                            return $http({ method: 'GET', url: 'data/user_data.json' })
                                 .then(function (data) {
                                     return data.data;
                                 });

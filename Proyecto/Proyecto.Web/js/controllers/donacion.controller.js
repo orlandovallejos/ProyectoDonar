@@ -1,23 +1,19 @@
-angular
-    .module('donarApp')
-    .controller('blogCtrl', [
-        '$stateParams',
-        '$scope',
-        'utils',
-        'blog_articles',
-        function ($stateParams,$scope,utils,blog_articles) {
+(function () {
+    "use strict";
+    angular
+        .module('donarApp')
+        .controller('DonacionController', DonacionController);
 
-            $scope.blog_articles = blog_articles;
+    DonacionController.$inject = ['$rootScope', '$scope', 'user_data', 'SessionStorageService'];
+    function DonacionController($rootScope, $scope, user_data, SessionStorageService) {
+        var vm = this;
 
-            $scope.article = blog_articles[0];//utils.findByItemId($scope.blog_articles, $stateParams.articleId);
+        console.log(user_data);
+        vm.user_data = user_data[0];
 
-            $scope.getYTSrc = function(src) {
-                return 'https://www.youtube.com/v/' + src + '?rel=0';
-            };
+        vm.user_data_contacts = user_data[0].contact;
 
-            $scope.getSoundCloudSrc = function(src) {
-                return 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + src + '&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true';
-            };
+    }
 
-        }
-    ]);
+
+})();

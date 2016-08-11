@@ -68,14 +68,17 @@
     function ServerService($http) {
         var service = {
             homeGetDonaciones: homeGetDonaciones,
-            login: login
+            login: login,
+            register: register,
+            getDonacion:getDonacion
         };
 
         return service;
 
         function homeGetDonaciones() {
-            return $http.get('data/donar/home_donaciones.json')
+            return $http.get('http://soydonar.com/webservices/webresources/necesidadesHome')
                 .then(function (response) {
+                    console.log(response);
                     return response.data;
                 });
         }
@@ -97,6 +100,13 @@
 
             //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
             return $http.post('url/hacerPost/', $.param(request),{headers:{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}})
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function getDonacion(id) {
+            return $http.get('data/donar/home_donaciones.json')
                 .then(function (response) {
                     return response.data;
                 });

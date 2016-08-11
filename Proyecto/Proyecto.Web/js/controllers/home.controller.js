@@ -19,8 +19,6 @@
             .then(function (data) {
                 vm.donaciones = data;
             });
-
-            console.log(SessionStorageService.get('usuario'));
         }
     }
 })();

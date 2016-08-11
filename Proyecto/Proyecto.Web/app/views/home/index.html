@@ -32,15 +32,15 @@
                 <div ng-repeat="d in vm.donaciones">
                     <div class="md-card">
                         <div class="md-card-content small-padding">
-                            <img ng-src="{{d.imagen}}" alt="" class="blog_list_teaser_image ng-scope" />
+                            <img ng-src="http://www.soydonar.com/imagenes/necesidades/{{d.imagen_path}}" alt="" class="blog_list_teaser_image ng-scope" />
                             <div class="blog_list_teaser">
                                 <h2 class="blog_list_teaser_title uk-text-truncate ng-binding">{{d.titulo}}</h2>
-                                <p class="ng-binding">{{d.descripcion}}</p>
-                                <span class="uk-text-muted uk-text-small ng-binding">{{d.fecha}}</span>
+                                <p class="ng-binding">{{d.necesidad}}</p>
+                                <span class="uk-text-muted uk-text-small ng-binding">{{d.fecha_creacion}}</span>
                             </div>
                             <div class="blog_list_footer">
                                 <div class="blog_list_footer_info">
-                                    <span class="uk-margin-right"><i class="material-icons"></i> <small class="ng-binding">{{d.likes}}</small></span>
+                                    <span class="uk-margin-right"><i class="material-icons"></i> <small class="ng-binding">{{d.cant_likes}}</small></span>
                                     <span><i class="material-icons"></i> <small class="ng-binding">{{d.comentarios}}</small></span>
                                 </div>
                                 <a ui-sref="restricted.pages.blog.article({ articleId: 1 })" class="md-btn md-btn-small md-btn-flat md-btn-flat-primary uk-float-right" href="#/pages/blog/article/1">Donar</a>
