@@ -147,87 +147,7 @@
         '$rootScope',
         function ($scope, $rootScope) { }
     ])
-    .controller('main_headerCtrl', [
-        '$timeout',
-        '$scope',
-        '$window',
-        function ($timeout, $scope, $window) {
-
-            $scope.user_data = {
-                name: "Lue Feest",
-                avatar: "assets/img/avatars/user.png",
-                alerts: [
-                    {
-                        "title": "Hic expedita eaque.",
-                        "content": "Nemo nemo voluptatem officia voluptatum minus.",
-                        "type": "warning"
-                    },
-                    {
-                        "title": "Voluptatibus sed eveniet.",
-                        "content": "Tempora magnam aut ea.",
-                        "type": "success"
-                    },
-                    {
-                        "title": "Perferendis voluptatem explicabo.",
-                        "content": "Enim et voluptatem maiores ab fugiat commodi aut repellendus.",
-                        "type": "danger"
-                    },
-                    {
-                        "title": "Quod minima ipsa.",
-                        "content": "Vel dignissimos neque enim ad praesentium optio.",
-                        "type": "primary"
-                    }
-                ],
-                messages: [
-                    {
-                        "title": "Reiciendis aut rerum.",
-                        "content": "In adipisci amet nostrum natus recusandae animi fugit consequatur.",
-                        "sender": "Korbin Doyle",
-                        "color": "cyan"
-                    },
-                    {
-                        "title": "Tenetur commodi animi.",
-                        "content": "Voluptate aut quis rerum laborum expedita qui eaque doloremque a corporis.",
-                        "sender": "Alia Walter",
-                        "color": "indigo",
-                        "avatar": "assets/img/avatars/avatar_07_tn.png"
-                    },
-                    {
-                        "title": "At quia quis.",
-                        "content": "Fugiat rerum aperiam et deleniti fugiat corporis incidunt aut enim et distinctio.",
-                        "sender": "William Block",
-                        "color": "light-green"
-                    },
-                    {
-                        "title": "Incidunt sunt.",
-                        "content": "Accusamus necessitatibus officia porro nisi consectetur dolorem.",
-                        "sender": "Delilah Littel",
-                        "color": "blue",
-                        "avatar": "assets/img/avatars/avatar_02_tn.png"
-                    },
-                    {
-                        "title": "Porro ut.",
-                        "content": "Est vitae magni eum expedita odit quisquam natus vel maiores.",
-                        "sender": "Amira Hagenes",
-                        "color": "amber",
-                        "avatar": "assets/img/avatars/avatar_09_tn.png"
-                    }
-                ]
-            };
-
-            $scope.alerts_length = $scope.user_data.alerts.length;
-            $scope.messages_length = $scope.user_data.messages.length;
-
-
-            $('#menu_top').children('[data-uk-dropdown]').on('show.uk.dropdown', function () {
-                $timeout(function () {
-                    $($window).resize();
-                }, 280)
-            });
-
-
-        }
-    ])
+    .controller('MainHeaderController', MainHeaderController)
     .controller('main_sidebarCtrl', [
         '$timeout',
         '$scope',
@@ -742,6 +662,97 @@
 
         }
     ]);
+
+    MainHeaderController.$inject = ['$timeout', '$scope', '$window', 'SessionStorageService'];
+
+    function MainHeaderController($timeout, $scope, $window, SessionStorageService) {
+        var vm = this;
+
+        //Variables
+        vm.user_data = {
+            name: "Lue Feest",
+            avatar: "assets/img/avatars/user.png",
+            alerts: [
+                {
+                    "title": "Hic expedita eaque.",
+                    "content": "Nemo nemo voluptatem officia voluptatum minus.",
+                    "type": "warning"
+                },
+                {
+                    "title": "Voluptatibus sed eveniet.",
+                    "content": "Tempora magnam aut ea.",
+                    "type": "success"
+                },
+                {
+                    "title": "Perferendis voluptatem explicabo.",
+                    "content": "Enim et voluptatem maiores ab fugiat commodi aut repellendus.",
+                    "type": "danger"
+                },
+                {
+                    "title": "Quod minima ipsa.",
+                    "content": "Vel dignissimos neque enim ad praesentium optio.",
+                    "type": "primary"
+                }
+            ],
+            messages: [
+                {
+                    "title": "Reiciendis aut rerum.",
+                    "content": "In adipisci amet nostrum natus recusandae animi fugit consequatur.",
+                    "sender": "Korbin Doyle",
+                    "color": "cyan"
+                },
+                {
+                    "title": "Tenetur commodi animi.",
+                    "content": "Voluptate aut quis rerum laborum expedita qui eaque doloremque a corporis.",
+                    "sender": "Alia Walter",
+                    "color": "indigo",
+                    "avatar": "assets/img/avatars/avatar_07_tn.png"
+                },
+                {
+                    "title": "At quia quis.",
+                    "content": "Fugiat rerum aperiam et deleniti fugiat corporis incidunt aut enim et distinctio.",
+                    "sender": "William Block",
+                    "color": "light-green"
+                },
+                {
+                    "title": "Incidunt sunt.",
+                    "content": "Accusamus necessitatibus officia porro nisi consectetur dolorem.",
+                    "sender": "Delilah Littel",
+                    "color": "blue",
+                    "avatar": "assets/img/avatars/avatar_02_tn.png"
+                },
+                {
+                    "title": "Porro ut.",
+                    "content": "Est vitae magni eum expedita odit quisquam natus vel maiores.",
+                    "sender": "Amira Hagenes",
+                    "color": "amber",
+                    "avatar": "assets/img/avatars/avatar_09_tn.png"
+                }
+            ]
+        };
+
+        vm.isUserLogged = false;
+
+        vm.alerts_length = vm.user_data.alerts.length;
+        vm.messages_length = vm.user_data.messages.length;
+
+        //Methods
+        activate();
+
+        function activate() {
+            $('#menu_top').children('[data-uk-dropdown]').on('show.uk.dropdown', function () {
+                $timeout(function () {
+                    $($window).resize();
+                }, 280)
+            });
+
+            if (SessionStorageService.get('usuario')) {
+                vm.isUserLogged = true;
+            }
+        }
+        //Method definitions
+        
+    }
 })();
 /*
 *  Altair Admin AngularJS
@@ -2736,7 +2747,8 @@
 
         }
     ])
-    .factory('ServerService', ServerService);
+    .factory('ServerService', ServerService)
+    .factory('SessionStorageService', SessionStorageService);
 
     ServerService.$inject = ['$http'];
     function ServerService($http) {
@@ -2761,7 +2773,7 @@
             };
 
             //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
-            return $http.get('http://soydonar.com/webservices/webresources/Login/'+request.username+'&'+request.password )
+            return $http.get('http://soydonar.com/webservices/webresources/Login/' + request.username + '&' + request.password)
                 .then(function (response) {
                     return response.data;
                 });
@@ -2774,6 +2786,34 @@
                 .then(function (response) {
                     return response.data;
                 });
+        }
+    }
+
+    SessionStorageService.$inject = ['$window'];
+    function SessionStorageService($window) {
+        var service = {
+            set: set,
+            get: get,
+            remove: remove,
+            clear: clear
+        };
+
+        return service;
+
+        function set(key, value) {
+            $window.sessionStorage.setItem(key, JSON.stringify(value));
+        }
+
+        function get(key) {
+            return JSON.parse($window.sessionStorage.getItem(key));
+        }
+
+        function remove(key) {
+            $window.sessionStorage.removeItem(key);
+        }
+
+        function clear() {
+            $window.sessionStorage.clear();
         }
     }
 })();
@@ -2828,7 +2868,8 @@
                     views: {
                         'main_header': {
                             templateUrl: 'app/shared/header/headerView.html',
-                            controller: 'main_headerCtrl'
+                            controller: 'MainHeaderController',
+                            controllerAs: 'vm'
                         },
                         //'main_sidebar': {
                         //    templateUrl: 'app/shared/main_sidebar/main_sidebarView.html',
@@ -2853,7 +2894,7 @@
                 })
                 //Home
                 .state("restricted.home", {
-                url: "/home",
+                    url: "/home",
                     templateUrl: 'app/views/home/index.html',
                         controller: 'HomeController',
                         controllerAs: 'vm',
@@ -2862,8 +2903,22 @@
                             return $ocLazyLoad.load([
                                 'lazy_iCheck'
                             ]);
-                        }]
-                            }
+                            }]
+                        }
+                })
+                .state("restricted.donacion", {
+                    //url: "/donacion/{id}",
+                    url: "/donacion",
+                    controller: 'blogCtrl',
+                    templateUrl: 'app/views/donacion/view.html',
+                    resolve: {
+                        blog_articles: function ($http) {
+                            return $http({ method: 'GET', url: 'data/blog_articles.json' })
+                                .then(function (data) {
+                                    return data.data;
+                                });
+                        }
+                    }
                 })
             // -- DASHBOARD --
                 .state("restricted.dashboard", {
@@ -4112,6 +4167,29 @@
         }
     ]);
 })();
+angular
+    .module('donarApp')
+    .controller('blogCtrl', [
+        '$stateParams',
+        '$scope',
+        'utils',
+        'blog_articles',
+        function ($stateParams,$scope,utils,blog_articles) {
+
+            $scope.blog_articles = blog_articles;
+
+            $scope.article = blog_articles[0];//utils.findByItemId($scope.blog_articles, $stateParams.articleId);
+
+            $scope.getYTSrc = function(src) {
+                return 'https://www.youtube.com/v/' + src + '?rel=0';
+            };
+
+            $scope.getSoundCloudSrc = function(src) {
+                return 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + src + '&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true';
+            };
+
+        }
+    ]);
 (function () {
     "use strict";
 
@@ -4119,9 +4197,9 @@
     .module('donarApp')
     .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$rootScope', 'ServerService'];
+    HomeController.$inject = ['$scope', '$rootScope', 'ServerService', '$window', 'SessionStorageService'];
 
-    function HomeController($scope, $rootScope, ServerService) {
+    function HomeController($scope, $rootScope, ServerService, $window, SessionStorageService) {
         var vm = this;
 
         vm.donaciones = [];
@@ -4133,6 +4211,8 @@
             .then(function (data) {
                 vm.donaciones = data;
             });
+
+            console.log(SessionStorageService.get('usuario'));
         }
     }
 })();
@@ -4142,8 +4222,9 @@
         .module('donarApp')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$scope', '$rootScope', 'utils', 'ServerService'];
-    function LoginController($scope, $rootScope, utils, ServerService) {
+    LoginController.$inject = ['$scope', '$rootScope', '$state', 'utils', 'ServerService', '$window', 'SessionStorageService'];
+
+    function LoginController($scope, $rootScope, $state, utils, ServerService, $window, SessionStorageService) {
         var vm = this;
 
         //Variables
@@ -4202,6 +4283,12 @@
         vm.login = login;
         vm.register = register;
 
+        activate();
+
+        function activate() {
+            SessionStorageService.clear();
+        }
+
         //Method definitions
         function loginHelp($event) {
             $event.preventDefault();
@@ -4227,13 +4314,15 @@
 
         function login() {
             var request = {
-                user: vm.login_username,
-                pass: vm.login_password
+                username: vm.login_username,
+                password: vm.login_password
             };
 
             ServerService.login(request)
-            .then(function () {
-                //Redireccionar al home.
+            .then(function (response) {
+                SessionStorageService.set('usuario', response);
+
+                $state.go('restricted.home');
             });
         }
 

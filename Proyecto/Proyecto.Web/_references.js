@@ -182,5 +182,6 @@
 /// <reference path="js/app.oc_lazy_load.js" />
 /// <reference path="js/app.service.js" />
 /// <reference path="js/app.states.js" />
+/// <reference path="js/controllers/donacion.controller.js" />
 /// <reference path="js/controllers/home.controller.js" />
 /// <reference path="js/controllers/login.controller.js" />

@@ -5,9 +5,9 @@
     .module('donarApp')
     .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', '$rootScope', 'ServerService'];
+    HomeController.$inject = ['$scope', '$rootScope', 'ServerService', '$window', 'SessionStorageService'];
 
-    function HomeController($scope, $rootScope, ServerService) {
+    function HomeController($scope, $rootScope, ServerService, $window, SessionStorageService) {
         var vm = this;
 
         vm.donaciones = [];
@@ -19,6 +19,8 @@
             .then(function (data) {
                 vm.donaciones = data;
             });
+
+            console.log(SessionStorageService.get('usuario'));
         }
     }
 })();

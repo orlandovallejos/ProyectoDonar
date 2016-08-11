@@ -61,7 +61,8 @@
 
         }
     ])
-    .factory('ServerService', ServerService);
+    .factory('ServerService', ServerService)
+    .factory('SessionStorageService', SessionStorageService);
 
     ServerService.$inject = ['$http'];
     function ServerService($http) {
@@ -99,6 +100,34 @@
                 .then(function (response) {
                     return response.data;
                 });
+        }
+    }
+
+    SessionStorageService.$inject = ['$window'];
+    function SessionStorageService($window) {
+        var service = {
+            set: set,
+            get: get,
+            remove: remove,
+            clear: clear
+        };
+
+        return service;
+
+        function set(key, value) {
+            $window.sessionStorage.setItem(key, JSON.stringify(value));
+        }
+
+        function get(key) {
+            return JSON.parse($window.sessionStorage.getItem(key));
+        }
+
+        function remove(key) {
+            $window.sessionStorage.removeItem(key);
+        }
+
+        function clear() {
+            $window.sessionStorage.clear();
         }
     }
 })();

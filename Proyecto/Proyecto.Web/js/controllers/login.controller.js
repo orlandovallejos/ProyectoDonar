@@ -4,8 +4,9 @@
         .module('donarApp')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$scope', '$rootScope', 'utils', 'ServerService'];
-    function LoginController($scope, $rootScope, utils, ServerService) {
+    LoginController.$inject = ['$scope', '$rootScope', '$state', 'utils', 'ServerService', '$window', 'SessionStorageService'];
+
+    function LoginController($scope, $rootScope, $state, utils, ServerService, $window, SessionStorageService) {
         var vm = this;
 
         //Variables
@@ -64,6 +65,12 @@
         vm.login = login;
         vm.register = register;
 
+        activate();
+
+        function activate() {
+            SessionStorageService.clear();
+        }
+
         //Method definitions
         function loginHelp($event) {
             $event.preventDefault();
@@ -94,8 +101,10 @@
             };
 
             ServerService.login(request)
-            .then(function () {
-                //Redireccionar al home.
+            .then(function (response) {
+                SessionStorageService.set('usuario', response);
+
+                $state.go('restricted.home');
             });
         }
 

@@ -5,37 +5,46 @@
         <div class="md-card">
             <div class="md-card-content">
                 <div class="uk-grid" data-uk-grid-margin="">
-                    <div class="uk-width-medium-8-10">
+                    <div class="uk-width-medium-4-10">
                         <!--<label for="product_search_name">Buscar</label>-->
-                        <input type="text" class="md-input" id="product_search_name" ng-model="filter.name" md-input>
-                    </div>
-                    <div class="uk-width-medium-2-10">
-                        <a class="md-btn md-btn-primary md-btn-wave-light md-btn-icon waves-effect waves-button waves-light" href="javascript:void(0)">
-                            <i class="uk-icon-search"></i>
-                            Buscar
-                        </a>
+                        <div class="uk-input-group">
+                            <input type="text" class="md-input" id="product_search_name" ng-model="filter.name" md-input>
+                            <span class="uk-input-group-addon">
+                                <a class="md-btn md-btn-primary" href="#">
+                                    <i class="uk-icon-search"></i>
+                                    Buscar
+                                </a>
+                            </span>
+                        </div>
+
+                        <!--<div class="uk-width-medium-2-10">
+                            <a class="md-btn md-btn-primary md-btn-wave-light md-btn-icon waves-effect waves-button waves-light" href="javascript:void(0)">
+                                <i class="uk-icon-search"></i>
+                                Buscar
+                            </a>
+                        </div>-->
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- info cards -->
-        <div class="uk-grid uk-grid-medium uk-grid-width-medium-1-2 uk-grid-width-large-1-3" data-uk-grid-margin data-uk-grid-match="{target:'.md-card-content'}">
-            <div ng-repeat="d in vm.donaciones">
-                <div class="md-card">
-                    <div class="md-card-content small-padding">
-                        <img ng-src="{{d.imagen}}" alt="" class="blog_list_teaser_image ng-scope" />
-                        <div class="blog_list_teaser">
-                            <h2 class="blog_list_teaser_title uk-text-truncate ng-binding">{{d.titulo}}</h2>
-                            <p class="ng-binding">{{d.descripcion}}</p>
-                            <span class="uk-text-muted uk-text-small ng-binding">{{d.fecha}}</span>
-                        </div>
-                        <div class="blog_list_footer">
-                            <div class="blog_list_footer_info">
-                                <span class="uk-margin-right"><i class="material-icons"></i> <small class="ng-binding">{{d.likes}}</small></span>
-                                <span><i class="material-icons"></i> <small class="ng-binding">{{d.comentarios}}</small></span>
+            <!-- info cards -->
+            <div class="uk-grid uk-grid-medium uk-grid-width-medium-1-2 uk-grid-width-large-1-3" data-uk-grid-margin data-uk-grid-match="{target:'.md-card-content'}">
+                <div ng-repeat="d in vm.donaciones">
+                    <div class="md-card">
+                        <div class="md-card-content small-padding">
+                            <img ng-src="{{d.imagen}}" alt="" class="blog_list_teaser_image ng-scope" />
+                            <div class="blog_list_teaser">
+                                <h2 class="blog_list_teaser_title uk-text-truncate ng-binding">{{d.titulo}}</h2>
+                                <p class="ng-binding">{{d.descripcion}}</p>
+                                <span class="uk-text-muted uk-text-small ng-binding">{{d.fecha}}</span>
                             </div>
-                            <a ui-sref="restricted.pages.blog.article({ articleId: 1 })" class="md-btn md-btn-small md-btn-flat md-btn-flat-primary uk-float-right" href="#/pages/blog/article/1">Donar</a>
+                            <div class="blog_list_footer">
+                                <div class="blog_list_footer_info">
+                                    <span class="uk-margin-right"><i class="material-icons"></i> <small class="ng-binding">{{d.likes}}</small></span>
+                                    <span><i class="material-icons"></i> <small class="ng-binding">{{d.comentarios}}</small></span>
+                                </div>
+                                <a ui-sref="restricted.pages.blog.article({ articleId: 1 })" class="md-btn md-btn-small md-btn-flat md-btn-flat-primary uk-float-right" href="#/pages/blog/article/1">Donar</a>
+                            </div>
                         </div>
                     </div>
                 </div>

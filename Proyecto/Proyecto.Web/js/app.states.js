@@ -49,7 +49,8 @@
                     views: {
                         'main_header': {
                             templateUrl: 'app/shared/header/headerView.html',
-                            controller: 'main_headerCtrl'
+                            controller: 'MainHeaderController',
+                            controllerAs: 'vm'
                         },
                         //'main_sidebar': {
                         //    templateUrl: 'app/shared/main_sidebar/main_sidebarView.html',
@@ -74,7 +75,7 @@
                 })
                 //Home
                 .state("restricted.home", {
-                url: "/home",
+                    url: "/home",
                     templateUrl: 'app/views/home/index.html',
                         controller: 'HomeController',
                         controllerAs: 'vm',
@@ -83,8 +84,22 @@
                             return $ocLazyLoad.load([
                                 'lazy_iCheck'
                             ]);
-                        }]
-                            }
+                            }]
+                        }
+                })
+                .state("restricted.donacion", {
+                    //url: "/donacion/{id}",
+                    url: "/donacion",
+                    controller: 'blogCtrl',
+                    templateUrl: 'app/views/donacion/view.html',
+                    resolve: {
+                        blog_articles: function ($http) {
+                            return $http({ method: 'GET', url: 'data/blog_articles.json' })
+                                .then(function (data) {
+                                    return data.data;
+                                });
+                        }
+                    }
                 })
             // -- DASHBOARD --
                 .state("restricted.dashboard", {
