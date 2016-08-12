@@ -98,7 +98,7 @@
         function register(request) {
 
             //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
-            return $http.post('url/hacerPost/', $.param(request),{headers:{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}})
+            return $http.get('http://soydonar.com/webservices/webresources/Register/' + request.username + '&' + request.password + '&' + request.password + '&' + request.name + '&' + request.lastname)
                 .then(function (response) {
                     return response.data;
                 });

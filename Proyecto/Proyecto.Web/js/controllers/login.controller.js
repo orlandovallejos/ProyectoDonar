@@ -110,8 +110,8 @@
 
         function register() {
             var request = {
-                username: vm.login_username,
-                password: vm.login_password,
+                username: vm.register_username,
+                password: vm.register_password,
                 name: vm.register_name,
                 lastname: vm.register_lastname
             };
@@ -119,6 +119,7 @@
             ServerService.register(request)
             .then(function () {
                 //Redireccionar al login.
+                login_form_show();
             });
         }
     }

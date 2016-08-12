@@ -2784,7 +2784,7 @@
         function register(request) {
 
             //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
-            return $http.post('url/hacerPost/', $.param(request),{headers:{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}})
+            return $http.get('http://soydonar.com/webservices/webresources/Register/' + request.username + '&' + request.password + '&' + request.password + '&' + request.name + '&' + request.lastname)
                 .then(function (response) {
                     return response.data;
                 });
@@ -4353,8 +4353,8 @@
 
         function register() {
             var request = {
-                username: vm.login_username,
-                password: vm.login_password,
+                username: vm.register_username,
+                password: vm.register_password,
                 name: vm.register_name,
                 lastname: vm.register_lastname
             };
@@ -4362,6 +4362,7 @@
             ServerService.register(request)
             .then(function () {
                 //Redireccionar al login.
+                login_form_show();
             });
         }
     }
