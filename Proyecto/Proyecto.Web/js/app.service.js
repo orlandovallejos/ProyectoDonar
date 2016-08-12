@@ -105,6 +105,8 @@
         }
 
         function getDonacion(id) {
+
+            //Este es un comentario.
             return $http.get('data/donar/home_donaciones.json')
                 .then(function (response) {
                     return response.data;
