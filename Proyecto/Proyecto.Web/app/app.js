@@ -4196,7 +4196,12 @@
             descripcion: 'Reiciendis laboriosam rerum maiores eveniet voluptate iusto perferendis ut quis doloremque quia eligendi perspiciatis quibusdam ut aspernatur dicta temporibus corporis dolor sequi eum et et a minima sapiente quam quia cum libero soluta et aut ad quia non doloremque quo pariatur neque nihil magni incidunt necessitatibus facere porro dicta est reprehenderit eos quos distinctio consectetur sit sint commodi voluptatem et vel eum optio nulla est aut consectetur dolores omnis incidunt rerum autem sed a sit qui deserunt maxime incidunt voluptatem et consequatur qui magni est deserunt est necessitatibus velit ut in fugiat blanditiis nostrum officiis nesciunt deserunt odio id adipisci rem nam non quia illum sed similique vel perspiciatis.',
             email: 'sarita@gmail.com',
             telefono: '15-3456-2345',
-            facebook:'/AyudemosASarita'
+            facebook: '/AyudemosASarita',
+            twitter:'@Sarita',
+            likes:156,
+            fotos: 50,
+            favoritos:340,
+            avatar:'/assets/img/temp/face.jpg'
         };
 
         activate();

@@ -19,7 +19,11 @@
             email: 'sarita@gmail.com',
             telefono: '15-3456-2345',
             facebook: '/AyudemosASarita',
-            twitter:'@Sarita'
+            twitter:'@Sarita',
+            likes:156,
+            fotos: 50,
+            favoritos:340,
+            avatar:'/assets/img/temp/face.jpg'
         };
 
         activate();
