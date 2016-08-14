@@ -70,7 +70,8 @@
             homeGetDonaciones: homeGetDonaciones,
             login: login,
             register: register,
-            getDonacion:getDonacion
+            getDonacion: getDonacion,
+            addComment: addComment
         };
 
         return service;
@@ -98,6 +99,13 @@
 
         function getDonacion(id) {
             return $http.get('http://soydonar.com/webservices/webresources/NecesidadInfo/' + id)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function addComment(request) {
+            return $http.get('xxxxxx' + request.comentario + '&' + request.usuario + '&' + request.fecha)
                 .then(function (response) {
                     return response.data;
                 });

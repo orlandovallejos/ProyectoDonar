@@ -107,8 +107,7 @@
                 $state.go('restricted.home');
             });
         }
-        //Le agrego nueva funcionalidad
-        //Segundo cambio
+
         function register() {
             var request = {
                 username: vm.register_username,

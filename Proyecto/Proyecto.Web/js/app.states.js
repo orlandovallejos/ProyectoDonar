@@ -93,6 +93,11 @@
                     controllerAs: 'vm',
                     templateUrl: 'app/views/donacion/view.html',
                     resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_ionRangeSlider'
+                            ], { serie: true });
+                        }],
                         user_data: function ($http) {
                             return $http({ method: 'GET', url: 'data/user_data.json' })
                                 .then(function (data) {

@@ -2756,7 +2756,8 @@
             homeGetDonaciones: homeGetDonaciones,
             login: login,
             register: register,
-            getDonacion:getDonacion
+            getDonacion: getDonacion,
+            addComment: addComment
         };
 
         return service;
@@ -2784,6 +2785,13 @@
 
         function getDonacion(id) {
             return $http.get('http://soydonar.com/webservices/webresources/NecesidadInfo/' + id)
+                .then(function (response) {
+                    return response.data;
+                });
+        }
+
+        function addComment(request) {
+            return $http.get('xxxxxx' + request.comentario + '&' + request.usuario + '&' + request.fecha)
                 .then(function (response) {
                     return response.data;
                 });
@@ -2913,6 +2921,11 @@
                     controllerAs: 'vm',
                     templateUrl: 'app/views/donacion/view.html',
                     resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'lazy_ionRangeSlider'
+                            ], { serie: true });
+                        }],
                         user_data: function ($http) {
                             return $http({ method: 'GET', url: 'data/user_data.json' })
                                 .then(function (data) {
@@ -4174,15 +4187,16 @@
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$rootScope', '$scope', 'user_data', 'SessionStorageService', '$stateParams'];
+    DonacionController.$inject = ['$rootScope', '$stateParams', '$scope', 'user_data', 'SessionStorageService'];
 
-    function DonacionController($rootScope, $scope, user_data, SessionStorageService, $stateParams) {
+    function DonacionController($rootScope, $stateParams, $scope, user_data, SessionStorageService) {
         var vm = this;
 
         //Variables
         vm.user_data = user_data[0];
         vm.user_data_contacts = user_data[0].contact;
         vm.isCreatedUser = false;
+        vm.comentario = '';
         vm.donacion = {
             id_necesidad: 1,
             titulo: 'Una mano para Sarita',
@@ -4190,7 +4204,7 @@
             fecha_creacion: '2016-08-16',
             fecha_fin: '2016-08-26',
             cant_likes: 156,
-            usuario: 'orlando@donar.com',
+            usuario: 'juan@gmail.com',
             categoria: 'monetaria',
             comentarios_cant: 100, //Este es al vicio.
             imagen_path: 'prueba.png',
@@ -4219,20 +4233,40 @@
             twitter: '@Sarita',
             fotos: 50,
             favoritos: 340,
-            avatar: '/assets/img/temp/face.jpg'
+            avatar: '/assets/img/temp/face.jpg',
+            direccion: 'Arieta 123, San justo, CP 1753, Bs As, Argentina',
+            dineroTotal:5000,
+            dineroRecaudado:1357
         };
+
+        //Methods
+        vm.addComment = addComment;
 
         activate();
 
         function activate() {
+
+
             var usuario = SessionStorageService.get('usuario');
             if (usuario && usuario.usuario === vm.donacion.usuario) {
                 vm.isCreatedUser = true;
             }
         }
 
-        //Methods
+        //Method definitions
+        function addComment() {
 
+            var usuario = SessionStorageService.get('usuario');
+            var request = {
+                comentario: vm.comentario,
+                usuario: usuario.usuario,
+                fecha: new Date()
+            };
+            ServerService.addComment(request)
+                .success(function (response) {
+                    console.log(response);
+                });
+        }
     }
 })();
 (function () {
@@ -4368,8 +4402,7 @@
                 $state.go('restricted.home');
             });
         }
-        //Le agrego nueva funcionalidad
-        //Segundo cambio
+
         function register() {
             var request = {
                 username: vm.register_username,

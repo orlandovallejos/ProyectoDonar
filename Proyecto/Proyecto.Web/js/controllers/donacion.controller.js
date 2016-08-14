@@ -4,15 +4,16 @@
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$rootScope', '$scope', 'user_data', 'SessionStorageService', '$stateParams'];
+    DonacionController.$inject = ['$rootScope', '$stateParams', '$scope', 'user_data', 'SessionStorageService'];
 
-    function DonacionController($rootScope, $scope, user_data, SessionStorageService, $stateParams) {
+    function DonacionController($rootScope, $stateParams, $scope, user_data, SessionStorageService) {
         var vm = this;
 
         //Variables
         vm.user_data = user_data[0];
         vm.user_data_contacts = user_data[0].contact;
         vm.isCreatedUser = false;
+        vm.comentario = '';
         vm.donacion = {
             id_necesidad: 1,
             titulo: 'Una mano para Sarita',
@@ -20,7 +21,7 @@
             fecha_creacion: '2016-08-16',
             fecha_fin: '2016-08-26',
             cant_likes: 156,
-            usuario: 'orlando@donar.com',
+            usuario: 'juan@gmail.com',
             categoria: 'monetaria',
             comentarios_cant: 100, //Este es al vicio.
             imagen_path: 'prueba.png',
@@ -50,19 +51,38 @@
             fotos: 50,
             favoritos: 340,
             avatar: '/assets/img/temp/face.jpg',
-            direccion:'Arieta 123, San justo, CP 1753, Bs As, Argentina'
+            direccion: 'Arieta 123, San justo, CP 1753, Bs As, Argentina',
+            dineroTotal:5000,
+            dineroRecaudado:1357
         };
+
+        //Methods
+        vm.addComment = addComment;
 
         activate();
 
         function activate() {
+
+
             var usuario = SessionStorageService.get('usuario');
             if (usuario && usuario.usuario === vm.donacion.usuario) {
                 vm.isCreatedUser = true;
             }
         }
 
-        //Methods
+        //Method definitions
+        function addComment() {
 
+            var usuario = SessionStorageService.get('usuario');
+            var request = {
+                comentario: vm.comentario,
+                usuario: usuario.usuario,
+                fecha: new Date()
+            };
+            ServerService.addComment(request)
+                .success(function (response) {
+                    console.log(response);
+                });
+        }
     }
 })();
