@@ -83,12 +83,6 @@
         }
 
         function login(request) {
-            //request = {
-            //    username: 'juan@gmail.com',
-            //    password: '1234'
-            //};
-
-            //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
             return $http.get('http://soydonar.com/webservices/webresources/Login/' + request.username + '&' + request.password)
                 .then(function (response) {
                     return response.data;
@@ -96,8 +90,6 @@
         }
 
         function register(request) {
-
-            //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
             return $http.get('http://soydonar.com/webservices/webresources/Register/' + request.username + '&' + request.password + '&' + request.password + '&' + request.name + '&' + request.lastname)
                 .then(function (response) {
                     return response.data;
@@ -105,9 +97,7 @@
         }
 
         function getDonacion(id) {
-
-            //Este es un comentario.
-            return $http.get('data/donar/home_donaciones.json')
+            return $http.get('http://soydonar.com/webservices/webresources/NecesidadInfo/' + id)
                 .then(function (response) {
                     return response.data;
                 });

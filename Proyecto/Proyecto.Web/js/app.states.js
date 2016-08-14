@@ -88,7 +88,7 @@
                         }
                 })
                 .state("restricted.donacion", {
-                    url: "/donacion/{id}",
+                    url: "/Donacion/{id}",
                     controller: 'DonacionController',
                     controllerAs: 'vm',
                     templateUrl: 'app/views/donacion/view.html',
