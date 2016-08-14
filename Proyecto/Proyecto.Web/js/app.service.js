@@ -83,10 +83,10 @@
         }
 
         function login(request) {
-            request = {
-                username: 'juan@gmail.com',
-                password: '1234'
-            };
+            //request = {
+            //    username: 'juan@gmail.com',
+            //    password: '1234'
+            //};
 
             //Esto en realidad tiene que ser un post, pero esto es sólo de prueba:
             return $http.get('http://soydonar.com/webservices/webresources/Login/' + request.username + '&' + request.password)
