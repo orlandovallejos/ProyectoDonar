@@ -49,7 +49,8 @@
             twitter: '@Sarita',
             fotos: 50,
             favoritos: 340,
-            avatar: '/assets/img/temp/face.jpg'
+            avatar: '/assets/img/temp/face.jpg',
+            direccion:'Arieta 123, San justo, CP 1753, Bs As, Argentina'
         };
 
         activate();
