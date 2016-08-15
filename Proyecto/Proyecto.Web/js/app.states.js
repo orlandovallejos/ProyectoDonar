@@ -88,7 +88,7 @@
                         }
                 })
                 .state("restricted.donacion", {
-                    url: "/Donacion/{id}",
+                    url: "/Donacion/{id:int}",
                     controller: 'DonacionController',
                     controllerAs: 'vm',
                     templateUrl: 'app/views/donacion/view.html',
@@ -100,6 +100,32 @@
                         }],
                         user_data: function ($http) {
                             return $http({ method: 'GET', url: 'data/user_data.json' })
+                                .then(function (data) {
+                                    return data.data;
+                                });
+                        }
+                    }
+                })
+                .state("restricted.donacion-add", {
+                    url: "/Donacion/Alta",
+                    controller: 'DonacionAddEditController',
+                    controllerAs: 'vm',
+                    templateUrl: 'app/views/donacion/add-edit.html',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'assets/js/custom/uikit_fileinput.min.js',
+                                'app/components/pages/user_editController.js'
+                            ], { serie: true });
+                        }],
+                        user_data: function ($http) {
+                            return $http({ method: 'GET', url: 'data/user_data.json' })
+                                .then(function (data) {
+                                    return data.data;
+                                });
+                        },
+                        groups_data: function ($http) {
+                            return $http({ method: 'GET', url: 'data/groups_data.json' })
                                 .then(function (data) {
                                     return data.data;
                                 });

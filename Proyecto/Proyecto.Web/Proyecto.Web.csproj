@@ -236,6 +236,8 @@
     <Content Include="app\templates\dirPagination.tpl.html" />
     <Content Include="app\templates\wizard.step.tpl.html" />
     <Content Include="app\templates\wizard.tpl.html" />
+    <Content Include="js\controllers\donacion.js" />
+    <Content Include="app\views\donacion\add-edit.html" />
     <Content Include="app\views\donacion\view.html" />
     <Content Include="app\views\error.html" />
     <Content Include="app\views\home\index.html" />
