@@ -102,9 +102,12 @@
 
             ServerService.login(request)
             .then(function (response) {
-                SessionStorageService.set('usuario', response);
+                console.log(response);
+                if (response.password) {
+                    SessionStorageService.set('usuario', response);
 
-                $state.go('restricted.home');
+                    $state.go('restricted.home');
+                }
             });
         }
 
