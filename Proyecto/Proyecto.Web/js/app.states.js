@@ -115,6 +115,7 @@
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
                                 'assets/js/custom/uikit_fileinput.min.js',
+                                'lazy_dropify',
                                 'app/components/pages/user_editController.js'
                             ], { serie: true });
                         }],

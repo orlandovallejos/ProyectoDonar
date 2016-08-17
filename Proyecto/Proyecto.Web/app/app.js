@@ -2943,6 +2943,7 @@
                         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load([
                                 'assets/js/custom/uikit_fileinput.min.js',
+                                'lazy_dropify',
                                 'app/components/pages/user_editController.js'
                             ], { serie: true });
                         }],
@@ -4349,23 +4350,60 @@
             avatar: '/assets/img/temp/face.jpg',
             direccion: 'Arieta 123, San justo, CP 1753, Bs As, Argentina',
             dineroTotal: 5000,
-            dineroRecaudado: 1357
+            dineroRecaudado: 1357,
+            categorias: [1, 2, 3]
         };
         vm.user_data = user_data[0];
+        console.log(user_data);
         vm.user_data_contacts = user_data[0].contact;
 
         // languages
-        var langData = vm.user_languages_options = [
-            { id: 1, title: 'English', value: 'gb' },
-            { id: 2, title: 'French', value: 'fr' },
-            { id: 3, title: 'Chinese', value: 'cn' },
-            { id: 4, title: 'Dutch', value: 'nl' },
-            { id: 5, title: 'Italian', value: 'it' },
-            { id: 6, title: 'Spanish', value: 'es' },
-            { id: 7, title: 'German', value: 'de' },
-            { id: 8, title: 'Polish', value: 'pl' }
+        //var langData = vm.user_languages_options = [
+        //    { id: 1, title: 'English', value: 'gb' },
+        //    { id: 2, title: 'French', value: 'fr' },
+        //    { id: 3, title: 'Chinese', value: 'cn' },
+        //    { id: 4, title: 'Dutch', value: 'nl' },
+        //    { id: 5, title: 'Italian', value: 'it' },
+        //    { id: 6, title: 'Spanish', value: 'es' },
+        //    { id: 7, title: 'German', value: 'de' },
+        //    { id: 8, title: 'Polish', value: 'pl' }
+        //];
+        //vm.user_languages_config = {
+        //    plugins: {
+        //        'remove_button': {
+        //            label: ''
+        //        }
+        //    },
+        //    render: {
+        //        option: function (langData, escape) {
+        //            return '<div class="option">' +
+        //                '<i class="item-icon flag-' + escape(langData.value).toUpperCase() + '"></i>' +
+        //                '<span>' + escape(langData.title) + '</span>' +
+        //                '</div>';
+        //        },
+        //        item: function (langData, escape) {
+        //            return '<div class="item"><i class="item-icon flag-' + escape(langData.value).toUpperCase() + '"></i>' + escape(langData.title) + '</div>';
+        //        }
+        //    },
+        //    valueField: 'value',
+        //    labelField: 'title',
+        //    searchField: 'title',
+        //    create: false,
+        //    placeholder: 'Select Language...'
+        //};
+
+        //Categorias
+        var langData = vm.categorias = [
+            { id: 1, title: 'Ropa', value: 'gb' },
+            { id: 2, title: 'Alimentos', value: 'fr' },
+            { id: 3, title: 'Dinero', value: 'cn' },
+            { id: 4, title: 'Utiles escolares', value: 'nl' },
+            { id: 5, title: 'Tecnologia', value: 'it' },
+            { id: 6, title: 'Voluntariado', value: 'es' },
+            { id: 7, title: 'Frazadas', value: 'de' },
+            { id: 8, title: 'Muebles', value: 'pl' }
         ];
-        vm.user_languages_config = {
+        vm.categorias_config = {
             plugins: {
                 'remove_button': {
                     label: ''
@@ -4374,20 +4412,29 @@
             render: {
                 option: function (langData, escape) {
                     return '<div class="option">' +
-                        '<i class="item-icon flag-' + escape(langData.value).toUpperCase() + '"></i>' +
+                        '<i class="item-icon"></i>' +
                         '<span>' + escape(langData.title) + '</span>' +
                         '</div>';
                 },
                 item: function (langData, escape) {
-                    return '<div class="item"><i class="item-icon flag-' + escape(langData.value).toUpperCase() + '"></i>' + escape(langData.title) + '</div>';
+                    return '<div class="item"><i class="item-icon"></i>' + escape(langData.title) + '</div>';
                 }
             },
-            valueField: 'value',
+            valueField: 'id',
             labelField: 'title',
             searchField: 'title',
             create: false,
-            placeholder: 'Select Language...'
+            placeholder: 'Seleccionar categoria...'
         };
+
+        $('.dropify').dropify({
+            messages: {
+                default: 'Imagen default',
+                replace: 'Haga click para reemplazar',
+                remove: 'Eliminar',
+                error: 'Hubo un error'
+            }
+        });
 
         // user role
         vm.user_role_config = {
@@ -4421,34 +4468,57 @@
             }
         ];
 
+        vm.tipo_config = {
+            valueField: 'value',
+            labelField: 'title',
+            create: false,
+            maxItems: 1,
+            placeholder: 'Seleccionar...'
+        };
+
+        vm.tipo_options = [
+            {
+                "value": "monetaria",
+                "title": "Monetaria"
+            },
+            {
+                "value": "voluntariado",
+                "title": "Voluntariado"
+            },
+            {
+                "value": "donacion",
+                "title": "Donacion"
+            }
+        ];
+
         // groups
         vm.all_groups = groups_data;
 
-        var $user_groups = $('#user_groups'),
-            $all_groups = $('#all_groups'),
-            $user_groups_control = $('#user_groups_control'),
-            serialize_user_group = function () {
-                var serialized_data = $user_groups.data("sortable").serialize();
-                $user_groups_control.val(JSON.stringify(serialized_data));
-            };
+        //var $user_groups = $('#user_groups'),
+        //    $all_groups = $('#all_groups'),
+        //    $user_groups_control = $('#user_groups_control'),
+        //    serialize_user_group = function () {
+        //        var serialized_data = $user_groups.data("sortable").serialize();
+        //        $user_groups_control.val(JSON.stringify(serialized_data));
+        //    };
 
-        UIkit.sortable($user_groups, {
-            group: '.groups_connected',
-            handleClass: 'sortable-handler'
-        });
+        //UIkit.sortable($user_groups, {
+        //    group: '.groups_connected',
+        //    handleClass: 'sortable-handler'
+        //});
 
-        UIkit.sortable($all_groups, {
-            group: '.groups_connected',
-            handleClass: 'sortable-handler'
-        });
+        //UIkit.sortable($all_groups, {
+        //    group: '.groups_connected',
+        //    handleClass: 'sortable-handler'
+        //});
 
-        // serialize user group on change
-        $user_groups.on('change.uk.sortable', function () {
-            serialize_user_group();
-        });
+        //// serialize user group on change
+        //$user_groups.on('change.uk.sortable', function () {
+        //    serialize_user_group();
+        //});
 
-        // serialize group on init
-        serialize_user_group();
+        //// serialize group on init
+        //serialize_user_group();
 
         // submit button
         $('#user_edit_submit').on('click', function (e) {
@@ -4712,7 +4782,6 @@ angular
             ServerService.login(request)
             .then(function (response) {
                 console.log(response);
-                console.log(typeof(response.password));
                 if (response.password) {
                     SessionStorageService.set('usuario', response);
 
