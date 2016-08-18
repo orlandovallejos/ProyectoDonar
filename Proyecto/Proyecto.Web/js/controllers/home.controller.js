@@ -17,6 +17,7 @@
         function activate() {
             ServerService.homeGetDonaciones()
             .then(function (data) {
+                console.log(data);
                 vm.donaciones = data;
             });
         }

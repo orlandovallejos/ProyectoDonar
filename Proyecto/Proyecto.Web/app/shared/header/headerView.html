@@ -10,7 +10,19 @@
                     <div class="md-top-bar">
                         <ul id="menu_top" class="uk-clearfix">
                             <li><a href="index.html"><i class="material-icons md-24">&#xE88A;</i></a></li>
-                            <li data-uk-dropdown>
+                            <li>
+                                <a href="#">Donaciones</a>
+                            </li>
+                            <li>
+                                <a href="#">Noticias</a>
+                            </li>
+                            <li>
+                                <a href="#">Voluntariado</a>
+                            </li>
+                            <li>
+                                <a href="#">Como ayudar?</a>
+                            </li>
+                            <!--<li data-uk-dropdown>
                                 <a href="#">Donaciones</a>
                                 <div class="uk-dropdown">
                                     <ul class="uk-nav uk-nav-dropdown">
@@ -24,8 +36,8 @@
                                         <li><a ui-sref="restricted.forms.wysiwyg_tinymce.html">TinyMCE</a></li>
                                     </ul>
                                 </div>
-                            </li>
-                            <li data-uk-dropdown>
+                            </li>-->
+                            <!--<li data-uk-dropdown>
                                 <a href="#">Noticias</a>
                                 <div class="uk-dropdown uk-dropdown-scrollable">
                                     <ul class="uk-nav uk-nav-dropdown">
@@ -51,7 +63,7 @@
                                         <li><a ui-sref="restricted.components.typography">Typography</a></li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li>-->
                             <li ng-if="!vm.isUserLogged">
                                 <a ui-sref="login">Login</a>
                             </li>

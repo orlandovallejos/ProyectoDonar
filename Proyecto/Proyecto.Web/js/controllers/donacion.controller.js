@@ -4,9 +4,9 @@
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$rootScope', '$stateParams', '$scope', 'user_data', 'SessionStorageService'];
+    DonacionController.$inject = ['$rootScope', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
 
-    function DonacionController($rootScope, $stateParams, $scope, user_data, SessionStorageService) {
+    function DonacionController($rootScope, $stateParams, $scope, user_data, SessionStorageService, ServerService) {
         var vm = this;
 
         //Variables
@@ -68,6 +68,12 @@
             if (usuario && usuario.usuario === vm.donacion.usuario) {
                 vm.isCreatedUser = true;
             }
+
+            ServerService.getDonacion($stateParams.id)
+                .then(function (data) {
+                    console.log(data);
+                    //vm.donacion = data;
+                });
         }
 
         //Method definitions
