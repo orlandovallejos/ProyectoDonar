@@ -105,8 +105,13 @@
         }
 
         function addComment(request) {
-            return $http.get('xxxxxx' + request.comentario + '&' + request.usuario + '&' + request.fecha)
+
+            console.log('Entra al servicio de comentario:');
+
+            return $http.post('http://soydonar.com/webservices/webresources/Comment/post1', JSON.stringify(request))
                 .then(function (response) {
+                    console.log('Comentario');
+                    console.log(response);
                     return response.data;
                 });
         }

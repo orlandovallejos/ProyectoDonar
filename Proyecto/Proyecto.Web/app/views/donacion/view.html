@@ -28,10 +28,10 @@
                                     <h4 class="heading_a">{{vm.donacion.cant_likes}}<span class="sub-heading"><i class="uk-icon-thumbs-o-up"></i> Likes</span></h4>
                                 </li>
                                 <li>
-                                    <h4 class="heading_a">{{vm.donacion.fotos}}<span class="sub-heading"><i class="uk-icon-camera"></i> Fotos</span></h4>
+                                    <h4 class="heading_a">{{vm.donacion.cant_fotos}}<span class="sub-heading"><i class="uk-icon-camera"></i> Fotos</span></h4>
                                 </li>
                                 <li>
-                                    <h4 class="heading_a">{{vm.donacion.favoritos}}<span class="sub-heading"><i class="uk-icon-star-o"></i> Favoritos</span></h4>
+                                    <h4 class="heading_a">{{vm.donacion.cant_favs}}<span class="sub-heading"><i class="uk-icon-star-o"></i> Favoritos</span></h4>
                                 </li>
                             </ul>
                         </div>
@@ -158,7 +158,7 @@
 
                             <img ng-src="http://www.soydonar.com/imagenes/necesidades/{{vm.donacion.imagen_path}}" alt="" class="blog_list_teaser_image ng-scope" />
 
-                            <div class="">
+                            <div ng-if="vm.donacion.categoria == 'DINERO'">
                                 <div id="ionslider_2" name="ionslider_2" ion-slider ng-model="vm.donacion.dineroRecaudado" min="0" max="5000" grid="true" prefix="$"></div>
                                 <span class="uk-form-help-block">Recaudado</span>
                             </div>
@@ -201,7 +201,7 @@
                                         </a>
                                     </span>
                                 </div>
-                                <div class="uk-width-large-1-2">
+                                <div ng-if="vm.donacion.categoria == 'DINERO'" class="uk-width-large-1-2">
                                     <span class="uk-input-group-addon">
                                         <a class="md-btn md-btn-primary" href="#">
                                             <i class="uk-icon-dollar"></i>
