@@ -103,7 +103,7 @@
             ServerService.login(request)
             .then(function (response) {
                 console.log(response);
-                if (response.password) {
+                if (response.contrasenia) {
                     SessionStorageService.set('usuario', response);
 
                     $state.go('restricted.home');

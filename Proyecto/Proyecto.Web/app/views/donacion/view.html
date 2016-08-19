@@ -42,7 +42,7 @@
                     <div class="user_content">
                         <ul id="user_profile_tabs" class="uk-tab" data-uk-tab="{connect:'#user_profile_tabs_content', animation:'slide-horizontal'}" data-uk-sticky="{ top: 48, media: 960 }">
                             <li class="uk-active"><a href="#">Detalle</a></li>
-                            <li><a href="#">Fotos</a></li>
+                            <!--<li><a href="#">Fotos</a></li>-->
                         </ul>
                         <ul id="user_profile_tabs_content" class="uk-switcher uk-margin">
                             <li>
@@ -144,8 +144,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <textarea cols="30" rows="4" class="md-input" placeholder="Agregar comentario..." md-input ng-model="vm.comentario"></textarea>
-                            <a href="#" class="md-btn uk-margin-top" ng-click="vm.addComment()">Comentar</a>
+                            <div ng-if="vm.usuarioLogueado">
+                                <textarea cols="30" rows="4" class="md-input" placeholder="Agregar comentario..." md-input ng-model="vm.comentario"></textarea>
+                                <a class="md-btn uk-margin-top" ng-click="vm.addComment()">Comentar</a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,7 @@
         vm.user_data_contacts = user_data[0].contact;
         vm.isCreatedUser = false;
         vm.comentario = '';
+        vm.usuarioLogueado = null;
         //vm.donacion = {
         //    id_necesidad: 1,
         //    titulo: 'Una mano para Sarita',
@@ -62,13 +63,15 @@
         activate();
 
         function activate() {
+
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+
             ServerService.getDonacion($stateParams.id)
                 .then(function (data) {
                     console.log(data);
                     vm.donacion = data;
 
-                    var usuario = SessionStorageService.get('usuario');
-                    if (usuario && usuario.usuario === vm.donacion.usuario) {
+                    if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                         vm.isCreatedUser = true;
                     }
                 });
@@ -77,12 +80,16 @@
         //Method definitions
         function addComment() {
 
-            var usuario = SessionStorageService.get('usuario');
+            var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
+            var pad = "00";
+            dia = pad.substring(0, pad.length - dia.toString().length) + dia;
+            mes = pad.substring(0, pad.length - mes.toString().length) + mes;
+
             var request = {
-                id_necesidad:$stateParams.id,
+                id_necesidad: $stateParams.id,
                 comentario: vm.comentario,
-                usuario: usuario.usuario,
-                fecha: '2016-08-02'
+                usuario: vm.usuarioLogueado.usuario,
+                fecha: anio + '-' + mes + '-' + dia
             };
             ServerService.addComment(request)
                 .then(function (response) {
@@ -90,6 +97,9 @@
 
                     vm.donacion.lista_coment.push(request);
                     vm.comentario = '';
+                },
+                function (responseError) {
+                    console.log(responseError);
                 });
         }
     }
