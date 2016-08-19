@@ -35,7 +35,7 @@
                             <img ng-src="http://www.soydonar.com/imagenes/necesidades/{{d.imagen_path}}" alt="" class="blog_list_teaser_image ng-scope" />
                             <div class="blog_list_teaser">
                                 <h2 class="blog_list_teaser_title uk-text-truncate ng-binding">{{d.titulo}}</h2>
-                                <p class="ng-binding">{{d.necesidad}}</p>
+                                <p class="ng-binding">{{d.necesidad  | limitTo: 100 }}{{d.necesidad.length > 100 ? '...' : ''}}</p>
                                 <span class="uk-text-muted uk-text-small ng-binding">{{d.fecha_creacion}}</span>
                             </div>
                             <div class="blog_list_footer">
