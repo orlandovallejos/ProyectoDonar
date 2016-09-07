@@ -51,7 +51,7 @@
                                     <div class="uk-width-large-1-2">
                                         <h4 class="heading_c uk-margin-small-bottom">Contacto</h4>
                                         <ul class="md-list md-list-addon">
-                                            <li>
+                                            <li ng-if="vm.donacion.email">
                                                 <div class="md-list-addon-element">
                                                     <i class="md-list-addon-icon material-icons">&#xE158;</i>
                                                 </div>
@@ -60,7 +60,7 @@
                                                     <span class="uk-text-small uk-text-muted">Email</span>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li ng-if="vm.donacion.telefono">
                                                 <div class="md-list-addon-element">
                                                     <i class="md-list-addon-icon material-icons">&#xE0CD;</i>
                                                 </div>
@@ -69,7 +69,7 @@
                                                     <span class="uk-text-small uk-text-muted">Telefono</span>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li ng-if="vm.donacion.facebook">
                                                 <div class="md-list-addon-element">
                                                     <i class="md-list-addon-icon uk-icon-facebook-official"></i>
                                                 </div>
@@ -78,7 +78,7 @@
                                                     <span class="uk-text-small uk-text-muted">Facebook</span>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li ng-if="vm.donacion.twitter">
                                                 <div class="md-list-addon-element">
                                                     <i class="md-list-addon-icon uk-icon-twitter"></i>
                                                 </div>

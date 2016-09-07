@@ -10,7 +10,7 @@
 
             // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
             $urlRouterProvider
-                .when('/dashboard', '/')
+                //.when('/dashboard', '/')
                 .otherwise('/home');
 
             $stateProvider
