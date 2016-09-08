@@ -735,6 +735,7 @@
 
         vm.alerts_length = vm.user_data.alerts.length;
         vm.messages_length = vm.user_data.messages.length;
+        vm.username = '';
 
         //Methods
         activate();
@@ -746,8 +747,11 @@
                 }, 280)
             });
 
-            if (SessionStorageService.get('usuario')) {
+            var usuario = SessionStorageService.get('usuario');
+
+            if (usuario) {
                 vm.isUserLogged = true;
+                vm.username = usuario.usuario;
             }
         }
         //Method definitions
@@ -2804,6 +2808,7 @@
                 },
                 function (responseError) {
                     console.log(responseError);
+                    return responseError;
                 });
         }
 
@@ -2820,6 +2825,7 @@
                 },
                 function (responseError) {
                     console.log(responseError);
+                    return responseError;
                 });
         }
     }
@@ -2864,7 +2870,7 @@
 
             // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
             $urlRouterProvider
-                .when('/dashboard', '/')
+                //.when('/dashboard', '/')
                 .otherwise('/home');
 
             $stateProvider

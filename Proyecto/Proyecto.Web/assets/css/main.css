@@ -13592,3 +13592,14 @@ body {
 .wizard > .content > .body pre[class*="language-"] {
   max-height: inherit;
 }
+
+.negrita,
+.material-icons.md-light.negrita {
+    color:#676767;
+}
+
+.donar-username {
+    color: #ff7d1e;
+    top: 15px;
+    position: relative;
+}

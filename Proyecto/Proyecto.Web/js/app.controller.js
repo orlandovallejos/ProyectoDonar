@@ -600,6 +600,7 @@
 
         vm.alerts_length = vm.user_data.alerts.length;
         vm.messages_length = vm.user_data.messages.length;
+        vm.username = '';
 
         //Methods
         activate();
@@ -611,8 +612,11 @@
                 }, 280)
             });
 
-            if (SessionStorageService.get('usuario')) {
+            var usuario = SessionStorageService.get('usuario');
+
+            if (usuario) {
                 vm.isUserLogged = true;
+                vm.username = usuario.usuario;
             }
         }
         //Method definitions

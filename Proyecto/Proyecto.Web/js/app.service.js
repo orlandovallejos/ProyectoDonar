@@ -118,6 +118,7 @@
                 },
                 function (responseError) {
                     console.log(responseError);
+                    return responseError;
                 });
         }
 
@@ -134,6 +135,7 @@
                 },
                 function (responseError) {
                     console.log(responseError);
+                    return responseError;
                 });
         }
     }
