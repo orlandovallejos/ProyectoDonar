@@ -241,7 +241,8 @@
     <Content Include="app\views\donacion\view.html" />
     <Content Include="app\views\error.html" />
     <Content Include="app\views\home\index.html" />
-    <Content Include="js\controllers\donacion.controller.js" />
+    <Content Include="js\controllers\donacion-add-edit.controller.js" />
+    <Content Include="js\controllers\donacion-view.controller.js" />
     <Content Include="js\controllers\login.controller.js" />
     <Content Include="app\views\login\loginView.html" />
     <Content Include="app\views\restricted.html" />

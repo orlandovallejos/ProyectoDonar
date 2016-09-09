@@ -72,7 +72,8 @@
             register: register,
             getDonacion: getDonacion,
             addComment: addComment,
-            addDonacion: addDonacion
+            addDonacion: addDonacion,
+            getCategorias: getCategorias
         };
 
         return service;
@@ -135,6 +136,16 @@
                 },
                 function (responseError) {
                     console.log(responseError);
+                    return responseError;
+                });
+        }
+
+        function getCategorias() {
+            return $http.get('http://soydonar.com/webservices/webresources/verCategorias/')
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
                     return responseError;
                 });
         }
