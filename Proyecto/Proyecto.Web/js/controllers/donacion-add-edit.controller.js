@@ -5,9 +5,9 @@
         .module('donarApp')
         .controller('DonacionAddEditController', DonacionAddEditController);
 
-    DonacionAddEditController.$inject = ['$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'groups_data', 'SessionStorageService', 'ServerService'];
+    DonacionAddEditController.$inject = ['$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
 
-    function DonacionAddEditController($rootScope, $state, $stateParams, $scope, user_data, groups_data, SessionStorageService, ServerService) {
+    function DonacionAddEditController($rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
         var vm = this;
 
         //Variables
@@ -27,48 +27,81 @@
         function activate() {
             if ($stateParams.id) {
                 vm.isNew = false;
+
+                ServerService.getDonacion($stateParams.id)
+                .then(function (data) {
+                    console.log(data);
+                    vm.donacion = data;
+
+                    if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
+                        vm.isCreatedUser = true;
+                    }
+                    
+                    if(vm.donacion.imagen_path){
+                        $('.dropify').dropify({
+                            messages: {
+                                default: 'Imagen default',
+                                replace: 'Haga click para reemplazar',
+                                remove: 'Eliminar',
+                                error: 'Hubo un error'
+                            },
+                            defaultFile: 'http://www.soydonar.com/imagenes/necesidades/' + vm.donacion.imagen_path
+                        });
+                    }
+                    else{
+                        $('.dropify').dropify({
+                            messages: {
+                                default: 'Imagen default',
+                                replace: 'Haga click para reemplazar',
+                                remove: 'Eliminar',
+                                error: 'Hubo un error'
+                            },
+                            defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
+                        });
+                    }
+                });
             }
 
             vm.usuarioLogueado = SessionStorageService.get('usuario');
-            vm.donacion = {
-                id_necesidad: 1,
-                titulo: 'Una mano para Sarita',
-                necesidad: 'Reiciendis laboriosam rerum maiores eveniet voluptate iusto perferendis ut quis doloremque quia eligendi perspiciatis quibusdam ut aspernatur dicta temporibus corporis dolor sequi eum et et a minima sapiente quam quia cum libero soluta et aut ad quia non doloremque quo pariatur neque nihil magni incidunt necessitatibus facere porro dicta est reprehenderit eos quos distinctio consectetur sit sint commodi voluptatem et vel eum optio nulla est aut consectetur dolores omnis incidunt rerum autem sed a sit qui deserunt maxime incidunt voluptatem et consequatur qui magni est deserunt est necessitatibus velit ut in fugiat blanditiis nostrum officiis nesciunt deserunt odio id adipisci rem nam non quia illum sed similique vel perspiciatis.',
-                fecha_creacion: '2016-08-16',
-                fecha_fin: '2016-08-26',
-                cant_likes: 156,
-                usuario: 'juan@gmail.com',
-                categoria: 'monetaria',
-                comentarios_cant: 100,
-                imagen_path: 'prueba.png',
-                lista_coment: [{
-                    "id_comentario": "1",
-                    "comentario": "este es un comentario de prueba",
-                    "fecha": "2016-08-10 14:26",
-                    "pos": "5",
-                    "neg": "0",
-                    "usuario": "juan@gmail.com"
-                }, {
-                    "id_comentario": "2",
-                    "comentario": "este es un comentario de prueba 2",
-                    "fecha": "2016-08-10 13:56",
-                    "pos": "5",
-                    "neg": "0",
-                    "usuario": "juan@gmail.com"
-                }],
+            // vm.donacion = {
+            //     id_necesidad: 1,
+            //     titulo: 'Una mano para Sarita',
+            //     necesidad: 'Reiciendis laboriosam rerum maiores eveniet voluptate iusto perferendis ut quis doloremque quia eligendi perspiciatis quibusdam ut aspernatur dicta temporibus corporis dolor sequi eum et et a minima sapiente quam quia cum libero soluta et aut ad quia non doloremque quo pariatur neque nihil magni incidunt necessitatibus facere porro dicta est reprehenderit eos quos distinctio consectetur sit sint commodi voluptatem et vel eum optio nulla est aut consectetur dolores omnis incidunt rerum autem sed a sit qui deserunt maxime incidunt voluptatem et consequatur qui magni est deserunt est necessitatibus velit ut in fugiat blanditiis nostrum officiis nesciunt deserunt odio id adipisci rem nam non quia illum sed similique vel perspiciatis.',
+            //     fecha_creacion: '2016-08-16',
+            //     fecha_fin: '2016-08-26',
+            //     cant_likes: 156,
+            //     usuario: 'juan@gmail.com',
+            //     categoria: 'monetaria',
+            //     comentarios_cant: 100,
+            //     imagen_path: 'prueba.png',
+            //     lista_coment: [{
+            //         "id_comentario": "1",
+            //         "comentario": "este es un comentario de prueba",
+            //         "fecha": "2016-08-10 14:26",
+            //         "pos": "5",
+            //         "neg": "0",
+            //         "usuario": "juan@gmail.com"
+            //     }, {
+            //         "id_comentario": "2",
+            //         "comentario": "este es un comentario de prueba 2",
+            //         "fecha": "2016-08-10 13:56",
+            //         "pos": "5",
+            //         "neg": "0",
+            //         "usuario": "juan@gmail.com"
+            //     }],
 
-                email: 'sarita@gmail.com',
-                telefono: '15-3456-2345',
-                facebook: '/AyudemosASarita',
-                twitter: '@Sarita',
-                fotos: 50,
-                favoritos: 340,
-                avatar: '/assets/img/temp/face.jpg',
-                direccion: 'Arieta 123, San justo, CP 1753, Bs As, Argentina',
-                dineroTotal: 5000,
-                dineroRecaudado: 1357,
-                categorias: [1, 2, 3]
-            };
+            //     email: 'sarita@gmail.com',
+            //     telefono: '15-3456-2345',
+            //     facebook: '/AyudemosASarita',
+            //     twitter: '@Sarita',
+            //     fotos: 50,
+            //     favoritos: 340,
+            //     avatar: '/assets/img/temp/face.jpg',
+            //     direccion: 'Arieta 123, San justo, CP 1753, Bs As, Argentina',
+            //     dineroTotal: 5000,
+            //     dineroRecaudado: 1357,
+            //     categorias: [1, 2, 3]
+            // };
 
             ServerService.getCategorias()
                 .then(function (response) {
@@ -106,14 +139,7 @@
                 placeholder: 'Seleccionar categoria...'
             };
 
-            $('.dropify').dropify({
-                messages: {
-                    default: 'Imagen default',
-                    replace: 'Haga click para reemplazar',
-                    remove: 'Eliminar',
-                    error: 'Hubo un error'
-                }
-            });
+            
 
             vm.tipo_config = {
                 valueField: 'value',
@@ -173,7 +199,7 @@
             //    facebook: 'null',
             //    twitter: 'null',
             //    usuario: 'juan@gmail.com',
-            //    direccion: 'vicente lopez 376,Morón',
+            //    direccion: 'vicente lopez 376,Morï¿½n',
             //    email: 'juan@gmail.com',
             //    categoria: 'ropa',
             //    imagen_path: 'null'

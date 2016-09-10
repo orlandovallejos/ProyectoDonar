@@ -7,7 +7,7 @@
                         <div class="user_heading" data-uk-sticky="{ top: 48, media: 960 }">
                             <div class="user_heading_avatar fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-new thumbnail">
-                                    <img ng-src="{{vm.donacion.avatar}}" alt="user avatar" />
+                                    <img ng-src="http://www.soydonar.com/imagenes/usuarios/{{vm.donacion.avatar}}" alt="user avatar" />
                                 </div>
                                 <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                 <!--<div class="user_avatar_controls">
@@ -29,10 +29,10 @@
                                         <h4 class="heading_a">{{vm.donacion.cant_likes}}<span class="sub-heading"><i class="uk-icon-thumbs-o-up"></i> Likes</span></h4>
                                     </li>
                                     <li>
-                                        <h4 class="heading_a">{{vm.donacion.fotos}}<span class="sub-heading"><i class="uk-icon-camera"></i> Fotos</span></h4>
+                                        <h4 class="heading_a">{{vm.donacion.cant_fotos}}<span class="sub-heading"><i class="uk-icon-camera"></i> Fotos</span></h4>
                                     </li>
                                     <li>
-                                        <h4 class="heading_a">{{vm.donacion.favoritos}}<span class="sub-heading"><i class="uk-icon-star-o"></i> Favoritos</span></h4>
+                                        <h4 class="heading_a">{{vm.donacion.cant_favs}}<span class="sub-heading"><i class="uk-icon-star-o"></i> Favoritos</span></h4>
                                     </li>
                                 </ul>
                             </div>
@@ -200,7 +200,7 @@
                             <h3 class="heading_a uk-margin-small-bottom">
                                 Portada
                             </h3>
-                            <input type="file" id="input-file-a" class="dropify" data-default-file="http://www.soydonar.com/imagenes/necesidades/prueba.png" />
+                            <input type="file" id="input-file-a" class="dropify" />
                             <!--</div>
                             </div>-->
 
