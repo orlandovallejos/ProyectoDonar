@@ -72,7 +72,7 @@
             register: register,
             getDonacion: getDonacion,
             addComment: addComment,
-            addDonacion: addDonacion,
+            saveDonacion: saveDonacion,
             getCategorias: getCategorias
         };
 
@@ -123,21 +123,36 @@
                 });
         }
 
-        function addDonacion(request) {
+        function saveDonacion(request) {
 
-            console.log('Entra al servicio de alta de donacion:');
+            console.log('Entra al servicio de save de donacion:');
             console.log(request);
 
-            return $http.post('http://soydonar.com/webservices/webresources/crearNecesidad/alta', JSON.stringify(request))
-                .then(function (response) {
-                    console.log('Donacion add');
-                    console.log(response);
-                    return response.data;
-                },
-                function (responseError) {
-                    console.log(responseError);
-                    return responseError;
-                });
+            if(request.id_necesidad){
+                return $http.post('http://soydonar.com/webservices/webresources/editNecesidad/edit', JSON.stringify(request))
+                    .then(function (response) {
+                        console.log('Donacion add');
+                        console.log(response);
+                        return response.data;
+                    },
+                    function (responseError) {
+                        console.log(responseError);
+                        return responseError;
+                    });
+            }
+            else {
+                return $http.post('http://soydonar.com/webservices/webresources/crearNecesidad/alta', JSON.stringify(request))
+                    .then(function (response) {
+                        console.log('Donacion add');
+                        console.log(response);
+                        return response.data;
+                    },
+                    function (responseError) {
+                        console.log(responseError);
+                        return responseError;
+                    });
+            }
+            
         }
 
         function getCategorias() {

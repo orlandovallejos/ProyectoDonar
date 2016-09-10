@@ -2762,7 +2762,7 @@
             register: register,
             getDonacion: getDonacion,
             addComment: addComment,
-            addDonacion: addDonacion,
+            saveDonacion: saveDonacion,
             getCategorias: getCategorias
         };
 
@@ -2813,21 +2813,36 @@
                 });
         }
 
-        function addDonacion(request) {
+        function saveDonacion(request) {
 
-            console.log('Entra al servicio de alta de donacion:');
+            console.log('Entra al servicio de save de donacion:');
             console.log(request);
 
-            return $http.post('http://soydonar.com/webservices/webresources/crearNecesidad/alta', JSON.stringify(request))
-                .then(function (response) {
-                    console.log('Donacion add');
-                    console.log(response);
-                    return response.data;
-                },
-                function (responseError) {
-                    console.log(responseError);
-                    return responseError;
-                });
+            if(request.id_necesidad){
+                return $http.post('http://soydonar.com/webservices/webresources/editNecesidad/edit', JSON.stringify(request))
+                    .then(function (response) {
+                        console.log('Donacion add');
+                        console.log(response);
+                        return response.data;
+                    },
+                    function (responseError) {
+                        console.log(responseError);
+                        return responseError;
+                    });
+            }
+            else {
+                return $http.post('http://soydonar.com/webservices/webresources/crearNecesidad/alta', JSON.stringify(request))
+                    .then(function (response) {
+                        console.log('Donacion add');
+                        console.log(response);
+                        return response.data;
+                    },
+                    function (responseError) {
+                        console.log(responseError);
+                        return responseError;
+                    });
+            }
+            
         }
 
         function getCategorias() {
@@ -3004,7 +3019,21 @@
                         }
                     }
                 })
-            // -- DASHBOARD --
+                .state("restricted.donacion-edit", {
+                    url: "/Donacion/Editar/{id}",
+                    controller: 'DonacionAddEditController',
+                    controllerAs: 'vm',
+                    templateUrl: 'app/views/donacion/add-edit.html',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'assets/js/custom/uikit_fileinput.min.js',
+                                'lazy_dropify'
+                            ], { serie: true });
+                        }]
+                    }
+                })
+                // -- DASHBOARD --
                 .state("restricted.dashboard", {
                     url: "/",
                     templateUrl: 'app/components/dashboard/dashboardView.html',
@@ -4270,6 +4299,7 @@
         vm.categorias_config = {};
         vm.tipo_config = {};
         vm.tipo_options = [];
+        vm.isNew = true;
 
         //Methods:
         vm.save = save;
@@ -4277,6 +4307,10 @@
         activate();
 
         function activate() {
+            if ($stateParams.id) {
+                vm.isNew = false;
+            }
+
             vm.usuarioLogueado = SessionStorageService.get('usuario');
             vm.donacion = {
                 id_necesidad: 1,
@@ -4305,8 +4339,6 @@
                     "usuario": "juan@gmail.com"
                 }],
 
-
-
                 email: 'sarita@gmail.com',
                 telefono: '15-3456-2345',
                 facebook: '/AyudemosASarita',
@@ -4320,32 +4352,18 @@
                 categorias: [1, 2, 3]
             };
 
-            
             ServerService.getCategorias()
                 .then(function (response) {
-                    //console.log(response);
-                    //Categorias
-                    //vm.categorias = [
-                    //    { id: 1, title: 'Ropa', value: 'gb' },
-                    //    { id: 2, title: 'Alimentos', value: 'fr' },
-                    //    { id: 3, title: 'Dinero', value: 'cn' },
-                    //    { id: 4, title: 'Utiles escolares', value: 'nl' },
-                    //    { id: 5, title: 'Tecnologia', value: 'it' },
-                    //    { id: 6, title: 'Voluntariado', value: 'es' },
-                    //    { id: 7, title: 'Frazadas', value: 'de' },
-                    //    { id: 8, title: 'Muebles', value: 'pl' }
-                    //];
                     vm.categorias = [];
 
                     for (var i = 0; i < response.length; i++) {
                         vm.categorias.push({ id: response[i], title: response[i] });
                     }
-
-                    console.log(vm.categorias);
                 },
                 function (responseError) {
                     console.log(responseError);
                 });
+
             vm.categorias_config = {
                 plugins: {
                     'remove_button': {
@@ -4424,6 +4442,10 @@
                 categoria: 'ropa',
                 imagen_path: 'null'
             };
+
+            if (!vm.isNew) {
+                request.id_necesidad = $stateParams.id;
+            }
             //var request = {
             //    titulo: 'Necesidad de prueba',
             //    necesidad: 'esta es una necesidad de prueba',
@@ -4438,7 +4460,7 @@
             //    categoria: 'ropa',
             //    imagen_path: 'null'
             //};
-            ServerService.addDonacion(request)
+            ServerService.saveDonacion(request)
                 .then(function (response) {
                     console.log(response);
                 },

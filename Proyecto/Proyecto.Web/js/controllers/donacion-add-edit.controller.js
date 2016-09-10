@@ -17,6 +17,7 @@
         vm.categorias_config = {};
         vm.tipo_config = {};
         vm.tipo_options = [];
+        vm.isNew = true;
 
         //Methods:
         vm.save = save;
@@ -24,6 +25,10 @@
         activate();
 
         function activate() {
+            if ($stateParams.id) {
+                vm.isNew = false;
+            }
+
             vm.usuarioLogueado = SessionStorageService.get('usuario');
             vm.donacion = {
                 id_necesidad: 1,
@@ -65,7 +70,6 @@
                 categorias: [1, 2, 3]
             };
 
-            
             ServerService.getCategorias()
                 .then(function (response) {
                     vm.categorias = [];
@@ -77,6 +81,7 @@
                 function (responseError) {
                     console.log(responseError);
                 });
+
             vm.categorias_config = {
                 plugins: {
                     'remove_button': {
@@ -155,6 +160,10 @@
                 categoria: 'ropa',
                 imagen_path: 'null'
             };
+
+            if (!vm.isNew) {
+                request.id_necesidad = $stateParams.id;
+            }
             //var request = {
             //    titulo: 'Necesidad de prueba',
             //    necesidad: 'esta es una necesidad de prueba',
@@ -169,7 +178,7 @@
             //    categoria: 'ropa',
             //    imagen_path: 'null'
             //};
-            ServerService.addDonacion(request)
+            ServerService.saveDonacion(request)
                 .then(function (response) {
                     console.log(response);
                 },

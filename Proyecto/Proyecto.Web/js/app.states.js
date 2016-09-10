@@ -133,7 +133,21 @@
                         }
                     }
                 })
-            // -- DASHBOARD --
+                .state("restricted.donacion-edit", {
+                    url: "/Donacion/Editar/{id}",
+                    controller: 'DonacionAddEditController',
+                    controllerAs: 'vm',
+                    templateUrl: 'app/views/donacion/add-edit.html',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                'assets/js/custom/uikit_fileinput.min.js',
+                                'lazy_dropify'
+                            ], { serie: true });
+                        }]
+                    }
+                })
+                // -- DASHBOARD --
                 .state("restricted.dashboard", {
                     url: "/",
                     templateUrl: 'app/components/dashboard/dashboardView.html',
