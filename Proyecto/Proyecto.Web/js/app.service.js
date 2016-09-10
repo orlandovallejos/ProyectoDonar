@@ -103,6 +103,9 @@
             return $http.get('http://soydonar.com/webservices/webresources/NecesidadInfo/' + id)
                 .then(function (response) {
                     return response.data;
+                },
+                function(responseError){
+                    return responseError;
                 });
         }
 

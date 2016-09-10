@@ -600,7 +600,7 @@
 
         vm.alerts_length = vm.user_data.alerts.length;
         vm.messages_length = vm.user_data.messages.length;
-        vm.username = '';
+        vm.usuario={};
 
         //Methods
         activate();
@@ -616,7 +616,7 @@
 
             if (usuario) {
                 vm.isUserLogged = true;
-                vm.username = usuario.usuario;
+                vm.usuario = usuario;
             }
         }
         //Method definitions

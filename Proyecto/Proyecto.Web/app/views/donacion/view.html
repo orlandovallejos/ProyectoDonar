@@ -35,7 +35,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <a ng-if="vm.isCreatedUser" class="md-fab md-fab-small md-fab-accent" ui-sref="restricted.pages.user_edit">
+                        <a ng-if="vm.isCreatedUser" class="md-fab md-fab-small md-fab-accent" ng-click="vm.editar()">
                             <i class="material-icons">&#xE150;</i>
                         </a>
                     </div>
@@ -133,7 +133,7 @@
                                     <li ng-repeat="c in vm.donacion.lista_coment">
                                         <article class="uk-comment">
                                             <header class="uk-comment-header">
-                                                <img class="md-user-image uk-comment-avatar" src="assets/img/avatars/avatar_08_tn.png" alt="">
+                                                <img class="md-user-image uk-comment-avatar" ng-src="http://www.soydonar.com/imagenes/usuarios/{{c.imagen_path}}" alt="">
                                                 <h4 class="uk-comment-title">{{c.usuario}}</h4>
                                                 <div class="uk-comment-meta">{{c.fecha}}</div>
                                             </header>

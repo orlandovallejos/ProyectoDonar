@@ -36,13 +36,13 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="md-fab-wrapper">
+                            <div ng-if="vm.isCreatedUser" class="md-fab-wrapper">
                                 <div class="md-fab md-fab-toolbar md-fab-small md-fab-accent" md-fab-toolbar>
                                     <i class="material-icons">&#xE8BE;</i>
                                     <div class="md-fab-toolbar-actions">
-                                        <button id="user_edit_save" data-uk-tooltip="{cls:'uk-tooltip-small',pos:'bottom'}" title="Save" ng-click="vm.save()" ><i class="material-icons md-color-white">&#xE161;</i></button>
+                                        <button id="user_edit_save" data-uk-tooltip="{cls:'uk-tooltip-small',pos:'bottom'}" title="Guardar" ng-click="vm.save()" ><i class="material-icons md-color-white">&#xE161;</i></button>
                                         <!--<button type="submit" id="user_edit_print" data-uk-tooltip="{cls:'uk-tooltip-small',pos:'bottom'}" title="Print"><i class="material-icons md-color-white">&#xE555;</i></button>-->
-                                        <button id="user_edit_delete" data-uk-tooltip="{cls:'uk-tooltip-small',pos:'bottom'}" title="Delete"><i class="material-icons md-color-white">&#xE872;</i></button>
+                                        <!--<button id="user_edit_delete" data-uk-tooltip="{cls:'uk-tooltip-small',pos:'bottom'}" title="Eliminar"><i class="material-icons md-color-white">&#xE872;</i></button>-->
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                                                             <span class="uk-input-group-addon">
                                                                 <i class="md-list-addon-icon material-icons">&#xE0CD;</i>
                                                             </span>
-                                                            <label>Phone Number</label>
+                                                            <label>Telefono</label>
                                                             <input type="text" class="md-input" name="user_edit_phone" ng-model="vm.donacion.telefono" md-input />
                                                         </div>
                                                     </div>
@@ -201,6 +201,9 @@
                                 Portada
                             </h3>
                             <input type="file" id="input-file-a" class="dropify" />
+                            <input type="text" ng-model="name">
+                            <input type="file" file-model="imagen" />
+                            <!--<input type="file" ng-model="vm.imagen"/>-->
                             <!--</div>
                             </div>-->
 

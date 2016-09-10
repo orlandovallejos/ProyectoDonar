@@ -5,9 +5,9 @@
         .module('donarApp')
         .controller('DonacionAddEditController', DonacionAddEditController);
 
-    DonacionAddEditController.$inject = ['$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
+    DonacionAddEditController.$inject = ['fileUpload','$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
 
-    function DonacionAddEditController($rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
+    function DonacionAddEditController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
         var vm = this;
 
         //Variables
@@ -18,6 +18,7 @@
         vm.tipo_config = {};
         vm.tipo_options = [];
         vm.isNew = true;
+        vm.imagen = {};
 
         //Methods:
         vm.save = save;
@@ -166,6 +167,19 @@
         }
 
         function save() {
+            // console.log($('input-file-a'));
+            // console.dir(vm.imagen);
+
+            var file = $scope.imagen;
+            console.log('file is ' );
+            console.dir(file);
+
+            var uploadUrl = "../subir_imagen.php";
+            var text = 'nuevafoto';
+            fileUpload.uploadFileToUrl(file, uploadUrl, text);
+
+            return;
+
             var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
             var pad = "00";
             dia = pad.substring(0, pad.length - dia.toString().length) + dia;
@@ -214,3 +228,43 @@
         }
     }
 })();
+
+
+
+
+angular
+    .module('donarApp').directive('fileModel', ['$parse', function ($parse) {
+    return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+        var model = $parse(attrs.fileModel);
+        var modelSetter = model.assign;
+
+        element.bind('change', function(){
+            scope.$apply(function(){
+                modelSetter(scope, element[0].files[0]);
+            });
+        });
+    }
+   };
+}]);
+
+// We can write our own fileUpload service to reuse it in the controller
+angular
+    .module('donarApp').service('fileUpload', ['$http', function ($http) {
+    this.uploadFileToUrl = function(file, uploadUrl, name){
+         var fd = new FormData();
+         fd.append('file', file);
+         fd.append('name', name);
+         $http.post(uploadUrl, fd, {
+             transformRequest: angular.identity,
+             headers: {'Content-Type': undefined,'Process-Data': false}
+         })
+         .success(function(){
+            console.log("Success");
+         })
+         .error(function(){
+            console.log("Success");
+         });
+     }
+ }]);

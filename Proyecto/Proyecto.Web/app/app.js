@@ -735,7 +735,7 @@
 
         vm.alerts_length = vm.user_data.alerts.length;
         vm.messages_length = vm.user_data.messages.length;
-        vm.username = '';
+        vm.usuario={};
 
         //Methods
         activate();
@@ -751,7 +751,7 @@
 
             if (usuario) {
                 vm.isUserLogged = true;
-                vm.username = usuario.usuario;
+                vm.usuario = usuario;
             }
         }
         //Method definitions
@@ -2793,6 +2793,9 @@
             return $http.get('http://soydonar.com/webservices/webresources/NecesidadInfo/' + id)
                 .then(function (response) {
                     return response.data;
+                },
+                function(responseError){
+                    return responseError;
                 });
         }
 
@@ -4287,9 +4290,9 @@
         .module('donarApp')
         .controller('DonacionAddEditController', DonacionAddEditController);
 
-    DonacionAddEditController.$inject = ['$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
+    DonacionAddEditController.$inject = ['fileUpload','$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
 
-    function DonacionAddEditController($rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
+    function DonacionAddEditController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
         var vm = this;
 
         //Variables
@@ -4300,6 +4303,7 @@
         vm.tipo_config = {};
         vm.tipo_options = [];
         vm.isNew = true;
+        vm.imagen = {};
 
         //Methods:
         vm.save = save;
@@ -4448,6 +4452,19 @@
         }
 
         function save() {
+            // console.log($('input-file-a'));
+            // console.dir(vm.imagen);
+
+            var file = $scope.imagen;
+            console.log('file is ' );
+            console.dir(file);
+
+            var uploadUrl = "../subir_imagen.php";
+            var text = 'nuevafoto';
+            fileUpload.uploadFileToUrl(file, uploadUrl, text);
+
+            return;
+
             var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
             var pad = "00";
             dia = pad.substring(0, pad.length - dia.toString().length) + dia;
@@ -4496,15 +4513,55 @@
         }
     }
 })();
+
+
+
+
+angular
+    .module('donarApp').directive('fileModel', ['$parse', function ($parse) {
+    return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+        var model = $parse(attrs.fileModel);
+        var modelSetter = model.assign;
+
+        element.bind('change', function(){
+            scope.$apply(function(){
+                modelSetter(scope, element[0].files[0]);
+            });
+        });
+    }
+   };
+}]);
+
+// We can write our own fileUpload service to reuse it in the controller
+angular
+    .module('donarApp').service('fileUpload', ['$http', function ($http) {
+    this.uploadFileToUrl = function(file, uploadUrl, name){
+         var fd = new FormData();
+         fd.append('file', file);
+         fd.append('name', name);
+         $http.post(uploadUrl, fd, {
+             transformRequest: angular.identity,
+             headers: {'Content-Type': undefined,'Process-Data': false}
+         })
+         .success(function(){
+            console.log("Success");
+         })
+         .error(function(){
+            console.log("Success");
+         });
+     }
+ }]);
 (function () {
     "use strict";
     angular
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$rootScope', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
+    DonacionController.$inject = ['$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
 
-    function DonacionController($rootScope, $stateParams, $scope, user_data, SessionStorageService, ServerService) {
+    function DonacionController($rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService) {
         var vm = this;
 
         //Variables
@@ -4557,7 +4614,8 @@
 
         //Methods
         vm.addComment = addComment;
-
+        vm.editar = editar;
+        
         activate();
 
         function activate() {
@@ -4601,6 +4659,10 @@
                 function (responseError) {
                     console.log(responseError);
                 });
+        }
+
+        function editar(){
+            $state.go('restricted.donacion-edit',{id: $stateParams.id});
         }
     }
 })();
