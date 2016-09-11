@@ -49,7 +49,7 @@
                             defaultFile: 'http://www.soydonar.com/imagenes/necesidades/' + vm.donacion.imagen_path
                         })
                         .on('dropify.afterClear', function(event, element){
-                            alert('File deleted');
+                            $scope.imagen=null;
                             console.log($scope.imagen);
                         });
                     }
@@ -64,7 +64,7 @@
                             defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
                         })
                         .on('dropify.afterClear', function(event, element){
-                            alert('File deleted');
+                            $scope.imagen=null;
                             console.log($scope.imagen);
                         });
                     }
@@ -175,19 +175,20 @@
         }
 
         function save() {
-            // console.log($('input-file-a'));
-            // console.dir(vm.imagen);
-
             var file = $scope.imagen;
-            console.log('file is ' );
-            console.dir(file);
-
             var uploadUrl = "../subir_imagen.php";
-            var folder = '';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
-            console.log(folder);
-            fileUpload.uploadFileToUrl(file, uploadUrl, folder);
-
-            return;
+            var folder = 'necesidades';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
+            var fileName = null;
+            if(file) {
+                fileName = file.name;
+                fileUpload.uploadFileToUrl(file, uploadUrl, folder)
+                .success(function() {
+                    console.log("Success");
+                })
+                .error(function() {
+                    console.log("Success");
+                });
+            }
 
             var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
             var pad = "00";
@@ -207,7 +208,7 @@
                 direccion: vm.donacion.direccion,
                 email: vm.donacion.email,
                 categoria: 'ropa',
-                imagen_path: 'null'
+                imagen_path: fileName
             };
 
             if (!vm.isNew) {
@@ -265,15 +266,9 @@ angular
          var fd = new FormData();
          fd.append('file', file);
          fd.append('folder', folder);
-         $http.post(uploadUrl, fd, {
+         return $http.post(uploadUrl, fd, {
              transformRequest: angular.identity,
              headers: {'Content-Type': undefined,'Process-Data': false}
-         })
-         .success(function(){
-            console.log("Success");
-         })
-         .error(function(){
-            console.log("Success");
          });
      }
  }]);

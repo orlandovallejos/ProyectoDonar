@@ -134,7 +134,7 @@
             if(request.id_necesidad){
                 return $http.post('http://soydonar.com/webservices/webresources/editNecesidad/edit', JSON.stringify(request))
                     .then(function (response) {
-                        console.log('Donacion add');
+                        console.log('Donacion edit');
                         console.log(response);
                         return response.data;
                     },
