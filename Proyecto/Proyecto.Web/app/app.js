@@ -4332,6 +4332,10 @@
                                 error: 'Hubo un error'
                             },
                             defaultFile: 'http://www.soydonar.com/imagenes/necesidades/' + vm.donacion.imagen_path
+                        })
+                        .on('dropify.afterClear', function(event, element){
+                            alert('File deleted');
+                            console.log($scope.imagen);
                         });
                     }
                     else{
@@ -4343,6 +4347,10 @@
                                 error: 'Hubo un error'
                             },
                             defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
+                        })
+                        .on('dropify.afterClear', function(event, element){
+                            alert('File deleted');
+                            console.log($scope.imagen);
                         });
                     }
                 });
@@ -4460,8 +4468,9 @@
             console.dir(file);
 
             var uploadUrl = "../subir_imagen.php";
-            var text = 'nuevafoto';
-            fileUpload.uploadFileToUrl(file, uploadUrl, text);
+            var folder = '';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
+            console.log(folder);
+            fileUpload.uploadFileToUrl(file, uploadUrl, folder);
 
             return;
 
@@ -4475,7 +4484,7 @@
                 titulo: vm.donacion.titulo,
                 necesidad: vm.donacion.necesidad,
                 fecha_creacion: fecha,
-                fecha_fin: '0000-00-00', //si no tiene fecha de fin mandas esa fecha
+                fecha_fin: null,
                 telefono: vm.donacion.telefono,
                 facebook: vm.donacion.facebook,
                 twitter: vm.donacion.twitter,
@@ -4537,10 +4546,10 @@ angular
 // We can write our own fileUpload service to reuse it in the controller
 angular
     .module('donarApp').service('fileUpload', ['$http', function ($http) {
-    this.uploadFileToUrl = function(file, uploadUrl, name){
+    this.uploadFileToUrl = function(file, uploadUrl, folder){
          var fd = new FormData();
          fd.append('file', file);
-         fd.append('name', name);
+         fd.append('folder', folder);
          $http.post(uploadUrl, fd, {
              transformRequest: angular.identity,
              headers: {'Content-Type': undefined,'Process-Data': false}
