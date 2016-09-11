@@ -4493,7 +4493,9 @@
                 direccion: vm.donacion.direccion,
                 email: vm.donacion.email,
                 categoria: 'ropa',
-                imagen_path: fileName
+                imagen_path: fileName,
+                dineroTotal: vm.donacion.dineroTotal,
+                dineroRecaudado: vm.donacion.dineroRecaudado
             };
 
             if (!vm.isNew) {
