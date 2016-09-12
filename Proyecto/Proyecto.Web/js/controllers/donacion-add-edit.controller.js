@@ -22,6 +22,7 @@
 
         //Methods:
         vm.save = save;
+        vm.subirImagen = subirImagen;
 
         activate();
 
@@ -29,6 +30,17 @@
             if ($stateParams.id) {
                 vm.isNew = false;
 
+                $('#input-file-a-galeria').dropify({
+                            messages: {
+                                default: 'Imagen default',
+                                replace: 'Haga click para reemplazar',
+                                remove: 'Eliminar',
+                                error: 'Hubo un error'
+                            }
+                        })
+                        .on('dropify.afterClear', function(event, element){
+                            $scope.imagenGaleria=null;
+                        });
                 ServerService.getDonacion($stateParams.id)
                 .then(function (data) {
                     console.log(data);
@@ -50,7 +62,6 @@
                         })
                         .on('dropify.afterClear', function(event, element){
                             $scope.imagen=null;
-                            console.log($scope.imagen);
                         });
                     }
                     else{
@@ -65,7 +76,6 @@
                         })
                         .on('dropify.afterClear', function(event, element){
                             $scope.imagen=null;
-                            console.log($scope.imagen);
                         });
                     }
                 });
@@ -183,10 +193,10 @@
                 fileName = file.name;
                 fileUpload.uploadFileToUrl(file, uploadUrl, folder)
                 .success(function() {
-                    console.log("Success");
+                    console.log("Acaba de subir la imagen");
                 })
                 .error(function() {
-                    console.log("Success");
+                    console.log("Error al subir la imagen");
                 });
             }
 
@@ -237,6 +247,39 @@
                 function (responseError) {
                     console.log(responseError);
                 });
+        }
+
+        function subirImagen(){
+            var file = $scope.imagenGaleria;
+            var uploadUrl = "../subir_imagen.php";
+            var folder = 'galeria/' + $stateParams.id;
+            var fileName = null;
+            if(file) {
+                fileName = file.name;
+                fileUpload.uploadFileToUrl(file, uploadUrl, folder)
+                .success(function() {
+                    console.log("Acaba de subir la imagen");
+
+                    //Esto sirve para listar las imagenes:
+                    var fd = new FormData();
+                    fd.append('folder', folder);
+                    $http.post('../get_files.php', fd, {
+                        transformRequest: angular.identity,
+                        headers: {'Content-Type': undefined,'Process-Data': false}
+                    })
+                    .success(function(response) {
+                        console.log("Lista la imagen");
+                        console.log(response);
+                    })
+                    .error(function(responseError) {
+                        console.log("Error al listar la imagen");
+                        console.log(responseError);
+                    });
+                })
+                .error(function() {
+                    console.log("Error al subir la imagen");
+                });
+            }
         }
     }
 })();

@@ -50,6 +50,7 @@
                         <div class="user_content">
                             <ul id="user_edit_tabs" class="uk-tab" data-uk-tab="{connect:'#user_edit_tabs_content'}">
                                 <li class="uk-active"><a href="#">Detalles</a></li>
+                                <li><a href="#">Fotos</a></li>
                                 <!--<li><a href="#">Groups</a></li>
                                 <li><a href="#">Todo</a></li>-->
                             </ul>
@@ -139,39 +140,19 @@
                                         </div>
                                     </div>
                                 </li>
-                                <!--<li>
-                                    <p class="uk-text-muted uk-text-small">Move the draggable group by clicking and holding handler and drag it to other list.</p>
-                                    <div class="uk-grid" data-uk-grid-margin>
-                                        <div class="uk-width-medium-1-2">
-                                            <h4 class="heading_c uk-margin-small-bottom">My groups</h4>
-                                            <ul class="md-list md-list-addon uk-sortable groups_connected" id="user_groups">
-                                                <li data-group-id="group.id" ng-repeat="group in vm.user_data.groups">
-                                                    <div class="md-list-addon-element sortable-handler">
-                                                        <i class="md-list-addon-icon material-icons">&#xE5D2;</i>
-                                                    </div>
-                                                    <div class="md-list-content">
-                                                        <span class="md-list-heading"><a href="#">{{group.name}}</a></span>
-                                                        <span class="uk-text-small uk-text-muted">{{group.members}} Members</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                <li>
+                                   <div class="uk-margin-top">
+                                        <h3 class="full_width_in_card heading_c">
+                                            Fotos
+                                        </h3>
+                                        <label for="titulo">Suba sus fotos</label>
+                                        <br>
+                                        <div class="uk-form-file md-btn md-btn-primary">
+                                            Buscar
+                                            <input id="form-file" type="file" file-model="imagenGaleria">
                                         </div>
-                                        <div class="uk-width-medium-1-2">
-                                            <h4 class="heading_c uk-margin-small-bottom">All Groups</h4>
-                                            <ul class="md-list md-list-addon uk-sortable groups_connected" id="all_groups">
-                                                <li data-group-id="group.id" ng-repeat="group in vm.all_groups">
-                                                    <div class="md-list-addon-element sortable-handler">
-                                                        <i class="md-list-addon-icon material-icons">&#xE5D2;</i>
-                                                    </div>
-                                                    <div class="md-list-content">
-                                                        <span class="md-list-heading"><a href="#">{{group.name}}</a></span>
-                                                        <span class="uk-text-small uk-text-muted">{{group.members}} Members</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        <a ng-click="vm.subirImagen()">Subir</a>
                                     </div>
-                                    <input name="user_groups_control" id="user_groups_control" type="hidden"/>
                                 </li>
                                 <li>
                                     <ul class="md-list md-list-addon" id="user_todo">
@@ -185,7 +166,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </li>-->
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -195,18 +176,10 @@
                         <div class="md-card-content">
                             <h3 class="heading_c uk-margin-bottom">Informacion adicional</h3>
 
-                            <!--<div class="md-card">
-                                <div class="md-card-content">-->
                             <h3 class="heading_a uk-margin-small-bottom">
                                 Portada
                             </h3>
                             <input type="file" id="input-file-a" class="dropify" file-model="imagen" />
-                            <!--<input type="text" ng-model="name">
-                            <input type="file" file-model="imagen" />-->
-                            <!--<input type="file" ng-model="vm.imagen"/>-->
-                            <!--</div>
-                            </div>-->
-
 
                             <hr class="md-hr">
                             <div class="uk-form-row">
