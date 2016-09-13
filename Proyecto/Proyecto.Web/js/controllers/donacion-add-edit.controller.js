@@ -188,7 +188,7 @@
             var file = $scope.imagen;
             var uploadUrl = "../subir_imagen.php";
             var folder = 'necesidades';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
-            var fileName = null;
+            var fileName = vm.donacion.imagen_path;
             if(file) {
                 fileName = file.name;
                 fileUpload.uploadFileToUrl(file, uploadUrl, folder)
@@ -243,6 +243,13 @@
             ServerService.saveDonacion(request)
                 .then(function (response) {
                     console.log(response);
+
+                    UIkit.notify({
+                        message : '<i class="uk-icon-check"></i> Se ha guardado con éxito!',
+                        status  : 'success',
+                        timeout : 5000,
+                        pos     : 'top-right'
+                    });
                 },
                 function (responseError) {
                     console.log(responseError);

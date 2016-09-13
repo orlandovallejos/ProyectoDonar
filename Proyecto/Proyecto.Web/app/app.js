@@ -4473,7 +4473,7 @@
             var file = $scope.imagen;
             var uploadUrl = "../subir_imagen.php";
             var folder = 'necesidades';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
-            var fileName = null;
+            var fileName = vm.donacion.imagen_path;
             if(file) {
                 fileName = file.name;
                 fileUpload.uploadFileToUrl(file, uploadUrl, folder)
@@ -4528,6 +4528,13 @@
             ServerService.saveDonacion(request)
                 .then(function (response) {
                     console.log(response);
+
+                    UIkit.notify({
+                        message : '<i class="uk-icon-check"></i> Se ha guardado con éxito!',
+                        status  : 'success',
+                        timeout : 5000,
+                        pos     : 'top-right'
+                    });
                 },
                 function (responseError) {
                     console.log(responseError);
@@ -4608,7 +4615,7 @@ angular
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$window','$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
+    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
 
     function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService) {
         var vm = this;
@@ -4664,8 +4671,8 @@ angular
         //Methods
         vm.addComment = addComment;
         vm.editar = editar;
-        vm.pagarMercadoPago = pagarMercadoPago; 
-        
+        vm.pagarMercadoPago = pagarMercadoPago;
+
         activate();
 
         function activate() {
@@ -4702,7 +4709,7 @@ angular
             ServerService.addComment(request)
                 .then(function (response) {
                     console.log(response);
-
+                    request.imagen_path = vm.usuarioLogueado.imagen_path;
                     vm.donacion.lista_coment.push(request);
                     vm.comentario = '';
                 },
@@ -4711,11 +4718,11 @@ angular
                 });
         }
 
-        function editar(){
-            $state.go('restricted.donacion-edit',{id: $stateParams.id});
+        function editar() {
+            $state.go('restricted.donacion-edit', { id: $stateParams.id });
         }
 
-        function pagarMercadoPago(){
+        function pagarMercadoPago() {
             console.log('Hacer accion en el server...');
             $window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
         }

@@ -4,7 +4,7 @@
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$window','$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
+    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
 
     function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService) {
         var vm = this;
@@ -60,8 +60,8 @@
         //Methods
         vm.addComment = addComment;
         vm.editar = editar;
-        vm.pagarMercadoPago = pagarMercadoPago; 
-        
+        vm.pagarMercadoPago = pagarMercadoPago;
+
         activate();
 
         function activate() {
@@ -98,7 +98,7 @@
             ServerService.addComment(request)
                 .then(function (response) {
                     console.log(response);
-
+                    request.imagen_path = vm.usuarioLogueado.imagen_path;
                     vm.donacion.lista_coment.push(request);
                     vm.comentario = '';
                 },
@@ -107,11 +107,11 @@
                 });
         }
 
-        function editar(){
-            $state.go('restricted.donacion-edit',{id: $stateParams.id});
+        function editar() {
+            $state.go('restricted.donacion-edit', { id: $stateParams.id });
         }
 
-        function pagarMercadoPago(){
+        function pagarMercadoPago() {
             console.log('Hacer accion en el server...');
             $window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
         }
