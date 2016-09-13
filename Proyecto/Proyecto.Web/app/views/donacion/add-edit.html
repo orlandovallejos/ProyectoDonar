@@ -135,6 +135,20 @@
                                                             <input type="text" class="md-input" name="direccion" ng-model="vm.donacion.direccion" md-input />
                                                         </div>
                                                     </div>
+                                                    <div>
+                                                        <div class="uk-input-group">
+                                                            <span class="uk-input-group-addon">
+                                                                <i class="md-list-addon-icon uk-icon-calendar" style="color:#444"></i>
+                                                            </span>
+                                                            <label>Fecha de fin</label>
+                                                            <input class="md-input" type="text" id="uk_dp_1" 
+                                                            data-uk-datepicker="{
+                                                                 i18n:{months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'], 
+                                                                 weekdays: ['Lu','Ma','Mi','Ju','Vi','Sa','Do']},
+                                                                 format:'YYYY-MM-DD'}" md-input ng-model="vm.donacion.fecha_fin">
+                                                        </div>
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>

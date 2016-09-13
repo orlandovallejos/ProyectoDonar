@@ -4470,6 +4470,7 @@
         }
 
         function save() {
+
             var file = $scope.imagen;
             var uploadUrl = "../subir_imagen.php";
             var folder = 'necesidades';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
@@ -4495,7 +4496,7 @@
                 titulo: vm.donacion.titulo,
                 necesidad: vm.donacion.necesidad,
                 fecha_creacion: fecha,
-                fecha_fin: null,
+                fecha_fin: vm.donacion.fecha_fin,
                 telefono: vm.donacion.telefono,
                 facebook: vm.donacion.facebook,
                 twitter: vm.donacion.twitter,
@@ -4511,20 +4512,7 @@
             if (!vm.isNew) {
                 request.id_necesidad = $stateParams.id;
             }
-            //var request = {
-            //    titulo: 'Necesidad de prueba',
-            //    necesidad: 'esta es una necesidad de prueba',
-            //    fecha_creacion: '1992-05-07',
-            //    fecha_fin: '0000-00-00', //si no tiene fecha de fin mandas esa fecha
-            //    telefono: '1536078453',
-            //    facebook: 'null',
-            //    twitter: 'null',
-            //    usuario: 'juan@gmail.com',
-            //    direccion: 'vicente lopez 376,Mor�n',
-            //    email: 'juan@gmail.com',
-            //    categoria: 'ropa',
-            //    imagen_path: 'null'
-            //};
+            
             ServerService.saveDonacion(request)
                 .then(function (response) {
                     console.log(response);
