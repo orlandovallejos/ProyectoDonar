@@ -61,6 +61,7 @@
         vm.addComment = addComment;
         vm.editar = editar;
         vm.pagarMercadoPago = pagarMercadoPago;
+        vm.addFavorite = addFavorite;
 
         activate();
 
@@ -114,6 +115,22 @@
         function pagarMercadoPago() {
             console.log('Hacer accion en el server...');
             $window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
+        }
+
+        function addFavorite(){
+            ServerService.addFavorite(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
+                .then(function (response) {
+                    console.log(response);
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se agregó a la lista de favoritos!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
         }
     }
 })();
