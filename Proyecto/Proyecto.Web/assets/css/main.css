@@ -13603,3 +13603,13 @@ body {
     top: 15px;
     position: relative;
 }
+
+#menu_top > li > a.donacion-alta {
+    background: #00b650;
+    color: #ffffff;
+}
+
+#menu_top > li > a.donacion-alta:hover {
+    background: #079445;
+    color: #ffffff;
+}

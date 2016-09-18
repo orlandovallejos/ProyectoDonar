@@ -101,14 +101,14 @@
             };
 
             ServerService.login(request)
-            .then(function (response) {
-                console.log(response);
-                if (response.contrasenia) {
-                    SessionStorageService.set('usuario', response);
+                .then(function (response) {
+                    console.log(response);
+                    if (response.contrasenia) {
+                        SessionStorageService.set('usuario', response);
 
-                    $state.go('restricted.home');
-                }
-            });
+                        $state.go('restricted.home');
+                    }
+                });
         }
 
         function register() {
@@ -120,10 +120,17 @@
             };
 
             ServerService.register(request)
-            .then(function () {
-                //Redireccionar al login.
-                login_form_show();
-            });
+                .then(function () {
+                    //Redireccionar al login.
+                    login_form_show();
+
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se ha registrado con éxito!\nIngrese al sistema.',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+                });
         }
     }
 })();

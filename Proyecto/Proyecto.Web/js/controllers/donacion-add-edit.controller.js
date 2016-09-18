@@ -84,6 +84,10 @@
                     });
             }
             else {
+                if (!vm.usuarioLogueado) {
+                    $state.go('restricted.home');
+                }
+
                 vm.donacion.avatar = vm.usuarioLogueado.imagen_path;
                 vm.donacion.cant_likes = 0;
                 vm.donacion.cant_fotos = 0;
