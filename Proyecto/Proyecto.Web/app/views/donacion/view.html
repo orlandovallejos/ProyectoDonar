@@ -87,6 +87,15 @@
                                                     <span class="uk-text-small uk-text-muted">Twitter</span>
                                                 </div>
                                             </li>
+                                            <li ng-if="vm.donacion.usuarioMercadoPago">
+                                                <div class="md-list-addon-element">
+                                                    <i class="md-list-addon-icon uk-icon-dollar"></i>
+                                                </div>
+                                                <div class="md-list-content">
+                                                    <span class="md-list-heading">{{vm.donacion.usuarioMercadoPago}}</span>
+                                                    <span class="uk-text-small uk-text-muted">Usuario de Mercado Pago</span>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="uk-width-large-1-2">
@@ -203,24 +212,24 @@
                                         </a>
                                     </span>
                                 </div>
-                                <div ng-if="vm.donacion.categoria == 'DINERO'" class="uk-width-large-1-2">
+                            </div>
+                            <div ng-if="vm.donacion.categoria.toUpperCase() == 'DINERO'"  class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+                                <div class="uk-width-large-1-2">
+                                    <span class="uk-input-group-addon">
+                                        <a class="md-btn md-btn-primary" ng-click="vm.pagarMercadoPago()">
+                                            <i class="uk-icon-dollar"></i>
+                                            Mercado Pago
+                                        </a>
+                                    </span>
+                                </div>
+                                <!--<div class="uk-width-large-1-2">
                                     <span class="uk-input-group-addon">
                                         <a class="md-btn md-btn-primary" href="#">
                                             <i class="uk-icon-dollar"></i>
                                             Donar
                                         </a>
                                     </span>
-                                </div>
-                            </div>
-                            <div class="uk-grid" data-uk-grid-margin data-uk-grid-match>
-                                <div class="uk-width-large-1-2">
-                                    <span class="uk-input-group-addon">
-                                        <a class="md-btn md-btn-primary" ng-click="vm.pagarMercadoPago()">
-                                            <i class="uk-icon-heart"></i>
-                                            Mercado Pago
-                                        </a>
-                                    </span>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>

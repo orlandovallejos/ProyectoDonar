@@ -4328,14 +4328,15 @@
 
             if ($stateParams.id) {
                 vm.isNew = false;
-                if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
-                    vm.isCreatedUser = true;
-                }
 
                 ServerService.getDonacion($stateParams.id)
                     .then(function (data) {
                         console.log(data);
                         vm.donacion = data;
+
+                        if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
+                            vm.isCreatedUser = true;
+                        }
 
                         if (vm.donacion.imagen_path) {
                             $('.dropify').dropify({
@@ -4395,6 +4396,11 @@
                     for (var i = 0; i < response.length; i++) {
                         vm.categorias.push({ id: response[i], title: response[i] });
                     }
+
+                    vm.tipo_options = [];
+                    for (var i = 0; i < response.length; i++) {
+                        vm.tipo_options.push({ value: response[i], title: response[i] });
+                    }
                 },
                 function (responseError) {
                     console.log(responseError);
@@ -4424,8 +4430,6 @@
                 placeholder: 'Seleccionar categoria...'
             };
 
-
-
             vm.tipo_config = {
                 valueField: 'value',
                 labelField: 'title',
@@ -4433,21 +4437,6 @@
                 maxItems: 1,
                 placeholder: 'Seleccionar...'
             };
-
-            vm.tipo_options = [
-                {
-                    "value": "monetaria",
-                    "title": "Monetaria"
-                },
-                {
-                    "value": "voluntariado",
-                    "title": "Voluntariado"
-                },
-                {
-                    "value": "donacion",
-                    "title": "Donacion"
-                }
-            ];
         }
 
         function save() {
@@ -4484,10 +4473,11 @@
                 usuario: vm.usuarioLogueado.usuario,
                 direccion: vm.donacion.direccion,
                 email: vm.donacion.email,
-                categoria: 'ropa',
+                categoria: vm.donacion.categoria,
                 imagen_path: fileName,
                 dineroTotal: vm.donacion.dineroTotal,
-                dineroRecaudado: vm.donacion.dineroRecaudado
+                dineroRecaudado: vm.donacion.dineroRecaudado,
+                usuarioMercadoPago: vm.donacion.usuarioMercadoPago
             };
 
             if (!vm.isNew) {

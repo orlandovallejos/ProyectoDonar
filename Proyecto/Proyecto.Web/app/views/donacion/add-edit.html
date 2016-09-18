@@ -40,7 +40,7 @@
                                 <div class="md-fab md-fab-toolbar md-fab-small md-fab-accent" md-fab-toolbar>
                                     <i class="material-icons">&#xE8BE;</i>
                                     <div class="md-fab-toolbar-actions">
-                                        <button id="user_edit_save" data-uk-tooltip="{cls:'uk-tooltip-small',pos:'bottom'}" title="Guardar" ng-click="vm.save()" ><i class="material-icons md-color-white">&#xE161;</i></button>
+                                        <button id="user_edit_save" data-uk-tooltip="{cls:'uk-tooltip-small',pos:'bottom'}" title="Guardar" ng-click="vm.save()"><i class="material-icons md-color-white">&#xE161;</i></button>
                                         <!--<button type="submit" id="user_edit_print" data-uk-tooltip="{cls:'uk-tooltip-small',pos:'bottom'}" title="Print"><i class="material-icons md-color-white">&#xE555;</i></button>-->
                                         <!--<button id="user_edit_delete" data-uk-tooltip="{cls:'uk-tooltip-small',pos:'bottom'}" title="Eliminar"><i class="material-icons md-color-white">&#xE872;</i></button>-->
                                     </div>
@@ -81,7 +81,8 @@
                                         </h3>
                                         <div class="uk-grid" data-uk-grid-margin>
                                             <div class="uk-width-1-1">
-                                                <selectize config="vm.categorias_config" options="vm.categorias" ng-model="vm.donacion.categorias" position="bottom" id="categorias" name="categorias"></selectize>
+                                                <selectize config="vm.categorias_config" options="vm.categorias" ng-model="vm.donacion.categorias" position="bottom" id="categorias"
+                                                    name="categorias"></selectize>
                                             </div>
                                         </div>
                                         <h3 class="full_width_in_card heading_c">
@@ -141,21 +142,28 @@
                                                                 <i class="md-list-addon-icon uk-icon-calendar" style="color:#444"></i>
                                                             </span>
                                                             <label>Fecha de fin</label>
-                                                            <input class="md-input" type="text" id="uk_dp_1" 
-                                                            data-uk-datepicker="{
+                                                            <input class="md-input" type="text" id="uk_dp_1" data-uk-datepicker="{
                                                                  i18n:{months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'], 
                                                                  weekdays: ['Lu','Ma','Mi','Ju','Vi','Sa','Do']},
                                                                  format:'YYYY-MM-DD'}" md-input ng-model="vm.donacion.fecha_fin">
                                                         </div>
                                                     </div>
-                                                    
+                                                    <div>
+                                                        <div class="uk-input-group">
+                                                            <span class="uk-input-group-addon">
+                                                                <i class="md-list-addon-icon uk-icon-dollar" style="color:#444"></i>
+                                                            </span>
+                                                            <label>Usuario de Mercado Pago</label>
+                                                            <input type="text" class="md-input" name="usuarioMercadoPago" ng-model="vm.donacion.usuarioMercadoPago" md-input />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                                 <li>
-                                   <div class="uk-margin-top">
+                                    <div class="uk-margin-top">
                                         <h3 class="full_width_in_card heading_c">
                                             Fotos
                                         </h3>
@@ -200,29 +208,33 @@
                                 <input config="vm.tipo_config" options="vm.tipo_options" ng-model="vm.donacion.categoria" name="tipo" selectize />
                             </div>
 
-                            <hr class="md-hr">
+                            <div ng-if="vm.donacion.categoria.toUpperCase() === 'DINERO'">
+                                <hr class="md-hr">
 
-                            <!--<div class="uk-width-large-1-4 uk-width-medium-1-2">-->
-                            <div class="uk-input-group">
-                                <span class="uk-input-group-addon">$</span>
-                                <div class="md-input-wrapper"><label>Objetivo</label>
-                                    <input type="text" class="md-input ng-pristine ng-valid ng-isolate-scope ng-empty md-input-processed ng-touched" ng-model="vm.donacion.dineroTotal" md-input="">
-                                    <span class="md-input-bar "></span>
+                                <!--<div class="uk-width-large-1-4 uk-width-medium-1-2">-->
+                                <div class="uk-input-group">
+                                    <span class="uk-input-group-addon">$</span>
+                                    <div class="md-input-wrapper"><label>Objetivo</label>
+                                        <input type="text" class="md-input ng-pristine ng-valid ng-isolate-scope ng-empty md-input-processed ng-touched" ng-model="vm.donacion.dineroTotal"
+                                            md-input="">
+                                        <span class="md-input-bar "></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <!--</div>-->
+                                <!--</div>-->
 
-                            <hr class="md-hr">
+                                <hr class="md-hr">
 
-                            <!--<div class="uk-width-large-1-4 uk-width-medium-1-2">-->
-                            <div class="uk-input-group">
-                                <span class="uk-input-group-addon">$</span>
-                                <div class="md-input-wrapper"><label>Recaudado</label>
-                                    <input type="text" class="md-input ng-pristine ng-valid ng-isolate-scope ng-empty md-input-processed ng-touched" ng-model="vm.donacion.dineroRecaudado" md-input="">
-                                    <span class="md-input-bar "></span>
+                                <!--<div class="uk-width-large-1-4 uk-width-medium-1-2">-->
+                                <div class="uk-input-group">
+                                    <span class="uk-input-group-addon">$</span>
+                                    <div class="md-input-wrapper"><label>Recaudado</label>
+                                        <input type="text" class="md-input ng-pristine ng-valid ng-isolate-scope ng-empty md-input-processed ng-touched" ng-model="vm.donacion.dineroRecaudado"
+                                            md-input="">
+                                        <span class="md-input-bar "></span>
+                                    </div>
                                 </div>
+                                <!--</div>-->
                             </div>
-                            <!--</div>-->
                         </div>
                     </div>
                 </div>
