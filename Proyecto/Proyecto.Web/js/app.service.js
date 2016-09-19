@@ -74,7 +74,8 @@
             addComment: addComment,
             saveDonacion: saveDonacion,
             getCategorias: getCategorias,
-            addFavorite: addFavorite
+            addFavorite: addFavorite,
+            getFavorites: getFavorites
         };
 
         return service;
@@ -171,6 +172,16 @@
         
         function addFavorite(idNecesidad, idUsuario) {
             return $http.get('http://soydonar.com/webservices/webresources/addFav/' + idNecesidad + '&' + idUsuario)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function getFavorites(idUsuario){
+            return $http.get('http://soydonar.com/webservices/webresources/verFavoritos/' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 },

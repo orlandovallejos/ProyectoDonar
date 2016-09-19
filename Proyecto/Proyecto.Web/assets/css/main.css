@@ -13613,3 +13613,15 @@ body {
     background: #079445;
     color: #ffffff;
 }
+
+/*.k-panelbar .k-header {
+    background-color: #ff7803;
+}
+
+.k-panel>li.k-item {
+    background-color: #fafafa;
+}
+
+.k-panelbar>li>.k-state-hover, .k-panelbar>li>.k-state-selected, .k-panelbar>li>.k-state-focused  {
+    background-color: #edd226;
+}*/
