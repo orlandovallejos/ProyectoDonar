@@ -217,7 +217,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div ng-if="vm.donacion.categoria.toUpperCase() == 'DINERO'" class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+                            <div ng-if="vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp" class="uk-grid" data-uk-grid-margin data-uk-grid-match>
                                 <div class="uk-width-large-1-2">
                                     <span class="uk-input-group-addon">
                                         <a class="md-btn md-btn-primary" ng-click="vm.pagarMercadoPago()">
@@ -225,6 +225,9 @@
                                             Mercado Pago
                                         </a>
                                     </span>
+                                </div>
+                                <div class="uk-width-large-1-2">
+                                    {{vm.donacion.usuario_mp}}
                                 </div>
                                 <!--<div class="uk-width-large-1-2">
                                     <span class="uk-input-group-addon">
