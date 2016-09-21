@@ -4530,7 +4530,7 @@
                 imagen_path: fileName,
                 dineroTotal: vm.donacion.dineroTotal,
                 dineroRecaudado: vm.donacion.dineroRecaudado,
-                usuarioMercadoPago: vm.donacion.usuarioMercadoPago
+                usuario_mp: vm.donacion.usuario_mp
             };
 
             if (!vm.isNew) {
