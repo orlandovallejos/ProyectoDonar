@@ -6,9 +6,19 @@
             <div class="md-card-content">
                 <div class="uk-grid" data-uk-grid-margin="">
                     <div class="uk-width-medium-4-10">
-                        <!--<label for="product_search_name">Buscar</label>-->
+                        <!--<div class="uk-input-group">-->
+                            <input type="text" class="md-input" id="product_search_name" ng-model="filter.name" md-input placeholder="Ej: Refugio de animales">
+                            <!--<span class="uk-input-group-addon">
+                                <a class="md-btn md-btn-primary" href="#">
+                                    <i class="uk-icon-search"></i>
+                                    Buscar
+                                </a>
+                            </span>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="uk-width-medium-4-10">
                         <div class="uk-input-group">
-                            <input type="text" class="md-input" id="product_search_name" ng-model="filter.name" md-input>
+                            <input config="vm.tipo_config" options="vm.tipo_options" ng-model="vm.donacion.categoria" name="tipo" selectize />
                             <span class="uk-input-group-addon">
                                 <a class="md-btn md-btn-primary" href="#">
                                     <i class="uk-icon-search"></i>
@@ -16,13 +26,6 @@
                                 </a>
                             </span>
                         </div>
-
-                        <!--<div class="uk-width-medium-2-10">
-                            <a class="md-btn md-btn-primary md-btn-wave-light md-btn-icon waves-effect waves-button waves-light" href="javascript:void(0)">
-                                <i class="uk-icon-search"></i>
-                                Buscar
-                            </a>
-                        </div>-->
                     </div>
                 </div>
             </div>

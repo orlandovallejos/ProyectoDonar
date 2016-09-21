@@ -76,7 +76,8 @@
             getCategorias: getCategorias,
             addFavorite: addFavorite,
             getFavorites: getFavorites,
-            deleteFav: deleteFav
+            deleteFav: deleteFav,
+            searchDonacion: searchDonacion
         };
 
         return service;
@@ -190,13 +191,29 @@
                     return responseError;
                 });
         }
-        
+
         function deleteFav(idDonacion, idUsuario) {
             return $http.get('http://soydonar.com/webservices/webresources/DeleteFav/' + idDonacion + '&' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 },
                 function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function searchDonacion() {
+            var request = {
+
+            };
+            return $http.post('http://soydonar.com/webservices/webresources/filtro/Nec', JSON.stringify(request))
+                .then(function (response) {
+                    console.log('Donacion edit');
+                    console.log(response);
+                    return response.data;
+                },
+                function (responseError) {
+                    console.log(responseError);
                     return responseError;
                 });
         }
