@@ -185,7 +185,7 @@
                 titulo: vm.donacion.titulo,
                 necesidad: vm.donacion.necesidad,
                 fecha_creacion: fecha,
-                fecha_fin: vm.donacion.fecha_fin,
+                fecha_fin: vm.donacion.fecha_fin || null,
                 telefono: vm.donacion.telefono,
                 facebook: vm.donacion.facebook,
                 twitter: vm.donacion.twitter,
@@ -196,7 +196,7 @@
                 imagen_path: fileName,
                 dineroTotal: vm.donacion.dineroTotal,
                 dineroRecaudado: vm.donacion.dineroRecaudado,
-                usuarioMercadoPago: vm.donacion.usuarioMercadoPago
+                usuario_mp: vm.donacion.usuario_mp
             };
 
             if (!vm.isNew) {

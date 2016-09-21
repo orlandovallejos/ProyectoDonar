@@ -2765,7 +2765,8 @@
             saveDonacion: saveDonacion,
             getCategorias: getCategorias,
             addFavorite: addFavorite,
-            getFavorites: getFavorites
+            getFavorites: getFavorites,
+            deleteFav: deleteFav
         };
 
         return service;
@@ -2859,7 +2860,7 @@
                     return responseError;
                 });
         }
-        
+
         function addFavorite(idNecesidad, idUsuario) {
             return $http.get('http://soydonar.com/webservices/webresources/addFav/' + idNecesidad + '&' + idUsuario)
                 .then(function (response) {
@@ -2870,8 +2871,18 @@
                 });
         }
 
-        function getFavorites(idUsuario){
+        function getFavorites(idUsuario) {
             return $http.get('http://soydonar.com/webservices/webresources/verFavoritos/' + idUsuario)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+        
+        function deleteFav(idDonacion, idUsuario) {
+            return $http.get('http://soydonar.com/webservices/webresources/DeleteFav/' + idDonacion + '&' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 },
@@ -4508,7 +4519,7 @@
                 titulo: vm.donacion.titulo,
                 necesidad: vm.donacion.necesidad,
                 fecha_creacion: fecha,
-                fecha_fin: vm.donacion.fecha_fin,
+                fecha_fin: vm.donacion.fecha_fin || null,
                 telefono: vm.donacion.telefono,
                 facebook: vm.donacion.facebook,
                 twitter: vm.donacion.twitter,
@@ -4762,6 +4773,7 @@ angular
         vm.favoritos = [];
 
         //Methods
+        vm.deleteFav = deleteFav;
 
         activate();
 
@@ -4776,10 +4788,29 @@ angular
                         vm.favoritos = data;
                     });
             }
+            else {
+                $state.go('restricted.home');
+            }
         }
 
         //Method definitions
+        function deleteFav(idNecesidad) {
+            ServerService.deleteFav(idNecesidad, vm.usuarioLogueado.usuario)
+                .then(function () {
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se eliminó el favorito!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
 
+                    ServerService.getFavorites(vm.usuarioLogueado.usuario)
+                        .then(function (data) {
+                            console.log(data);
+                            vm.favoritos = data;
+                        });
+                });
+        }
     }
 })();
 (function () {

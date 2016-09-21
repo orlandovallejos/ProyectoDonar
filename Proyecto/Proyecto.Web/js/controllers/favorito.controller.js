@@ -14,6 +14,7 @@
         vm.favoritos = [];
 
         //Methods
+        vm.deleteFav = deleteFav;
 
         activate();
 
@@ -28,9 +29,28 @@
                         vm.favoritos = data;
                     });
             }
+            else {
+                $state.go('restricted.home');
+            }
         }
 
         //Method definitions
+        function deleteFav(idNecesidad) {
+            ServerService.deleteFav(idNecesidad, vm.usuarioLogueado.usuario)
+                .then(function () {
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se eliminó el favorito!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
 
+                    ServerService.getFavorites(vm.usuarioLogueado.usuario)
+                        .then(function (data) {
+                            console.log(data);
+                            vm.favoritos = data;
+                        });
+                });
+        }
     }
 })();
