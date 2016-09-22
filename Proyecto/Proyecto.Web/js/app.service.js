@@ -202,9 +202,11 @@
                 });
         }
 
-        function searchDonacion() {
+        function searchDonacion(filtro, categoria) {
             var request = {
-
+                tipo: 'all',
+                clave: filtro,
+                categoria: (categoria && categoria != '') ? categoria : 'todas'
             };
             return $http.post('http://soydonar.com/webservices/webresources/filtro/Nec', JSON.stringify(request))
                 .then(function (response) {

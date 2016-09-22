@@ -10,10 +10,16 @@
     function HomeController($scope, $rootScope, ServerService, $window, SessionStorageService) {
         var vm = this;
 
+        //Variables
         vm.donaciones = [];
         vm.tipo_config = {};
         vm.tipo_options = [];
-        vm.categoriaSeleccionada = {};
+
+        vm.palabraClave = '';
+        vm.categoriaSeleccionada = '';
+
+        //Methods
+        vm.buscar = buscar;
 
         activate();
 
@@ -41,6 +47,23 @@
 
                     for (var i = 0; i < response.length; i++) {
                         vm.tipo_options.push({ value: response[i], title: response[i] });
+                    }
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function buscar() {
+            ServerService.searchDonacion(vm.palabraClave, vm.categoriaSeleccionada)
+                .then(function (response) {
+                    console.log(response);
+
+                    if (Object.prototype.toString.call(response) === '[object Array]') {
+                        vm.donaciones = response;
+                    }
+                    else {
+                        vm.donaciones = [];
                     }
                 },
                 function (responseError) {

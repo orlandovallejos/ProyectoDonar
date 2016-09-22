@@ -2766,7 +2766,8 @@
             getCategorias: getCategorias,
             addFavorite: addFavorite,
             getFavorites: getFavorites,
-            deleteFav: deleteFav
+            deleteFav: deleteFav,
+            searchDonacion: searchDonacion
         };
 
         return service;
@@ -2880,13 +2881,31 @@
                     return responseError;
                 });
         }
-        
+
         function deleteFav(idDonacion, idUsuario) {
             return $http.get('http://soydonar.com/webservices/webresources/DeleteFav/' + idDonacion + '&' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 },
                 function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function searchDonacion(filtro, categoria) {
+            var request = {
+                tipo: 'all',
+                clave: filtro,
+                categoria: (categoria && categoria != '') ? categoria : 'todas'
+            };
+            return $http.post('http://soydonar.com/webservices/webresources/filtro/Nec', JSON.stringify(request))
+                .then(function (response) {
+                    console.log('Donacion edit');
+                    console.log(response);
+                    return response.data;
+                },
+                function (responseError) {
+                    console.log(responseError);
                     return responseError;
                 });
         }
@@ -4825,10 +4844,16 @@ angular
     function HomeController($scope, $rootScope, ServerService, $window, SessionStorageService) {
         var vm = this;
 
+        //Variables
         vm.donaciones = [];
         vm.tipo_config = {};
         vm.tipo_options = [];
-        vm.categoriaSeleccionada = {};
+
+        vm.palabraClave = '';
+        vm.categoriaSeleccionada = '';
+
+        //Methods
+        vm.buscar = buscar;
 
         activate();
 
@@ -4856,6 +4881,23 @@ angular
 
                     for (var i = 0; i < response.length; i++) {
                         vm.tipo_options.push({ value: response[i], title: response[i] });
+                    }
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function buscar() {
+            ServerService.searchDonacion(vm.palabraClave, vm.categoriaSeleccionada)
+                .then(function (response) {
+                    console.log(response);
+
+                    if (Object.prototype.toString.call(response) === '[object Array]') {
+                        vm.donaciones = response;
+                    }
+                    else {
+                        vm.donaciones = [];
                     }
                 },
                 function (responseError) {
