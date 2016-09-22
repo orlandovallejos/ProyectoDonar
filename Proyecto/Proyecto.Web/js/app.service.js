@@ -77,7 +77,8 @@
             addFavorite: addFavorite,
             getFavorites: getFavorites,
             deleteFav: deleteFav,
-            searchDonacion: searchDonacion
+            searchDonacion: searchDonacion,
+            crearDonacionMP: crearDonacionMP
         };
 
         return service;
@@ -209,6 +210,28 @@
                 categoria: (categoria && categoria != '') ? categoria : 'todas'
             };
             return $http.post('http://soydonar.com/webservices/webresources/filtro/Nec', JSON.stringify(request))
+                .then(function (response) {
+                    console.log('Search');
+                    console.log(response);
+                    return response.data;
+                },
+                function (responseError) {
+                    console.log(responseError);
+                    return responseError;
+                });
+        }
+
+        function crearDonacionMP(request) {
+            // var request = {
+            //     donante: 'paolaservis@yahoo.com',
+            //     id_necesidad: '67',
+            //     fecha: '2000-05-07',
+            //     aporte_monetario: '100',
+            //     aporte_donacion: '',
+            //     donatario: 'juan@gmail.com'
+            // };
+
+            return $http.post('http://soydonar.com/webservices/webresources/CrearDonacion/alta', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Donacion edit');
                     console.log(response);

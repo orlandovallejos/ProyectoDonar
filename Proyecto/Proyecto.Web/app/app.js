@@ -2767,7 +2767,8 @@
             addFavorite: addFavorite,
             getFavorites: getFavorites,
             deleteFav: deleteFav,
-            searchDonacion: searchDonacion
+            searchDonacion: searchDonacion,
+            crearDonacionMP: crearDonacionMP
         };
 
         return service;
@@ -2899,6 +2900,28 @@
                 categoria: (categoria && categoria != '') ? categoria : 'todas'
             };
             return $http.post('http://soydonar.com/webservices/webresources/filtro/Nec', JSON.stringify(request))
+                .then(function (response) {
+                    console.log('Search');
+                    console.log(response);
+                    return response.data;
+                },
+                function (responseError) {
+                    console.log(responseError);
+                    return responseError;
+                });
+        }
+
+        function crearDonacionMP(request) {
+            // var request = {
+            //     donante: 'paolaservis@yahoo.com',
+            //     id_necesidad: '67',
+            //     fecha: '2000-05-07',
+            //     aporte_monetario: '100',
+            //     aporte_donacion: '',
+            //     donatario: 'juan@gmail.com'
+            // };
+
+            return $http.post('http://soydonar.com/webservices/webresources/CrearDonacion/alta', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Donacion edit');
                     console.log(response);
@@ -4755,11 +4778,36 @@ angular
         }
 
         function pagarMercadoPago() {
-            console.log('Hacer accion en el server...');
+
+            var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
+            var pad = "00";
+            dia = pad.substring(0, pad.length - dia.toString().length) + dia;
+            mes = pad.substring(0, pad.length - mes.toString().length) + mes;
+            var fecha = anio + '-' + mes + '-' + dia;
+
+            var request = {
+                donante: vm.usuarioLogueado.usuario,
+                id_necesidad: vm.donacion.id_necesidad,
+                fecha: fecha,
+                aporte_monetario: vm.donacionMonetaria,
+                aporte_donacion: '',
+                donatario: vm.donacion.usuario
+            };
+
+            ServerService.crearDonacionMP(request)
+                .then(function (response) {
+                    console.log(response);
+
+
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+                
             $window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
         }
 
-        function addFavorite(){
+        function addFavorite() {
             ServerService.addFavorite(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
                 .then(function (response) {
                     console.log(response);
