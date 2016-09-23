@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="es" ng-app="donarApp" document-events ng-click="onClick($event)" ng-keyup="onKeyUp($event)" ng-class="{ 'page_loading': pageLoading, 'page_loaded': pageLoaded, 'app_initialized': appInitialized && (!$state.is('login') && !$state.includes('error'))}">
+
 <head>
     <meta charset="utf-8">
     <title>Donar</title>
@@ -36,9 +37,12 @@
     <script src="app/modules/angular-retina.js"></script>
     <!-- donarApp -->
     <script src="app/app.js"></script>
+    <!--<script src="bower_components/kendo-ui/js/kendo.panelbar.min.js"></script>-->
+    
     <!-- main stylesheet -->
     <link rel="stylesheet" href="assets/css/main.css" media="all" id="main_stylesheet">
 </head>
+
 <body class="{{main_theme}}" data-uk-observe ng-class="{
     'sidebar_mini': miniSidebarActive && largeScreen && (!$state.is('login') && !$state.includes('error')),
     'sidebar_main_hiding': primarySidebarHiding,
@@ -55,7 +59,10 @@
 }" content-sidebar>
     <div id="page_preloader" ng-hide="hidePreloader"><img src="assets/img/loading.gif" alt="" /></div>
     <div ui-view="main_header"></div>
+    
+
     <div ui-view id="main_view" ng-class="{'uk-height-1-1': page_full_height }"></div>
     <!--<div ui-view="main_sidebar" ng-hide="topMenuActive"></div>-->
 </body>
+
 </html>

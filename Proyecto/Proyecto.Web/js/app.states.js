@@ -68,7 +68,8 @@
                                     'lazy_prismJS',
                                     'lazy_autosize',
                                     'lazy_iCheck',
-                                    'lazy_style_switcher'
+                                    'lazy_style_switcher',
+                                    'lazy_KendoUI'
                                 ], { serie: true });
                             }]
                         }
@@ -104,7 +105,8 @@
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
-                                    'lazy_iCheck'
+                                    'lazy_iCheck',
+                                    'lazy_KendoUI'
                                 ]);
                             }]
                         }

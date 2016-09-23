@@ -1,5 +1,22 @@
-    <!-- restricted main content -->
-    <div ui-view ng-class="{ 'uk-height-1-1': page_full_height }"></div>
+<div class="uk-visible-small" style="margin-top: 18px; position: relative;">
+    <div class="uk-width-large-10-10">
+        <ul kendo-panel-bar>
+            <li>
+                Menu
+                <ul>
+                    <li>Donaciones</li>
+                    <li>Noticias</li>
+                    <li>Voluntariado</li>
+                    <li>Como ayudar?</li>
+                    <li><a ui-sref="restricted.donacion-add">Crear donacion</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
 
-    <!-- style switcher -->
-    <!--<style-switcher></style-switcher>-->
+<!-- restricted main content -->
+<div ui-view ng-class="{ 'uk-height-1-1': page_full_height }"></div>
+
+<!-- style switcher -->
+<!--<style-switcher></style-switcher>-->

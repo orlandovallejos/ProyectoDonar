@@ -9748,7 +9748,9 @@ a.waves-effect .waves-ripple {
 }
 @media only screen and (max-width: 767px) {
   .main_logo_top {
-    display: none;
+    /*display: none;*/
+        display: table;
+    min-width: 10px;
   }
 }
 .main_logo_top > a {
