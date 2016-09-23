@@ -78,7 +78,13 @@
             getFavorites: getFavorites,
             deleteFav: deleteFav,
             searchDonacion: searchDonacion,
-            crearDonacionMP: crearDonacionMP
+            crearDonacionMP: crearDonacionMP,
+            // deletePendienteDonante = deletePendienteDonante,
+            // deletePendienteDonatario = deletePendienteDonatario,
+            getPendienteDonante: getPendienteDonante,
+            getPendienteDonatario: getPendienteDonatario,
+            savePendienteDonante: savePendienteDonante,
+            savePendienteDonatario: savePendienteDonatario
         };
 
         return service;
@@ -239,6 +245,46 @@
                 },
                 function (responseError) {
                     console.log(responseError);
+                    return responseError;
+                });
+        }
+
+        function getPendienteDonante(idUsuario) {
+            return $http.get('http://soydonar.com/webservices/webresources/pendientes/donante/' + idUsuario)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function getPendienteDonatario(idUsuario) {
+            return $http.get('http://soydonar.com/webservices/webresources/pendientes/donatario/' + idUsuario)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function savePendienteDonante(id_donacion) {
+            return $http.get('http://soydonar.com/webservices/webresources/donacionGuardarEstado/donante/' + id_donacion)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function savePendienteDonatario(id_donacion) {
+            return $http.get('http://soydonar.com/webservices/webresources/donacionGuardarEstado/donatario/' + id_donacion)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
                     return responseError;
                 });
         }

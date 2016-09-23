@@ -89,6 +89,12 @@
                         controller: 'FavoritoController',
                         controllerAs: 'vm'
                     })
+                    .state("restricted.my-profile.pendiente", {
+                        url: "/pendientes",
+                        templateUrl: 'app/views/perfil/pendiente.html',
+                        controller: 'PendienteController',
+                        controllerAs: 'vm'
+                    })
                     //Home
                     .state("restricted.home", {
                         url: "/home",

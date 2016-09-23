@@ -2768,7 +2768,13 @@
             getFavorites: getFavorites,
             deleteFav: deleteFav,
             searchDonacion: searchDonacion,
-            crearDonacionMP: crearDonacionMP
+            crearDonacionMP: crearDonacionMP,
+            // deletePendienteDonante = deletePendienteDonante,
+            // deletePendienteDonatario = deletePendienteDonatario,
+            getPendienteDonante: getPendienteDonante,
+            getPendienteDonatario: getPendienteDonatario,
+            savePendienteDonante: savePendienteDonante,
+            savePendienteDonatario: savePendienteDonatario
         };
 
         return service;
@@ -2932,6 +2938,46 @@
                     return responseError;
                 });
         }
+
+        function getPendienteDonante(idUsuario) {
+            return $http.get('http://soydonar.com/webservices/webresources/pendientes/donante/' + idUsuario)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function getPendienteDonatario(idUsuario) {
+            return $http.get('http://soydonar.com/webservices/webresources/pendientes/donatario/' + idUsuario)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function savePendienteDonante(id_donacion) {
+            return $http.get('http://soydonar.com/webservices/webresources/donacionGuardarEstado/donante/' + id_donacion)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function savePendienteDonatario(id_donacion) {
+            return $http.get('http://soydonar.com/webservices/webresources/donacionGuardarEstado/donatario/' + id_donacion)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
     }
 
     SessionStorageService.$inject = ['$window'];
@@ -3051,6 +3097,12 @@
                         url: "/favoritos",
                         templateUrl: 'app/views/perfil/favorito.html',
                         controller: 'FavoritoController',
+                        controllerAs: 'vm'
+                    })
+                    .state("restricted.my-profile.pendiente", {
+                        url: "/pendientes",
+                        templateUrl: 'app/views/perfil/pendiente.html',
+                        controller: 'PendienteController',
                         controllerAs: 'vm'
                     })
                     //Home
@@ -5086,6 +5138,101 @@ angular
                         timeout: 5000,
                         pos: 'top-right'
                     });
+                });
+        }
+    }
+})();
+(function () {
+    "use strict";
+    angular
+        .module('donarApp')
+        .controller('PendienteController', PendienteController);
+
+    PendienteController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
+
+    function PendienteController($window, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
+        var vm = this;
+
+        //Variables
+        vm.usuarioLogueado = null;
+        vm.PendientesDonante = [];
+        vm.PendientesDonatario = [];
+
+        //Methods
+        vm.deletePendienteDonante = deletePendienteDonante;
+        vm.deletePendienteDonatario = deletePendienteDonatario;
+        vm.savePendienteDonante = savePendienteDonante;
+        vm.savePendienteDonatario = savePendienteDonatario;
+
+        activate();
+
+        function activate() {
+
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+            if (vm.usuarioLogueado) {
+
+                ServerService.getPendienteDonatario(vm.usuarioLogueado.usuario)
+                    .then(function (data) {
+                        console.log(data);
+                        vm.PendientesDonatario = data;
+                    });
+
+                ServerService.getPendienteDonante(vm.usuarioLogueado.usuario)
+                    .then(function (data) {
+                        console.log(data);
+                        vm.PendientesDonante = data;
+                    });
+            }
+            else {
+                $state.go('restricted.home');
+            }
+        }
+
+        //Method definitions
+        function deletePendienteDonante() {
+        }
+
+        function deletePendienteDonatario() {
+
+        }
+
+        function savePendienteDonante(id_donacion) {
+            ServerService.savePendienteDonante(id_donacion)
+                .then(function (data) {
+                    console.log(data);
+
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se confirmó el envío!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+
+                    ServerService.getPendienteDonante(vm.usuarioLogueado.usuario)
+                        .then(function (data) {
+                            console.log(data);
+                            vm.PendientesDonante = data;
+                        });
+                });
+        }
+
+        function savePendienteDonatario(id_donacion) {
+            ServerService.savePendienteDonatario(id_donacion)
+                .then(function (data) {
+                    console.log(data);
+
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se confirmó la recepción!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+
+                    ServerService.getPendienteDonatario(vm.usuarioLogueado.usuario)
+                        .then(function (data) {
+                            console.log(data);
+                            vm.PendientesDonatario = data;
+                        });
                 });
         }
     }
