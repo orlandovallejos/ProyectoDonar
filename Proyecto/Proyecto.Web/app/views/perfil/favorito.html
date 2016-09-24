@@ -4,7 +4,7 @@
         <div class="uk-grid" data-uk-grid-margin>
             <div class="uk-width-1-1">
                 <div class="uk-overflow-container">
-                    <table class="uk-table uk-table-nowrap">
+                    <table class="uk-table uk-table-nowrap" ng-if="vm.favoritos.length > 0">
                         <thead>
                             <tr>
                                 <th>Imagen</th>
@@ -26,6 +26,10 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div ng-if="vm.favoritos.length === 0" style="text-align: center;">
+                        <h3>No tiene favoritos</h3>
+                        <i class="uk-icon-heart uk-icon-large" style="color:red;"></i>
+                    </div>
                 </div>
             </div>
         </div>

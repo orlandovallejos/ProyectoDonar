@@ -113,19 +113,16 @@
                         });
 
                         $timeout(function () {
-
                             $state.go('restricted.home');
                         }, 1000);
                     }
                     else {
-
                         UIkit.notify({
                             message: '<i class="uk-icon-times-circle"></i> Usuario o contraseña incorrectos',
                             status: 'danger',
                             timeout: 5000,
                             pos: 'top-right'
                         });
-
                     }
                 });
         }

@@ -30,13 +30,27 @@
                 ServerService.getPendienteDonatario(vm.usuarioLogueado.usuario)
                     .then(function (data) {
                         console.log(data);
-                        vm.PendientesDonatario = data;
+                        if (Object.prototype.toString.call(data) === '[object Array]') {
+                            vm.PendientesDonatario = data;
+                        }
+                        else {
+                            vm.PendientesDonatario = [];
+                        }
+                    },
+                    function (data) {
+                        console.log(data);
+                        vm.PendientesDonatario = [];
                     });
 
                 ServerService.getPendienteDonante(vm.usuarioLogueado.usuario)
                     .then(function (data) {
                         console.log(data);
-                        vm.PendientesDonante = data;
+                        if (Object.prototype.toString.call(data) === '[object Array]') {
+                            vm.PendientesDonante = data;
+                        }
+                        else {
+                            vm.PendientesDonante = [];
+                        }
                     });
             }
             else {
@@ -67,7 +81,13 @@
                     ServerService.getPendienteDonante(vm.usuarioLogueado.usuario)
                         .then(function (data) {
                             console.log(data);
-                            vm.PendientesDonante = data;
+
+                            if (Object.prototype.toString.call(data) === '[object Array]') {
+                                vm.PendientesDonante = data;
+                            }
+                            else {
+                                vm.PendientesDonante = [];
+                            }
                         });
                 });
         }
@@ -87,7 +107,12 @@
                     ServerService.getPendienteDonatario(vm.usuarioLogueado.usuario)
                         .then(function (data) {
                             console.log(data);
-                            vm.PendientesDonatario = data;
+                            if (Object.prototype.toString.call(data) === '[object Array]') {
+                                vm.PendientesDonatario = data;
+                            }
+                            else {
+                                vm.PendientesDonatario = [];
+                            }
                         });
                 });
         }

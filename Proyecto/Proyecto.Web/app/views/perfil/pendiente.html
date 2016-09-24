@@ -4,7 +4,7 @@
         <div class="uk-grid" data-uk-grid-margin>
             <div class="uk-width-1-1">
                 <div class="uk-overflow-container">
-                    <table class="uk-table uk-table-nowrap">
+                    <table class="uk-table uk-table-nowrap" ng-if="vm.PendientesDonatario.length > 0">
                         <thead>
                             <tr>
                                 <th>Imagen</th>
@@ -31,6 +31,10 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div ng-if="vm.PendientesDonatario.length === 0" style="text-align: center;">
+                        <h3>No tiene pendientes</h3>
+                        <i class="uk-icon-support uk-icon-large" style="color:#0089ff;"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,7 +47,7 @@
         <div class="uk-grid" data-uk-grid-margin>
             <div class="uk-width-1-1">
                 <div class="uk-overflow-container">
-                    <table class="uk-table uk-table-nowrap">
+                    <table class="uk-table uk-table-nowrap" ng-if="vm.PendientesDonante.length > 0">
                         <thead>
                             <tr>
                                 <th>Imagen</th>
@@ -68,6 +72,10 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div ng-if="vm.PendientesDonante.length === 0" style="text-align: center;">
+                        <h3>No tiene pendientes</h3>
+                        <i class="uk-icon-rocket uk-icon-large" style="color:#9c4a95;"></i>
+                    </div>
                 </div>
             </div>
         </div>

@@ -26,7 +26,13 @@
                 ServerService.getFavorites(vm.usuarioLogueado.usuario)
                     .then(function (data) {
                         console.log(data);
-                        vm.favoritos = data;
+
+                        if (Object.prototype.toString.call(data) === '[object Array]') {
+                            vm.favoritos = data;
+                        }
+                        else {
+                            vm.favoritos = [];
+                        }
                     });
             }
             else {

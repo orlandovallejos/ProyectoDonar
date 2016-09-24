@@ -4906,7 +4906,13 @@ angular
                 ServerService.getFavorites(vm.usuarioLogueado.usuario)
                     .then(function (data) {
                         console.log(data);
-                        vm.favoritos = data;
+
+                        if (Object.prototype.toString.call(data) === '[object Array]') {
+                            vm.favoritos = data;
+                        }
+                        else {
+                            vm.favoritos = [];
+                        }
                     });
             }
             else {
@@ -5123,19 +5129,16 @@ angular
                         });
 
                         $timeout(function () {
-
                             $state.go('restricted.home');
                         }, 1000);
                     }
                     else {
-
                         UIkit.notify({
                             message: '<i class="uk-icon-times-circle"></i> Usuario o contraseña incorrectos',
                             status: 'danger',
                             timeout: 5000,
                             pos: 'top-right'
                         });
-
                     }
                 });
         }
@@ -5195,13 +5198,27 @@ angular
                 ServerService.getPendienteDonatario(vm.usuarioLogueado.usuario)
                     .then(function (data) {
                         console.log(data);
-                        vm.PendientesDonatario = data;
+                        if (Object.prototype.toString.call(data) === '[object Array]') {
+                            vm.PendientesDonatario = data;
+                        }
+                        else {
+                            vm.PendientesDonatario = [];
+                        }
+                    },
+                    function (data) {
+                        console.log(data);
+                        vm.PendientesDonatario = [];
                     });
 
                 ServerService.getPendienteDonante(vm.usuarioLogueado.usuario)
                     .then(function (data) {
                         console.log(data);
-                        vm.PendientesDonante = data;
+                        if (Object.prototype.toString.call(data) === '[object Array]') {
+                            vm.PendientesDonante = data;
+                        }
+                        else {
+                            vm.PendientesDonante = [];
+                        }
                     });
             }
             else {
@@ -5232,7 +5249,13 @@ angular
                     ServerService.getPendienteDonante(vm.usuarioLogueado.usuario)
                         .then(function (data) {
                             console.log(data);
-                            vm.PendientesDonante = data;
+
+                            if (Object.prototype.toString.call(data) === '[object Array]') {
+                                vm.PendientesDonante = data;
+                            }
+                            else {
+                                vm.PendientesDonante = [];
+                            }
                         });
                 });
         }
@@ -5252,7 +5275,12 @@ angular
                     ServerService.getPendienteDonatario(vm.usuarioLogueado.usuario)
                         .then(function (data) {
                             console.log(data);
-                            vm.PendientesDonatario = data;
+                            if (Object.prototype.toString.call(data) === '[object Array]') {
+                                vm.PendientesDonatario = data;
+                            }
+                            else {
+                                vm.PendientesDonatario = [];
+                            }
                         });
                 });
         }
