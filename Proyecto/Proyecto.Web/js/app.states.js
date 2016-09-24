@@ -84,6 +84,21 @@
                             }]
                         }
                     })
+                    .state("restricted.my-profile.profile", {
+                        url: "/perfil",
+                        templateUrl: 'app/views/perfil/perfil.html',
+                        controller:  'PerfilController',
+                        controllerAs:'vm',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'assets/js/custom/uikit_fileinput.min.js',
+                                    'lazy_dropify',
+                                    'app/components/pages/user_editController.js'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
                     .state("restricted.my-profile.favorite", {
                         url: "/favoritos",
                         templateUrl: 'app/views/perfil/favorito.html',

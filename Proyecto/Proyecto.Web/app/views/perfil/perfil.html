@@ -1,53 +1,50 @@
-    <div id="page_content">
-        <div id="page_content_inner">
-
-            <div class="md-card">
-                <div class="md-card-content">
-                    <div class="uk-grid uk-margin-large-bottom">
-                        <div class="uk-width-large-1-2">
-                            <ul kendo-panel-bar>
-                                <li>
-                                    Metallica - Master of Puppets 1986
-                                    <ul>
-                                        <li>Battery</li>
-                                        <li>Master of Puppets</li>
-                                        <li>The Thing That Should Not Be</li>
-                                        <li>Welcome Home (Sanitarium)</li>
-                                        <li>Disposable Heroes</li>
-                                        <li>Leper Messiah</li>
-                                        <li>Orion (Instrumental)</li>
-                                        <li>Damage, Inc.</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Iron Maiden - Brave New World 2000
-                                    <ul>
-                                        <li>The Wicker Man</li>
-                                        <li>Ghost Of The Navigator</li>
-                                        <li>Brave New World</li>
-                                        <li>Blood Brothers</li>
-                                        <li>The Mercenary</li>
-                                        <li>Dream Of Mirrors</li>
-                                        <li>The Fallen Angel</li>
-                                        <li>The Nomad</li>
-                                        <li>Out Of The Silent Planet</li>
-                                        <li>The Thin Line Between Love And Hate</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Text content
-                                    <div style="padding:16px;">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi debitis impedit inventore ipsam iure modi molestias nemo odio optio, praesentium quam quisquam rem suscipit. Asperiores beatae doloribus eius praesentium qui?
-                                    </div>
-                                </li>
-                            </ul>
+<div class="md-card">
+    <div class="md-card-content">
+        <h3 class="heading_a">Mi perfil</h3>
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-1-2">
+                <div class="uk-overflow-container">
+                    <div class="uk-form-row">
+                        <div class="uk-grid">
+                            <div class="uk-width-medium-1-2">
+                                <label>Nombre</label>
+                                <input type="text" class="md-input" md-input ng-model="vm.usuarioPerfil.nombre" />
+                            </div>
+                            <div class="uk-width-medium-1-2">
+                                <label>Apellido</label>
+                                <input type="text" class="md-input" md-input ng-model="vm.usuarioPerfil.apellido" />
+                            </div>
                         </div>
                     </div>
-<pre class="line-numbers"><code class="language-markup" prism-highlight>&lt;ul kendo-panel-bar&gt;
-  ...
-&lt;/ul&gt;</code></pre>
+                    <div class="uk-form-row">
+                        <div class="uk-grid">
+                            <div class="uk-width-medium-1-2">
+                                <label>Nacionalidad</label>
+                                <input type="text" class="md-input" md-input ng-model="vm.usuarioPerfil.nacionalidad" />
+                            </div>
+                            <div class="uk-width-medium-1-2">
+                                <label>Residencia</label>
+                                <input type="text" class="md-input" md-input ng-model="vm.usuarioPerfil.residencia" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-form-row">
+                        <div class="uk-grid">
+                            <div class="uk-width-medium-1-2">
+                                <button class="md-btn md-btn-success md-btn-wave-light" ng-click="vm.save()">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            <div class="uk-width-1-2">
+                <div class="uk-overflow-container">
+                    <h3 class="heading_a uk-margin-small-bottom">
+                        Imagen
+                    </h3>
+                    <input type="file" id="input-file-a" class="dropify" file-model="imagen" file-carpeta="usuarios" />
+                </div>
+            </div>
         </div>
     </div>
+</div>

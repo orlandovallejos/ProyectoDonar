@@ -84,7 +84,9 @@
             getPendienteDonante: getPendienteDonante,
             getPendienteDonatario: getPendienteDonatario,
             savePendienteDonante: savePendienteDonante,
-            savePendienteDonatario: savePendienteDonatario
+            savePendienteDonatario: savePendienteDonatario,
+            getInfoUsuario: getInfoUsuario,
+            guardarUsuario: guardarUsuario
         };
 
         return service;
@@ -285,6 +287,29 @@
                     return response.data;
                 },
                 function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function getInfoUsuario(idUsuario) {
+            return $http.get('http://soydonar.com/webservices/webresources/infoUsuario/' + idUsuario)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function guardarUsuario(request) {
+            return $http.post('http://soydonar.com/webservices/webresources/editUsuario/edit', JSON.stringify(request))
+                .then(function (response) {
+                    console.log('Usuario edit');
+                    console.log(response);
+                    return response.data;
+                },
+                function (responseError) {
+                    console.log(responseError);
                     return responseError;
                 });
         }
