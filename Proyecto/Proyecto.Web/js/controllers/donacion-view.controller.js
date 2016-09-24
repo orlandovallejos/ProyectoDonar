@@ -62,6 +62,7 @@
         vm.editar = editar;
         vm.pagarMercadoPago = pagarMercadoPago;
         vm.addFavorite = addFavorite;
+        vm.donarCosas = donarCosas;
 
         activate();
 
@@ -113,6 +114,43 @@
         }
 
         function pagarMercadoPago() {
+            var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
+            var pad = "00";
+            dia = pad.substring(0, pad.length - dia.toString().length) + dia;
+            mes = pad.substring(0, pad.length - mes.toString().length) + mes;
+            var fecha = anio + '-' + mes + '-' + dia;
+
+            if (vm.usuarioLogueado) {
+                var request = {
+                    donante: vm.usuarioLogueado.usuario,
+                    id_necesidad: vm.donacion.id_necesidad,
+                    fecha: fecha,
+                    aporte_monetario: vm.donacionMonetaria,
+                    aporte_donacion: '',
+                    donatario: vm.donacion.usuario
+                };
+
+                ServerService.crearDonacionMP(request)
+                    .then(function (response) {
+                        console.log(response);
+
+                        vm.donacionMonetaria = '';
+                        UIkit.notify({
+                            message: '<i class="uk-icon-check"></i> Donación concretada!',
+                            status: 'success',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+                    },
+                    function (responseError) {
+                        console.log(responseError);
+                    });
+            }
+
+            $window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
+        }
+
+        function donarCosas() {
 
             var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
             var pad = "00";
@@ -120,26 +158,31 @@
             mes = pad.substring(0, pad.length - mes.toString().length) + mes;
             var fecha = anio + '-' + mes + '-' + dia;
 
-            var request = {
-                donante: vm.usuarioLogueado.usuario,
-                id_necesidad: vm.donacion.id_necesidad,
-                fecha: fecha,
-                aporte_monetario: vm.donacionMonetaria,
-                aporte_donacion: '',
-                donatario: vm.donacion.usuario
-            };
+            if (vm.usuarioLogueado) {
+                var request = {
+                    donante: vm.usuarioLogueado.usuario,
+                    id_necesidad: vm.donacion.id_necesidad,
+                    fecha: fecha,
+                    aporte_donacion: vm.donacionDeCosas,
+                    donatario: vm.donacion.usuario
+                };
 
-            ServerService.crearDonacionMP(request)
-                .then(function (response) {
-                    console.log(response);
+                ServerService.crearDonacionMP(request)
+                    .then(function (response) {
+                        console.log(response);
 
-
-                },
-                function (responseError) {
-                    console.log(responseError);
-                });
-                
-            $window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
+                        vm.donacionDeCosas = '';
+                        UIkit.notify({
+                            message: '<i class="uk-icon-check"></i> Donación concretada!',
+                            status: 'success',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+                    },
+                    function (responseError) {
+                        console.log(responseError);
+                    });
+            }
         }
 
         function addFavorite() {

@@ -174,7 +174,7 @@
 
                             <div ng-if="vm.donacion.categoria == 'DINERO'">
                                 <div id="ionslider_2" name="ionslider_2" ion-slider ng-model="vm.donacion.dineroRecaudado" min="0" max="5000" grid="true"
-                                    prefix="$" ng-disabled="true" ></div>
+                                    prefix="$" ng-disabled="true"></div>
                                 <span class="uk-form-help-block">Recaudado</span>
                             </div>
 
@@ -237,7 +237,7 @@
                                 data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
                                     <div class="uk-input-group">
-                                        <label>Donar con Mercado Pago</label>
+                                        <label>Donacion monetaria con Mercado Pago</label>
                                         <input type="text" class="md-input" ng-model="vm.donacionMonetaria" md-input />
                                         <span class="uk-input-group-addon">
                                         <a ng-click="vm.pagarMercadoPago()">
@@ -245,26 +245,21 @@
                                         </a>
                                     </span>
                                     </div>
-                                    <!--<span class="uk-input-group-addon">
-                                        <a class="md-btn md-btn-primary" ng-click="vm.pagarMercadoPago()">
-                                            <i class="uk-icon-dollar"></i>
-                                            Mercado Pago
-                                        </a>
-                                    </span>-->
                                 </div>
-                                <!--<div class="uk-width-large-1-2">
-                                    {{vm.donacion.usuario_mp}}
-                                </div>-->
-                                <!--<div class="uk-width-large-1-2">
-                                    <span class="uk-input-group-addon">
-                                        <a class="md-btn md-btn-primary" href="#">
-                                            <i class="uk-icon-dollar"></i>
-                                            Donar
+                            </div>
+                            <div ng-if="vm.usuarioLogueado" class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+                                <div class="uk-width-large-1-1">
+                                    <div class="uk-input-group">
+                                        <label>Donar elementos</label>
+                                        <input type="text" class="md-input" ng-model="vm.donacionDeCosas" md-input />
+                                        <span class="uk-input-group-addon">
+                                        <a ng-click="vm.donarCosas()">
+                                            <i class="material-icons">&#xE163;</i>
                                         </a>
                                     </span>
-                                </div>-->
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
