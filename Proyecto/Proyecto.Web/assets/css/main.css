@@ -9742,14 +9742,14 @@ a.waves-effect .waves-ripple {
 }
 .main_logo_top {
   float: left;
-  line-height: 48px;
-  min-width: 240px;
-  display: block;
+  /*line-height: 48px;
+  min-width: 240px;*/
+  /*display: block;*/
 }
-@media only screen and (max-width: 767px) {
+@media (max-width: 767px) {
   .main_logo_top {
     /*display: none;*/
-        display: table;
+        /*display: table;*/
     min-width: 10px;
   }
 }
@@ -13604,6 +13604,13 @@ body {
     color: #ff7d1e;
     top: 15px;
     position: relative;
+}
+@media (max-width: 767px) {
+ .donar-username {
+        top: 14px !important;
+        position: absolute;
+        right: 57px;
+  } 
 }
 
 #menu_top > li > a.donacion-alta {
