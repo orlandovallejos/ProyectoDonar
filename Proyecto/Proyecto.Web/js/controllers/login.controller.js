@@ -4,9 +4,9 @@
         .module('donarApp')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$scope', '$rootScope', '$state', 'utils', 'ServerService', '$window', 'SessionStorageService'];
+    LoginController.$inject = ['$scope', '$rootScope', '$state', 'utils', 'ServerService', '$window', 'SessionStorageService', '$timeout'];
 
-    function LoginController($scope, $rootScope, $state, utils, ServerService, $window, SessionStorageService) {
+    function LoginController($scope, $rootScope, $state, utils, ServerService, $window, SessionStorageService, $timeout) {
         var vm = this;
 
         //Variables
@@ -105,8 +105,27 @@
                     console.log(response);
                     if (response.contrasenia) {
                         SessionStorageService.set('usuario', response);
+                        UIkit.notify({
+                            message: '<i class="uk-icon-check"></i> Usuario logueado!',
+                            status: 'success',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
 
-                        $state.go('restricted.home');
+                        $timeout(function () {
+
+                            $state.go('restricted.home');
+                        }, 1000);
+                    }
+                    else {
+
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> Usuario o contraseña incorrectos',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+
                     }
                 });
         }
