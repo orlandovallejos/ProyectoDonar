@@ -105,6 +105,12 @@
                         controller: 'FavoritoController',
                         controllerAs: 'vm'
                     })
+                    .state("restricted.my-profile.mis-necesidades", {
+                        url: "/mis-necesidades",
+                        templateUrl: 'app/views/perfil/mis-necesidades.html',
+                        controller: 'MisNecesidadesController',
+                        controllerAs: 'vm'
+                    })
                     .state("restricted.my-profile.pendiente", {
                         url: "/pendientes",
                         templateUrl: 'app/views/perfil/pendiente.html',

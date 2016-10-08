@@ -2776,7 +2776,9 @@
             savePendienteDonante: savePendienteDonante,
             savePendienteDonatario: savePendienteDonatario,
             getInfoUsuario: getInfoUsuario,
-            guardarUsuario: guardarUsuario
+            guardarUsuario: guardarUsuario,
+            getMisDonaciones:getMisDonaciones,
+            getFilesInFolder:getFilesInFolder
         };
 
         return service;
@@ -3003,6 +3005,26 @@
                     return responseError;
                 });
         }
+
+        function getMisDonaciones(idUsuario) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/necesidadesPorUsuario/' + idUsuario)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function getFilesInFolder(folder) {
+            return $http.get('http://soydonar.com/webservices/webresources/obtenerarchivos/' + folder)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
     }
 
     SessionStorageService.$inject = ['$window'];
@@ -3138,6 +3160,12 @@
                         url: "/favoritos",
                         templateUrl: 'app/views/perfil/favorito.html',
                         controller: 'FavoritoController',
+                        controllerAs: 'vm'
+                    })
+                    .state("restricted.my-profile.mis-necesidades", {
+                        url: "/mis-necesidades",
+                        templateUrl: 'app/views/perfil/mis-necesidades.html',
+                        controller: 'MisNecesidadesController',
                         controllerAs: 'vm'
                     })
                     .state("restricted.my-profile.pendiente", {
@@ -4497,6 +4525,10 @@
         activate();
 
         function activate() {
+
+
+
+
             $('#input-file-a-galeria').dropify({
                 messages: {
                     default: 'Imagen default',
@@ -4518,6 +4550,11 @@
                     .then(function (data) {
                         console.log(data);
                         vm.donacion = data;
+
+                        ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                            .then(function (data) {
+                                console.log(data);
+                            });
 
                         if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                             vm.isCreatedUser = true;
@@ -4694,32 +4731,32 @@
             var uploadUrl = "../subir_imagen.php";
             var folder = 'galeria/' + $stateParams.id;
             var fileName = null;
-            if (file) {
-                fileName = file.name;
-                fileUpload.uploadFileToUrl(file, uploadUrl, folder)
-                    .success(function () {
-                        console.log("Acaba de subir la imagen");
+            // if (file) {
+            //     fileName = file.name;
+            //     fileUpload.uploadFileToUrl(file, uploadUrl, folder)
+            //         .success(function () {
+            //             console.log("Acaba de subir la imagen");
 
-                        //Esto sirve para listar las imagenes:
-                        var fd = new FormData();
-                        fd.append('folder', folder);
-                        $http.post('../get_files.php', fd, {
-                            transformRequest: angular.identity,
-                            headers: { 'Content-Type': undefined, 'Process-Data': false }
-                        })
-                            .success(function (response) {
-                                console.log("Lista la imagen");
-                                console.log(response);
-                            })
-                            .error(function (responseError) {
-                                console.log("Error al listar la imagen");
-                                console.log(responseError);
-                            });
-                    })
-                    .error(function () {
-                        console.log("Error al subir la imagen");
-                    });
-            }
+            //             //Esto sirve para listar las imagenes:
+            //             var fd = new FormData();
+            //             fd.append('folder', folder);
+            //             $http.post('../get_files.php', fd, {
+            //                 transformRequest: angular.identity,
+            //                 headers: { 'Content-Type': undefined, 'Process-Data': false }
+            //             })
+            //                 .success(function (response) {
+            //                     console.log("Lista la imagen");
+            //                     console.log(response);
+            //                 })
+            //                 .error(function (responseError) {
+            //                     console.log("Error al listar la imagen");
+            //                     console.log(responseError);
+            //                 });
+            //         })
+            //         .error(function () {
+            //             console.log("Error al subir la imagen");
+            //         });
+            // }
         }
     }
 })();
@@ -4742,6 +4779,8 @@ angular
                 element.bind('change', function () {
                     scope.$apply(function () {
                         var file = null;
+                        carpeta = element[0].attributes['file-carpeta'].nodeValue;
+
                         if (element[0].type && element[0].type === 'file') {
                             modelSetter(scope, element[0].files[0]);
                             file = element[0].files[0];
@@ -4806,6 +4845,7 @@ angular
         vm.isCreatedUser = false;
         vm.comentario = '';
         vm.usuarioLogueado = null;
+        vm.images = [];
         //vm.donacion = {
         //    id_necesidad: 1,
         //    titulo: 'Una mano para Sarita',
@@ -4869,6 +4909,11 @@ angular
                     if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                         vm.isCreatedUser = true;
                     }
+
+                    ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                            .then(function (data) {
+                                vm.images = data;
+                            });
                 });
         }
 
@@ -5081,6 +5126,83 @@ angular
         activate();
 
         function activate() {
+
+            function isPalindrome(input) {
+                if (!input || typeof input !== 'string')
+                    throw 'Not a string.';
+                var string = input.replace(/[^0-9a-zA-Z]+/ig, '').toLowerCase();
+                var reverse = string.split('').reverse().join('');
+
+                return string === reverse;
+
+            }
+
+            function longestPalindrome(input) {
+                if (!input || typeof input !== 'string')
+                    throw 'Not a string.';
+                var words = input.split(' ');
+                var lengths = [];
+
+                lengths = words.filter(function (e, i, a) {
+                    return isPalindrome(e);
+                });
+
+                lengths.sort(function (a, b) {
+                    return b.length - a.length;
+                });
+
+                return lengths[0];
+            }
+
+            console.log(isPalindrome('A man, a plan, a cat, a ham, a yak, a yam, a hat, a canal-Panama!')); // returns true
+            console.log(longestPalindrome('neuquen manam notApalindrome')); // returns 'neuquen,'
+
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            //Given a string of size N an a number K. Find the greatest substring with K different characters.
+
+
+            function verificarPalabra(palabraParam, cantidadK) {
+                var palabras = palabraParam.replace(/[^0-9a-zA-Z,]+/ig, '').toLowerCase();
+                var k = cantidadK;
+                var palabrasArray = palabras.split(',');
+                var palabrasConCantidad = [];
+
+                palabrasArray.forEach(function (e, i, a) {
+                    var arrayLetras = e.split('');
+                    var arrayCant = [];
+                    arrayLetras.forEach(function (element, index, array) {
+
+                        if (arrayCant.indexOf(element) === -1) {
+                            //No encontró la letra, entonces la agrego:
+                            arrayCant.push(element);
+                        }
+                    });
+
+                    if (arrayCant.length === k) {
+                        palabrasConCantidad.push({ palabra: e, cantidad: arrayCant.length });
+                    }
+                });
+
+                if (palabrasConCantidad.length > 0) {
+                    palabrasConCantidad.sort(function (a, b) {
+                        return b.palabra.length - a.palabra.length;
+                    });
+
+                    console.log('La palabra mas larga con K(' + k + ') elementos es: ' + palabrasConCantidad[0].palabra);
+                }
+                else {
+                    console.log('No hay palabras con K(' + k + ') diferentes letras ');
+                }
+            }
+
+            verificarPalabra('papas, casa, masaaaaaaAAAAAa', 3);
+            verificarPalabra('papas, casa, masaaaaaaaaaa', 4);
+            verificarPalabra('papas, casa, masaaaaaaaaaaenrjwnerj', 3);
+
+
+
+            ///////////////////////////////////////////////////////////////////////////////////////
             vm.tipo_config = {
                 valueField: 'value',
                 labelField: 'title',
@@ -5285,6 +5407,54 @@ angular
     "use strict";
     angular
         .module('donarApp')
+        .controller('MisNecesidadesController', MisNecesidadesController);
+
+    MisNecesidadesController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
+
+    function MisNecesidadesController($window, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
+        var vm = this;
+
+        //Variables
+        vm.usuarioLogueado = null;
+        vm.favoritos = [];
+
+        //Methods
+        vm.edit = edit;
+
+        activate();
+
+        function activate() {
+
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+            if (vm.usuarioLogueado) {
+
+                ServerService.getMisDonaciones(vm.usuarioLogueado.usuario)
+                    .then(function (data) {
+                        console.log(data);
+
+                        if (Object.prototype.toString.call(data) === '[object Array]') {
+                            vm.necesidades = data;
+                        }
+                        else {
+                            vm.necesidades = [];
+                        }
+                    });
+            }
+            else {
+                $state.go('restricted.home');
+            }
+        }
+
+        //Method definitions
+        function edit(idNecesidad) {
+            $state.go('restricted.donacion-edit', { id: idNecesidad });
+        }
+    }
+})();
+(function () {
+    "use strict";
+    angular
+        .module('donarApp')
         .controller('PendienteController', PendienteController);
 
     PendienteController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
@@ -5473,7 +5643,8 @@ angular
                 imagen_path: fileName,
                 fecha_nacimiento: '2019-08-30'
             };
-
+            
+            SessionStorageService.set('usuario', request);
             ServerService.guardarUsuario(request)
                 .then(function () {
                     UIkit.notify({

@@ -86,7 +86,9 @@
             savePendienteDonante: savePendienteDonante,
             savePendienteDonatario: savePendienteDonatario,
             getInfoUsuario: getInfoUsuario,
-            guardarUsuario: guardarUsuario
+            guardarUsuario: guardarUsuario,
+            getMisDonaciones:getMisDonaciones,
+            getFilesInFolder:getFilesInFolder
         };
 
         return service;
@@ -310,6 +312,26 @@
                 },
                 function (responseError) {
                     console.log(responseError);
+                    return responseError;
+                });
+        }
+
+        function getMisDonaciones(idUsuario) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/necesidadesPorUsuario/' + idUsuario)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function getFilesInFolder(folder) {
+            return $http.get('http://soydonar.com/webservices/webresources/obtenerarchivos/' + folder)
+                .then(function (response) {
+                    return response.data;
+                },
+                function (responseError) {
                     return responseError;
                 });
         }

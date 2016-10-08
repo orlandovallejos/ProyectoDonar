@@ -27,6 +27,10 @@
         activate();
 
         function activate() {
+
+
+
+
             $('#input-file-a-galeria').dropify({
                 messages: {
                     default: 'Imagen default',
@@ -48,6 +52,11 @@
                     .then(function (data) {
                         console.log(data);
                         vm.donacion = data;
+
+                        ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                            .then(function (data) {
+                                console.log(data);
+                            });
 
                         if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                             vm.isCreatedUser = true;
@@ -224,32 +233,32 @@
             var uploadUrl = "../subir_imagen.php";
             var folder = 'galeria/' + $stateParams.id;
             var fileName = null;
-            if (file) {
-                fileName = file.name;
-                fileUpload.uploadFileToUrl(file, uploadUrl, folder)
-                    .success(function () {
-                        console.log("Acaba de subir la imagen");
+            // if (file) {
+            //     fileName = file.name;
+            //     fileUpload.uploadFileToUrl(file, uploadUrl, folder)
+            //         .success(function () {
+            //             console.log("Acaba de subir la imagen");
 
-                        //Esto sirve para listar las imagenes:
-                        var fd = new FormData();
-                        fd.append('folder', folder);
-                        $http.post('../get_files.php', fd, {
-                            transformRequest: angular.identity,
-                            headers: { 'Content-Type': undefined, 'Process-Data': false }
-                        })
-                            .success(function (response) {
-                                console.log("Lista la imagen");
-                                console.log(response);
-                            })
-                            .error(function (responseError) {
-                                console.log("Error al listar la imagen");
-                                console.log(responseError);
-                            });
-                    })
-                    .error(function () {
-                        console.log("Error al subir la imagen");
-                    });
-            }
+            //             //Esto sirve para listar las imagenes:
+            //             var fd = new FormData();
+            //             fd.append('folder', folder);
+            //             $http.post('../get_files.php', fd, {
+            //                 transformRequest: angular.identity,
+            //                 headers: { 'Content-Type': undefined, 'Process-Data': false }
+            //             })
+            //                 .success(function (response) {
+            //                     console.log("Lista la imagen");
+            //                     console.log(response);
+            //                 })
+            //                 .error(function (responseError) {
+            //                     console.log("Error al listar la imagen");
+            //                     console.log(responseError);
+            //                 });
+            //         })
+            //         .error(function () {
+            //             console.log("Error al subir la imagen");
+            //         });
+            // }
         }
     }
 })();
@@ -272,6 +281,8 @@ angular
                 element.bind('change', function () {
                     scope.$apply(function () {
                         var file = null;
+                        carpeta = element[0].attributes['file-carpeta'].nodeValue;
+
                         if (element[0].type && element[0].type === 'file') {
                             modelSetter(scope, element[0].files[0]);
                             file = element[0].files[0];

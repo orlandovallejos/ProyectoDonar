@@ -43,7 +43,7 @@
                         <ul id="user_profile_tabs" class="uk-tab" data-uk-tab="{connect:'#user_profile_tabs_content', animation:'slide-horizontal'}"
                             data-uk-sticky="{ top: 48, media: 960 }">
                             <li class="uk-active"><a href="#">Detalle</a></li>
-                            <!--<li><a href="#">Fotos</a></li>-->
+                            <li><a href="#">Fotos</a></li>
                         </ul>
                         <ul id="user_profile_tabs_content" class="uk-switcher uk-margin">
                             <li>
@@ -118,13 +118,13 @@
                             <li>
                                 <div id="user_profile_gallery" data-uk-check-display class="uk-grid-width-small-1-2 uk-grid-width-medium-1-3 uk-grid-width-large-1-4"
                                     data-uk-grid="{gutter: 4}">
-                                    <div ng-repeat="image in vm.user_data.images">
-                                        <a href="{{image}}" data-uk-lightbox="{group:'user_images'}">
-                                            <img ng-src="{{image}}" alt="" />
+                                    <div ng-repeat="image in vm.images">
+                                        <a href="http://www.soydonar.com/imagenes/galeria/{{vm.donacion.id_necesidad}}/{{image}}" data-uk-lightbox="{group:'user_images'}">
+                                            <img ng-src="http://www.soydonar.com/imagenes/galeria/{{vm.donacion.id_necesidad}}/{{image}}" alt="" />
                                         </a>
                                     </div>
                                 </div>
-                                <ul class="uk-pagination uk-margin-large-top">
+                                <!--<ul class="uk-pagination uk-margin-large-top">
                                     <li class="uk-disabled"><span><i class="uk-icon-angle-double-left"></i></span></li>
                                     <li class="uk-active"><span>1</span></li>
                                     <li><a href="#">2</a></li>
@@ -133,7 +133,7 @@
                                     <li><span>&hellip;</span></li>
                                     <li><a href="#">20</a></li>
                                     <li><a href="#"><i class="uk-icon-angle-double-right"></i></a></li>
-                                </ul>
+                                </ul>-->
                             </li>
                         </ul>
 
