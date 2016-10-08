@@ -4503,9 +4503,9 @@
         .module('donarApp')
         .controller('DonacionAddEditController', DonacionAddEditController);
 
-    DonacionAddEditController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
+    DonacionAddEditController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout'];
 
-    function DonacionAddEditController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
+    function DonacionAddEditController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService, $timeout) {
         var vm = this;
 
         //Variables
@@ -4517,6 +4517,7 @@
         vm.tipo_options = [];
         vm.isNew = true;
         vm.imagen = {};
+        vm.images = [];
 
         //Methods:
         vm.save = save;
@@ -4525,10 +4526,6 @@
         activate();
 
         function activate() {
-
-
-
-
             $('#input-file-a-galeria').dropify({
                 messages: {
                     default: 'Imagen default',
@@ -4553,7 +4550,7 @@
 
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
-                                console.log(data);
+                                vm.images = data;
                             });
 
                         if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
@@ -4727,37 +4724,23 @@
         }
 
         function subirImagen() {
-            var file = $scope.imagenGaleria;
-            var uploadUrl = "../subir_imagen.php";
-            var folder = 'galeria/' + $stateParams.id;
-            var fileName = null;
-            // if (file) {
-            //     fileName = file.name;
-            //     fileUpload.uploadFileToUrl(file, uploadUrl, folder)
-            //         .success(function () {
-            //             console.log("Acaba de subir la imagen");
 
-            //             //Esto sirve para listar las imagenes:
-            //             var fd = new FormData();
-            //             fd.append('folder', folder);
-            //             $http.post('../get_files.php', fd, {
-            //                 transformRequest: angular.identity,
-            //                 headers: { 'Content-Type': undefined, 'Process-Data': false }
-            //             })
-            //                 .success(function (response) {
-            //                     console.log("Lista la imagen");
-            //                     console.log(response);
-            //                 })
-            //                 .error(function (responseError) {
-            //                     console.log("Error al listar la imagen");
-            //                     console.log(responseError);
-            //                 });
-            //         })
-            //         .error(function () {
-            //             console.log("Error al subir la imagen");
-            //         });
-            // }
+            $timeout(function () {
+                UIkit.notify({
+                    message: '<i class="uk-icon-check"></i> Imagen guardada!',
+                    status: 'success',
+                    timeout: 1000,
+                    pos: 'top-right'
+                });
+
+                ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                    .then(function (data) {
+                        vm.images = data;
+                    });
+            }, 3000);
         }
+
+        $scope.subirImagen = subirImagen;
     }
 })();
 
@@ -4846,47 +4829,6 @@ angular
         vm.comentario = '';
         vm.usuarioLogueado = null;
         vm.images = [];
-        //vm.donacion = {
-        //    id_necesidad: 1,
-        //    titulo: 'Una mano para Sarita',
-        //    necesidad: 'Reiciendis laboriosam rerum maiores eveniet voluptate iusto perferendis ut quis doloremque quia eligendi perspiciatis quibusdam ut aspernatur dicta temporibus corporis dolor sequi eum et et a minima sapiente quam quia cum libero soluta et aut ad quia non doloremque quo pariatur neque nihil magni incidunt necessitatibus facere porro dicta est reprehenderit eos quos distinctio consectetur sit sint commodi voluptatem et vel eum optio nulla est aut consectetur dolores omnis incidunt rerum autem sed a sit qui deserunt maxime incidunt voluptatem et consequatur qui magni est deserunt est necessitatibus velit ut in fugiat blanditiis nostrum officiis nesciunt deserunt odio id adipisci rem nam non quia illum sed similique vel perspiciatis.',
-        //    fecha_creacion: '2016-08-16',
-        //    fecha_fin: '2016-08-26',
-        //    cant_likes: 156,
-        //    usuario: 'juan@gmail.com',
-        //    categoria: 'monetaria',
-        //    comentarios_cant: 100, //Este es al vicio.
-        //    imagen_path: 'prueba.png',
-        //    lista_coment: [{
-        //        "id_comentario": "1",
-        //        "comentario": "este es un comentario de prueba",
-        //        "fecha": "2016-08-10 14:26",
-        //        "pos": "5",
-        //        "neg": "0",
-        //        "usuario": "juan@gmail.com"
-        //    }, {
-        //        "id_comentario": "2",
-        //        "comentario": "este es un comentario de prueba 2",
-        //        "fecha": "2016-08-10 13:56",
-        //        "pos": "5",
-        //        "neg": "0",
-        //        "usuario": "juan@gmail.com"
-        //    }],
-
-
-
-        //    //Estas propiedades faltan agregar al objeto:
-        //    email: 'sarita@gmail.com',
-        //    telefono: '15-3456-2345',
-        //    facebook: '/AyudemosASarita',
-        //    twitter: '@Sarita',
-        //    fotos: 50,
-        //    favoritos: 340,
-        //    avatar: 'juan@gmail.com.jpg',
-        //    direccion: 'Arieta 123, San justo, CP 1753, Bs As, Argentina',
-        //    dineroTotal: 5000,
-        //    dineroRecaudado: 1357
-        //};
 
         //Methods
         vm.addComment = addComment;

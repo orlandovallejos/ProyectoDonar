@@ -5,9 +5,9 @@
         .module('donarApp')
         .controller('DonacionAddEditController', DonacionAddEditController);
 
-    DonacionAddEditController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
+    DonacionAddEditController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout'];
 
-    function DonacionAddEditController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
+    function DonacionAddEditController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService, $timeout) {
         var vm = this;
 
         //Variables
@@ -19,6 +19,7 @@
         vm.tipo_options = [];
         vm.isNew = true;
         vm.imagen = {};
+        vm.images = [];
 
         //Methods:
         vm.save = save;
@@ -27,10 +28,6 @@
         activate();
 
         function activate() {
-
-
-
-
             $('#input-file-a-galeria').dropify({
                 messages: {
                     default: 'Imagen default',
@@ -55,7 +52,7 @@
 
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
-                                console.log(data);
+                                vm.images = data;
                             });
 
                         if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
@@ -229,37 +226,23 @@
         }
 
         function subirImagen() {
-            var file = $scope.imagenGaleria;
-            var uploadUrl = "../subir_imagen.php";
-            var folder = 'galeria/' + $stateParams.id;
-            var fileName = null;
-            // if (file) {
-            //     fileName = file.name;
-            //     fileUpload.uploadFileToUrl(file, uploadUrl, folder)
-            //         .success(function () {
-            //             console.log("Acaba de subir la imagen");
 
-            //             //Esto sirve para listar las imagenes:
-            //             var fd = new FormData();
-            //             fd.append('folder', folder);
-            //             $http.post('../get_files.php', fd, {
-            //                 transformRequest: angular.identity,
-            //                 headers: { 'Content-Type': undefined, 'Process-Data': false }
-            //             })
-            //                 .success(function (response) {
-            //                     console.log("Lista la imagen");
-            //                     console.log(response);
-            //                 })
-            //                 .error(function (responseError) {
-            //                     console.log("Error al listar la imagen");
-            //                     console.log(responseError);
-            //                 });
-            //         })
-            //         .error(function () {
-            //             console.log("Error al subir la imagen");
-            //         });
-            // }
+            $timeout(function () {
+                UIkit.notify({
+                    message: '<i class="uk-icon-check"></i> Imagen guardada!',
+                    status: 'success',
+                    timeout: 1000,
+                    pos: 'top-right'
+                });
+
+                ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                    .then(function (data) {
+                        vm.images = data;
+                    });
+            }, 3000);
         }
+
+        $scope.subirImagen = subirImagen;
     }
 })();
 
