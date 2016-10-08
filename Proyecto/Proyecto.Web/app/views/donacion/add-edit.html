@@ -50,7 +50,7 @@
                         <div class="user_content">
                             <ul id="user_edit_tabs" class="uk-tab" data-uk-tab="{connect:'#user_edit_tabs_content'}">
                                 <li class="uk-active"><a href="#">Detalles</a></li>
-                                <li><a href="#">Fotos</a></li>
+                                <li ng-if="vm.donacion.id_necesidad"><a href="#">Fotos</a></li>
                                 <!--<li><a href="#">Groups</a></li>
                                 <li><a href="#">Todo</a></li>-->
                             </ul>
