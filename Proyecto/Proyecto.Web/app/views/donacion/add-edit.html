@@ -63,7 +63,7 @@
                                         <!--<div class="uk-grid" data-uk-grid-margin>
                                             <div class="uk-width-medium-1-2">-->
                                         <label for="titulo">Titulo</label>
-                                        <input class="md-input" type="text" id="titulo" name="titulo" ng-model="vm.donacion.titulo" md-input />
+                                        <input class="md-input" type="text" id="titulo" name="titulo" ng-model="vm.donacion.titulo" md-input maxlength="50" />
                                         <!--</div>-->
                                         <!--<div class="uk-width-medium-1-2">
                                             <label for="user_edit_position_control">User position</label>
@@ -73,7 +73,7 @@
                                         <div class="uk-grid">
                                             <div class="uk-width-1-1">
                                                 <label for="necesidad">Necesidad</label>
-                                                <textarea class="md-input" name="necesidad" id="necesidad" cols="30" rows="6" ng-model="vm.donacion.necesidad" md-input textarea-autosize>{{vm.donacion.necesidad}}</textarea>
+                                                <textarea class="md-input" name="necesidad" id="necesidad" cols="30" rows="6" ng-model="vm.donacion.necesidad" md-input textarea-autosize maxlength="1000">{{vm.donacion.necesidad}}</textarea>
                                             </div>
                                         </div>
                                         <!--<h3 class="full_width_in_card heading_c">
@@ -97,7 +97,7 @@
                                                                 <i class="md-list-addon-icon material-icons">&#xE158;</i>
                                                             </span>
                                                             <label>Email</label>
-                                                            <input type="text" class="md-input" name="user_edit_email" ng-model="vm.donacion.email" md-input />
+                                                            <input type="text" class="md-input" name="user_edit_email" ng-model="vm.donacion.email" md-input maxlength="35" />
                                                         </div>
                                                     </div>
                                                     <div>
@@ -106,7 +106,7 @@
                                                                 <i class="md-list-addon-icon material-icons">&#xE0CD;</i>
                                                             </span>
                                                             <label>Telefono</label>
-                                                            <input type="text" class="md-input" name="user_edit_phone" ng-model="vm.donacion.telefono" md-input />
+                                                            <input type="text" class="md-input" name="user_edit_phone" ng-model="vm.donacion.telefono" md-input maxlength="50" />
                                                         </div>
                                                     </div>
                                                     <div>
@@ -115,7 +115,7 @@
                                                                 <i class="md-list-addon-icon uk-icon-facebook-official" style="color:#444"></i>
                                                             </span>
                                                             <label>Facebook</label>
-                                                            <input type="text" class="md-input" name="user_edit_facebook" ng-model="vm.donacion.facebook" md-input />
+                                                            <input type="text" class="md-input" name="user_edit_facebook" ng-model="vm.donacion.facebook" md-input maxlength="50" />
                                                         </div>
                                                     </div>
                                                     <div>
@@ -124,7 +124,7 @@
                                                                 <i class="md-list-addon-icon uk-icon-twitter" style="color:#444"></i>
                                                             </span>
                                                             <label>Twitter</label>
-                                                            <input type="text" class="md-input" name="user_edit_twitter" ng-model="vm.donacion.twitter" md-input />
+                                                            <input type="text" class="md-input" name="user_edit_twitter" ng-model="vm.donacion.twitter" md-input maxlength="50" />
                                                         </div>
                                                     </div>
                                                     <div>
@@ -133,7 +133,7 @@
                                                                 <i class="md-list-addon-icon uk-icon-home" style="color:#444"></i>
                                                             </span>
                                                             <label>Direccion</label>
-                                                            <input type="text" class="md-input" name="direccion" ng-model="vm.donacion.direccion" md-input />
+                                                            <input type="text" class="md-input" name="direccion" ng-model="vm.donacion.direccion" md-input maxlength="50" />
                                                         </div>
                                                     </div>
                                                     <div>
@@ -154,7 +154,7 @@
                                                                 <i class="md-list-addon-icon uk-icon-dollar" style="color:#444"></i>
                                                             </span>
                                                             <label>Usuario de Mercado Pago</label>
-                                                            <input type="text" class="md-input" name="usuario_mp" ng-model="vm.donacion.usuario_mp" md-input />
+                                                            <input type="text" class="md-input" name="usuario_mp" ng-model="vm.donacion.usuario_mp" md-input maxlength="50" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -225,8 +225,8 @@
                                 <div class="uk-input-group">
                                     <span class="uk-input-group-addon">$</span>
                                     <div class="md-input-wrapper"><label>Objetivo</label>
-                                        <input type="text" class="md-input ng-pristine ng-valid ng-isolate-scope ng-empty md-input-processed ng-touched" ng-model="vm.donacion.dineroTotal"
-                                            md-input="">
+                                        <input type="number" class="md-input ng-pristine ng-valid ng-isolate-scope ng-empty md-input-processed ng-touched" ng-model="vm.donacion.dineroTotal"
+                                            md-input="" pattern="^[0-9]+$" >
                                         <span class="md-input-bar "></span>
                                     </div>
                                 </div>

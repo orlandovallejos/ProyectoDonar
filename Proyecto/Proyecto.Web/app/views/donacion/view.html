@@ -282,7 +282,7 @@
                                 <div class="uk-width-large-1-1">
                                     <div class="uk-input-group">
                                         <label>Donacion monetaria con Mercado Pago</label>
-                                        <input type="text" class="md-input" ng-model="vm.donacionMonetaria" md-input />
+                                        <input type="number" class="md-input" ng-model="vm.donacionMonetaria" md-input pattern="^[0-9]+$" />
                                         <span class="uk-input-group-addon">
                                         <a ng-click="vm.pagarMercadoPago()">
                                             <i class="material-icons">&#xE163;</i>
@@ -295,12 +295,12 @@
                                 <div class="uk-width-large-1-1">
                                     <div class="uk-input-group">
                                         <label>Donar elementos</label>
-                                        <input type="text" class="md-input" ng-model="vm.donacionDeCosas" md-input />
+                                        <input type="text" class="md-input" ng-model="vm.donacionDeCosas" md-input maxlength="200" />
                                         <span class="uk-input-group-addon">
-                                        <a ng-click="vm.donarCosas()">
-                                            <i class="material-icons">&#xE163;</i>
-                                        </a>
-                                    </span>
+                                            <a ng-click="vm.donarCosas()">
+                                                <i class="material-icons">&#xE163;</i>
+                                            </a>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
