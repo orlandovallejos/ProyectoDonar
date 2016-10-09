@@ -23,7 +23,7 @@
                                 <span class="uk-text-truncate">{{vm.donacion.titulo}}</span>
                                 <!--<span class="sub-heading">{{vm.user_data.position}}</span>-->
                             </h2>
-                            <ul class="user_stats">
+                            <ul class="user_stats" style="display: table;float: left;">
                                 <li>
                                     <h4 class="heading_a">{{vm.donacion.cant_likes}}<span class="sub-heading"><i class="uk-icon-thumbs-o-up"></i> Likes</span></h4>
                                 </li>
@@ -34,6 +34,50 @@
                                     <h4 class="heading_a">{{vm.donacion.cant_favs}}<span class="sub-heading"><i class="uk-icon-star-o"></i> Favoritos</span></h4>
                                 </li>
                             </ul>
+
+                            <div id="botones-para-compartir">
+                                <a href="javascript:void(0);" onclick="window.open('http://www.facebook.com/sharer/sharer.php?u=http://www.soydonar.com/',&quot;gplusshare&quot;,&quot;toolbar=0,status=0,width=548,height=325&quot;);"
+                                    rel="nofollow" title="Compartir en Facebook"><img alt="compartir en facebook" class="facebooko" height="40" src="http://1.bp.blogspot.com/-rwK-4X3iLjc/ViFsOclr9NI/AAAAAAAABwc/ocBw9cxRK2M/s1600/facebook-long.png"
+                                        title="compartir en facebook" width="40" /></a>
+                                <a href="javascript:void(0);" onclick="window.open(&quot;https://plus.google.com/share?url=http://www.soydonar.com/&quot;,&quot;gplusshare&quot;,&quot;toolbar=0,status=0,width=548,height=325&quot;);"
+                                    rel="nofollow" title="Compartir en Google+"><img alt="compartir en google+" class="googleo" height="40" src="http://1.bp.blogspot.com/-SKqPlZHzLgg/ViFsOt7HbeI/AAAAAAAABw0/bQQhWqgEpWM/s1600/google-long.png"
+                                        title="compartir en google+" width="40" /></a>
+                                <a href="javascript:void(0);" onclick="window.open(&quot;http://twitter.com/home?status=http://www.soydonar.com/&quot;,&quot;gplusshare&quot;,&quot;toolbar=0,status=0,width=548,height=325&quot;);"
+                                    rel="nofollow" title="Compartir en Google+"><img alt="compartir en twitter" class="twittero" height="40" src="http://4.bp.blogspot.com/-gqVyoE8cVME/ViFsO009lbI/AAAAAAAABwo/1oK8cUnY36Q/s1600/twitter-long.png"
+                                        title="compartir en twitter" width="40" /></a>
+                            </div>
+                            <style>
+                                #botones-para-compartir {
+                                    text-align: center;
+                                    display: table;
+                                    float: right;
+                                }
+                                
+                                .facebooko:hover,
+                                .twittero:hover,
+                                .googleo:hover {
+                                    -webkit-transform: rotate(360deg);
+                                    -moz-transform: rotate(360deg);
+                                    transform: rotate(360deg);
+                                    transition: all .3s ease-out;
+                                    -moz-transition: all .5s;
+                                    -webkit-transition: all .5s;
+                                    -o-transition: all .5s;
+                                }
+                                
+                                .likedino,
+                                .facebooko,
+                                .twittero,
+                                .googleo,
+                                .pinteresto {
+                                    transition: all .3s ease-out;
+                                    -moz-transition: all .5s;
+                                    -webkit-transition: all .5s;
+                                    -o-transition: all .5s;
+                                    margin-left: 10px;
+                                    /* espacio entre cada boton */
+                                }
+                            </style>
                         </div>
                         <a ng-if="vm.isCreatedUser" class="md-fab md-fab-small md-fab-accent" ng-click="vm.editar()">
                             <i class="material-icons">&#xE150;</i>
@@ -178,7 +222,7 @@
                                 <span class="uk-form-help-block">Recaudado</span>
                             </div>
 
-                            <ul class="md-list md-list-addon">
+                            <!--<ul class="md-list md-list-addon">
                                 <li>
                                     <div class="md-list-addon-element">
                                         <i class="md-list-addon-icon material-icons uk-text-warning">&#xE88F;</i>
@@ -206,7 +250,7 @@
                                         <span class="uk-text-small uk-text-muted uk-text-truncate">Desde lapices hasta mochilas</span>
                                     </div>
                                 </li>
-                            </ul>
+                            </ul>-->
                             <div ng-if="vm.usuarioLogueado" class="uk-grid" data-uk-grid-margin data-uk-grid-match id="user_profile">
                                 <div class="uk-width-large-1-2">
                                     <span class="uk-input-group-addon">

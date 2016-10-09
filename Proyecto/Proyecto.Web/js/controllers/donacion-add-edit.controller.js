@@ -264,7 +264,10 @@ angular
                 element.bind('change', function () {
                     scope.$apply(function () {
                         var file = null;
-                        carpeta = element[0].attributes['file-carpeta'].nodeValue;
+
+                        if (element[0] && element[0].attributes.length > 0 && element[0].attributes['file-carpeta']) {
+                            carpeta = element[0].attributes['file-carpeta'].nodeValue;
+                        }
 
                         if (element[0].type && element[0].type === 'file') {
                             modelSetter(scope, element[0].files[0]);

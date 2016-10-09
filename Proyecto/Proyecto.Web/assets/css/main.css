@@ -11008,6 +11008,8 @@ a.waves-effect .waves-ripple {
 /* blog */
 .blog_list_teaser_image {
   margin-bottom: 16px;
+  max-height: 250px;
+  min-height: 250px;
 }
 .blog_list_teaser_video {
   margin-bottom: 16px;
