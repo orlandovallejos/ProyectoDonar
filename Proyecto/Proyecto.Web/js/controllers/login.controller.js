@@ -124,6 +124,14 @@
                             pos: 'top-right'
                         });
                     }
+                })
+                .catch(function (response) {
+                    UIkit.notify({
+                        message: '<i class="uk-icon-times-circle"></i> Usuario o contraseña incorrectos',
+                        status: 'danger',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
                 });
         }
 

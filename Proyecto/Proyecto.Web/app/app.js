@@ -4548,6 +4548,11 @@
                         console.log(data);
                         vm.donacion = data;
 
+                        //Valido la no existencia de la imagen:
+                        if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
+                            vm.donacion.imagen_path = 'prueba.png';
+                        }
+
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
                                 vm.images = data;
@@ -5334,6 +5339,14 @@ angular
                             pos: 'top-right'
                         });
                     }
+                })
+                .catch(function (response) {
+                    UIkit.notify({
+                        message: '<i class="uk-icon-times-circle"></i> Usuario o contraseña incorrectos',
+                        status: 'danger',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
                 });
         }
 

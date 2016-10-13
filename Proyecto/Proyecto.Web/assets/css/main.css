@@ -13636,3 +13636,12 @@ body {
 .k-panelbar>li>.k-state-hover, .k-panelbar>li>.k-state-selected, .k-panelbar>li>.k-state-focused  {
     background-color: #edd226;
 }*/
+
+.sin-overflow{
+	overflow:hidden;
+}
+
+.usuario-avatar{
+	min-height: 80px;
+	min-width:80px;
+}
