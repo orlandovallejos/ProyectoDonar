@@ -31,7 +31,7 @@
                                     <h4 class="heading_a">{{vm.donacion.cant_fotos}}<span class="sub-heading"><i class="uk-icon-camera"></i> Fotos</span></h4>
                                 </li>
                                 <li>
-                                    <h4 class="heading_a">{{vm.donacion.cant_favs}}<span class="sub-heading"><i class="uk-icon-star-o"></i> Favoritos</span></h4>
+                                    <h4 class="heading_a">{{vm.donacion.cant_favs}}<span class="sub-heading"><i class="uk-icon-heart-o"></i> Favoritos</span></h4>
                                 </li>
                             </ul>
 
@@ -213,8 +213,7 @@
                         <div class="uk-margin-medium-bottom">
                             <h3 class="heading_c uk-margin-bottom">Informacion adicional</h3>
 
-                            <img ng-src="http://www.soydonar.com/imagenes/necesidades/{{vm.donacion.imagen_path}}" alt="" class="blog_list_teaser_image ng-scope"
-                            />
+                            <img ng-src="http://www.soydonar.com/imagenes/necesidades/{{vm.donacion.imagen_path}}" alt="" class="blog_list_teaser_image ng-scope" />
 
                             <div ng-if="vm.donacion.categoria == 'DINERO'">
                                 <div id="ionslider_2" name="ionslider_2" ion-slider ng-model="vm.donacion.dineroRecaudado" min="0" max="5000" grid="true"

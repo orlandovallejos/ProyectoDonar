@@ -169,7 +169,7 @@
             var file = $scope.imagen;
             var uploadUrl = "../subir_imagen.php";
             var folder = 'necesidades';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
-            var fileName = vm.donacion.imagen_path;
+            var fileName = vm.donacion.imagen_path || 'prueba.png';
             if (file) {
                 fileName = file.name;
                 fileUpload.uploadFileToUrl(file, uploadUrl, folder)
