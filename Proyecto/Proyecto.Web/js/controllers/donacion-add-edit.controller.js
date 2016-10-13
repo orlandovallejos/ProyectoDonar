@@ -50,6 +50,11 @@
                         console.log(data);
                         vm.donacion = data;
 
+                        //Valido la no existencia de la imagen:
+                        if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
+                            vm.donacion.imagen_path = 'prueba.png';
+                        }
+
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
                                 vm.images = data;

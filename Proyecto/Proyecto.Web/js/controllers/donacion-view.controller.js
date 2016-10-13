@@ -35,14 +35,19 @@
                     console.log(data);
                     vm.donacion = data;
 
+                    //Valido la no existencia de la imagen:
+                    if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
+                        vm.donacion.imagen_path = 'prueba.png';
+                    }
+
                     if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                         vm.isCreatedUser = true;
                     }
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                            .then(function (data) {
-                                vm.images = data;
-                            });
+                        .then(function (data) {
+                            vm.images = data;
+                        });
                 });
         }
 

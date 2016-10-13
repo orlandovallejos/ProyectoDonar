@@ -4667,7 +4667,7 @@
             var file = $scope.imagen;
             var uploadUrl = "../subir_imagen.php";
             var folder = 'necesidades';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
-            var fileName = vm.donacion.imagen_path;
+            var fileName = vm.donacion.imagen_path || 'prueba.png';
             if (file) {
                 fileName = file.name;
                 fileUpload.uploadFileToUrl(file, uploadUrl, folder)
@@ -4851,14 +4851,19 @@ angular
                     console.log(data);
                     vm.donacion = data;
 
+                    //Valido la no existencia de la imagen:
+                    if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
+                        vm.donacion.imagen_path = 'prueba.png';
+                    }
+
                     if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                         vm.isCreatedUser = true;
                     }
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                            .then(function (data) {
-                                vm.images = data;
-                            });
+                        .then(function (data) {
+                            vm.images = data;
+                        });
                 });
         }
 
@@ -5160,6 +5165,13 @@ angular
                 .then(function (data) {
                     console.log(data);
                     vm.donaciones = data;
+
+                    vm.donaciones.forEach(function (e, i, a) {
+                        //Valido la no existencia de la imagen:
+                        if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
+                            e.imagen_path = 'prueba.png';
+                        }
+                    });
                 });
 
             ServerService.getCategorias()
