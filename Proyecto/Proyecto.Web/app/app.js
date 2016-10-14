@@ -5113,6 +5113,38 @@ angular
             console.log(longestPalindrome('neuquen manam notApalindrome')); // returns 'neuquen,'
 
 
+            //Now im gonna test Closures:
+            function wrongClosureId(arrayActores) {
+                var i;
+                for (i = 0; i < arrayActores.length; i++) {
+                    arrayActores[i].id = function () {
+                        return i;
+                    }();
+                }
+
+                return arrayActores;
+            }
+
+            function goodClosureId(arrayActores) {
+                var i;
+                for (i = 0; i < arrayActores.length; i++) {
+                    arrayActores[i].id = (function (j) {
+                        return function () {
+                            return j;
+                        }();
+                    })(i);
+                }
+            }
+
+            var aActores = [{ nombre: 'stallone', id: 0 }, { nombre: 'brad pitt', id: 0 }, { nombre: 'matt damon', id: 0 }];
+            var bActores = [{ nombre: 'stallone', id: 0 }, { nombre: 'brad pitt', id: 0 }, { nombre: 'matt damon', id: 0 }];
+
+            wrongClosureId(aActores);
+            goodClosureId(bActores);
+
+            console.log(aActores);
+            console.log(bActores);
+
             ///////////////////////////////////////////////////////////////////////////////////////
             //Given a string of size N an a number K. Find the greatest substring with K different characters.
 
