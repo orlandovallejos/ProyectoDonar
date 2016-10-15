@@ -87,8 +87,9 @@
             savePendienteDonatario: savePendienteDonatario,
             getInfoUsuario: getInfoUsuario,
             guardarUsuario: guardarUsuario,
-            getMisDonaciones:getMisDonaciones,
-            getFilesInFolder:getFilesInFolder
+            getMisDonaciones: getMisDonaciones,
+            getFilesInFolder: getFilesInFolder,
+            guardarVideo: guardarVideo
         };
 
         return service;
@@ -332,6 +333,29 @@
                     return response.data;
                 },
                 function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function guardarVideo(request) {
+            // var request = {
+            //     id_video: '001',
+            //     url: 'https://youtu.be/ghABkLllJ74',
+            //     comentario: 'Este es un comentario de prueba',
+            //     fecha: '2016-09-24',
+            //     usuario: '100',
+            //     id_necesidad: '2',
+            //     titulo: '[PRUEBA] Ladrillos'
+            // };
+
+            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos', JSON.stringify(request))
+                .then(function (response) {
+                    console.log('Guardar video');
+                    console.log(response);
+                    return response.data;
+                })
+                .catch(function (responseError) {
+                    console.log(responseError);
                     return responseError;
                 });
         }

@@ -55,6 +55,11 @@
                             vm.donacion.imagen_path = 'prueba.png';
                         }
 
+                        //Valido la conversion del nro que viene desde el server:
+                        if (vm.donacion.dineroTotal && vm.donacion.dineroTotal.replace(/[^.,0-9]/ig, '').length > 0) {
+                            vm.donacion.dineroTotal = parseFloat(vm.donacion.dineroTotal);
+                        }
+
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
                                 vm.images = data;
@@ -93,6 +98,12 @@
                                 });
                         }
                     });
+
+                // vm.blog_articles = [];
+                // $http({ method: 'GET', url: 'data/blog_articles.json' })
+                //     .then(function (data) {
+                //         vm.blog_articles = data.data;
+                //     });
             }
             else {
                 if (!vm.usuarioLogueado) {

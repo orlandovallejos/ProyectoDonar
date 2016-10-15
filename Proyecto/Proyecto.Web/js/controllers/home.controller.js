@@ -22,9 +22,9 @@
         vm.buscar = buscar;
 
         activate();
+        activate2();
 
-        function activate() {
-
+        function activate2() {
             function isPalindrome(input) {
                 if (!input || typeof input !== 'string')
                     throw 'Not a string.';
@@ -131,9 +131,10 @@
             verificarPalabra('papas, casa, masaaaaaaaaaa', 4);
             verificarPalabra('papas, casa, masaaaaaaaaaaenrjwnerj', 3);
 
-
-
             ///////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        function activate() {
             vm.tipo_config = {
                 valueField: 'value',
                 labelField: 'title',

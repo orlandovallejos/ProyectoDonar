@@ -2777,8 +2777,8 @@
             savePendienteDonatario: savePendienteDonatario,
             getInfoUsuario: getInfoUsuario,
             guardarUsuario: guardarUsuario,
-            getMisDonaciones:getMisDonaciones,
-            getFilesInFolder:getFilesInFolder
+            getMisDonaciones: getMisDonaciones,
+            getFilesInFolder: getFilesInFolder
         };
 
         return service;
@@ -3022,6 +3022,29 @@
                     return response.data;
                 },
                 function (responseError) {
+                    return responseError;
+                });
+        }
+
+        function guardarVideo(request) {
+            // var request = {
+            //     id_video: '001',
+            //     url: 'https://youtu.be/ghABkLllJ74',
+            //     comentario: 'Este es un comentario de prueba',
+            //     fecha: '2016-09-24',
+            //     usuario: '100',
+            //     id_necesidad: '2',
+            //     titulo: '[PRUEBA] Ladrillos'
+            // };
+
+            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos', JSON.stringify(request))
+                .then(function (response) {
+                    console.log('Guardar video');
+                    console.log(response);
+                    return response.data;
+                })
+                .catch(function (responseError) {
+                    console.log(responseError);
                     return responseError;
                 });
         }
@@ -4553,6 +4576,11 @@
                             vm.donacion.imagen_path = 'prueba.png';
                         }
 
+                        //Valido la conversion del nro que viene desde el server:
+                        if (vm.donacion.dineroTotal && vm.donacion.dineroTotal.replace(/[^.,0-9]/ig, '').length > 0) {
+                            vm.donacion.dineroTotal = parseFloat(vm.donacion.dineroTotal);
+                        }
+
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
                                 vm.images = data;
@@ -4591,6 +4619,12 @@
                                 });
                         }
                     });
+
+                // vm.blog_articles = [];
+                // $http({ method: 'GET', url: 'data/blog_articles.json' })
+                //     .then(function (data) {
+                //         vm.blog_articles = data.data;
+                //     });
             }
             else {
                 if (!vm.usuarioLogueado) {
@@ -5079,9 +5113,9 @@ angular
         vm.buscar = buscar;
 
         activate();
+        activate2();
 
-        function activate() {
-
+        function activate2() {
             function isPalindrome(input) {
                 if (!input || typeof input !== 'string')
                     throw 'Not a string.';
@@ -5119,7 +5153,7 @@ angular
                 for (i = 0; i < arrayActores.length; i++) {
                     arrayActores[i].id = function () {
                         return i;
-                    }();
+                    };
                 }
 
                 return arrayActores;
@@ -5131,7 +5165,7 @@ angular
                     arrayActores[i].id = (function (j) {
                         return function () {
                             return j;
-                        }();
+                        } ();
                     })(i);
                 }
             }
@@ -5142,9 +5176,10 @@ angular
             wrongClosureId(aActores);
             goodClosureId(bActores);
 
-            console.log(aActores);
+            console.log('aActores[0].id()');
+            console.log(aActores[0].id());
+            console.log('bActores');
             console.log(bActores);
-
             ///////////////////////////////////////////////////////////////////////////////////////
             //Given a string of size N an a number K. Find the greatest substring with K different characters.
 
@@ -5187,9 +5222,10 @@ angular
             verificarPalabra('papas, casa, masaaaaaaaaaa', 4);
             verificarPalabra('papas, casa, masaaaaaaaaaaenrjwnerj', 3);
 
-
-
             ///////////////////////////////////////////////////////////////////////////////////////
+        }
+
+        function activate() {
             vm.tipo_config = {
                 valueField: 'value',
                 labelField: 'title',
