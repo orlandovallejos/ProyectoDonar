@@ -3,11 +3,11 @@
 
     angular
         .module('donarApp')
-        .controller('DonacionAddEditController', DonacionAddEditController);
+        .controller('DonacionResultadoController', DonacionResultadoController);
 
-    DonacionAddEditController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout'];
+    DonacionResultadoController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout'];
 
-    function DonacionAddEditController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService, $timeout) {
+    function DonacionResultadoController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService, $timeout) {
         var vm = this;
 
         //Variables
@@ -111,17 +111,8 @@
                                 });
                         }
                     });
-
-                // vm.blog_articles = [];
-                // $http({ method: 'GET', url: 'data/blog_articles.json' })
-                //     .then(function (data) {
-                //         vm.blog_articles = data.data;
-                //         console.log('Videos:');
-                //         console.log(data.data);
-                //     });
             }
             else {
-
                 vm.donacion.avatar = vm.usuarioLogueado.imagen_path;
                 vm.donacion.cant_likes = 0;
                 vm.donacion.cant_fotos = 0;

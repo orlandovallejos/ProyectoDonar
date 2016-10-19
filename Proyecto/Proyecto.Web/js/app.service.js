@@ -329,18 +329,33 @@
         }
 
         function getFilesInFolder(folder) {
+            var fd = new FormData();
+            fd.append('folder', folder.replace(/[-]/g, '/'));
+            $http.post('../crear_carpeta.php', fd, {
+                transformRequest: angular.identity,
+                headers: { 'Content-Type': undefined, 'Process-Data': false }
+            })
+                .success(function (response) {
+                    // console.log("Carpeta creada");
+                    // console.log(response);
+                })
+                .error(function (responseError) {
+                    // console.log("Error al crear la carpeta");
+                    // console.log(responseError);
+                });
+
             return $http.get('http://soydonar.com/webservices/webresources/obtenerarchivos/' + folder)
                 .then(function (response) {
-                    return response.data;
+                    return $q.resolve(response.data);
                 },
                 function (responseError) {
-                    return responseError;
+                    return $q.reject(responseError);
                 });
         }
 
         function guardarVideo(request) {
 
-            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos/carga', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Guardar video');
                     console.log(response);

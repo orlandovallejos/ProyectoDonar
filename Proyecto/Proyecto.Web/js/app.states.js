@@ -192,6 +192,20 @@
                             }]
                         }
                     })
+                    .state("restricted.donacion-resultado", {
+                        url: "/Donacion/Resultado/{id}",
+                        controller: 'DonacionResultadoController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/resultado.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'assets/js/custom/uikit_fileinput.min.js',
+                                    'lazy_dropify'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
                     // -- DASHBOARD --
                     .state("restricted.dashboard", {
                         url: "/",

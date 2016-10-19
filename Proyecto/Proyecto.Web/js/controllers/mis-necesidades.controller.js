@@ -15,6 +15,7 @@
 
         //Methods
         vm.edit = edit;
+        vm.resultado = resultado;
 
         activate();
 
@@ -43,6 +44,10 @@
         //Method definitions
         function edit(idNecesidad) {
             $state.go('restricted.donacion-edit', { id: idNecesidad });
+        }
+
+        function resultado(idNecesidad) {
+            $state.go('restricted.donacion-resultado', { id: idNecesidad });
         }
     }
 })();

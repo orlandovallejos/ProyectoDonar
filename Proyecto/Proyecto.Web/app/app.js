@@ -3019,18 +3019,33 @@
         }
 
         function getFilesInFolder(folder) {
+            var fd = new FormData();
+            fd.append('folder', folder.replace(/[-]/g, '/'));
+            $http.post('../crear_carpeta.php', fd, {
+                transformRequest: angular.identity,
+                headers: { 'Content-Type': undefined, 'Process-Data': false }
+            })
+                .success(function (response) {
+                    // console.log("Carpeta creada");
+                    // console.log(response);
+                })
+                .error(function (responseError) {
+                    // console.log("Error al crear la carpeta");
+                    // console.log(responseError);
+                });
+
             return $http.get('http://soydonar.com/webservices/webresources/obtenerarchivos/' + folder)
                 .then(function (response) {
-                    return response.data;
+                    return $q.resolve(response.data);
                 },
                 function (responseError) {
-                    return responseError;
+                    return $q.reject(responseError);
                 });
         }
 
         function guardarVideo(request) {
 
-            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos/carga', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Guardar video');
                     console.log(response);
@@ -3327,6 +3342,20 @@
                         controller: 'DonacionAddEditController',
                         controllerAs: 'vm',
                         templateUrl: 'app/views/donacion/add-edit.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'assets/js/custom/uikit_fileinput.min.js',
+                                    'lazy_dropify'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
+                    .state("restricted.donacion-resultado", {
+                        url: "/Donacion/Resultado/{id}",
+                        controller: 'DonacionResultadoController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/resultado.html',
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
@@ -4583,6 +4612,73 @@
             }
         ]);
 })();
+angular
+    .module('donarApp').directive('fileModel', ['$parse', '$http', function ($parse, $http) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+                var carpeta = null;
+                if (attrs.fileCarpeta) {
+                    carpeta = attrs.fileCarpeta;
+                }
+
+                element.bind('change', function () {
+                    scope.$apply(function () {
+                        var file = null;
+
+                        if (element[0] && element[0].attributes.length > 0 && element[0].attributes['file-carpeta']) {
+                            carpeta = element[0].attributes['file-carpeta'].nodeValue;
+                        }
+
+                        if (element[0].type && element[0].type === 'file') {
+                            modelSetter(scope, element[0].files[0]);
+                            file = element[0].files[0];
+                        }
+                        else {
+                            var fileInput = element[0].children[1];
+                            modelSetter(scope, fileInput.files[0]);
+                            file = fileInput.files[0];
+                        }
+
+                        if (carpeta && file) {
+                            var fd = new FormData();
+                            fd.append('file', file);
+                            fd.append('folder', carpeta);
+                            $http.post('../subir_imagen.php', fd, {
+                                transformRequest: angular.identity,
+                                headers: { 'Content-Type': undefined, 'Process-Data': false }
+                            })
+                                .success(function (response) {
+                                    console.log("Lista la imagen");
+                                    console.log(response);
+                                })
+                                .error(function (responseError) {
+                                    console.log("Error al listar la imagen");
+                                    console.log(responseError);
+                                });
+                        }
+
+                    });
+                });
+            }
+        };
+    }]);
+
+// We can write our own fileUpload service to reuse it in the controller
+angular
+    .module('donarApp').service('fileUpload', ['$http', function ($http) {
+        this.uploadFileToUrl = function (file, uploadUrl, folder) {
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('folder', folder);
+            return $http.post(uploadUrl, fd, {
+                transformRequest: angular.identity,
+                headers: { 'Content-Type': undefined, 'Process-Data': false }
+            });
+        }
+    }]);
 (function () {
     "use strict";
 
@@ -4629,6 +4725,9 @@
                 });
 
             vm.usuarioLogueado = SessionStorageService.get('usuario');
+            if (!vm.usuarioLogueado) {
+                $state.go('restricted.home');
+            }
 
             if ($stateParams.id) {
                 vm.isNew = false;
@@ -4703,9 +4802,6 @@
                 //     });
             }
             else {
-                if (!vm.usuarioLogueado) {
-                    $state.go('restricted.home');
-                }
 
                 vm.donacion.avatar = vm.usuarioLogueado.imagen_path;
                 vm.donacion.cant_likes = 0;
@@ -4895,77 +4991,309 @@
         $scope.subirImagen = subirImagen;
     }
 })();
+(function () {
+    "use strict";
 
+    angular
+        .module('donarApp')
+        .controller('DonacionResultadoController', DonacionResultadoController);
 
+    DonacionResultadoController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout'];
 
+    function DonacionResultadoController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService, $timeout) {
+        var vm = this;
 
-angular
-    .module('donarApp').directive('fileModel', ['$parse', '$http', function ($parse, $http) {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attrs) {
-                var model = $parse(attrs.fileModel);
-                var modelSetter = model.assign;
-                var carpeta = null;
-                if (attrs.fileCarpeta) {
-                    carpeta = attrs.fileCarpeta;
+        //Variables
+        vm.usuarioLogueado = {};
+        vm.donacion = {};
+        vm.categorias = [];
+        vm.categorias_config = {};
+        vm.tipo_config = {};
+        vm.tipo_options = [];
+        vm.isNew = true;
+        vm.imagen = {};
+        vm.images = [];
+        vm.videos = [];
+
+        //Methods:
+        vm.save = save;
+        vm.subirImagen = subirImagen;
+        vm.getYTLink = getYTLink;
+        vm.subirVideo = subirVideo;
+
+        activate();
+
+        function activate() {
+            $('#input-file-a-galeria').dropify({
+                messages: {
+                    default: 'Imagen default',
+                    replace: 'Haga click para reemplazar',
+                    remove: 'Eliminar',
+                    error: 'Hubo un error'
                 }
+            })
+                .on('dropify.afterClear', function (event, element) {
+                    $scope.imagenGaleria = null;
+                });
 
-                element.bind('change', function () {
-                    scope.$apply(function () {
-                        var file = null;
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+            if (!vm.usuarioLogueado) {
+                $state.go('restricted.home');
+            }
 
-                        if (element[0] && element[0].attributes.length > 0 && element[0].attributes['file-carpeta']) {
-                            carpeta = element[0].attributes['file-carpeta'].nodeValue;
+            if ($stateParams.id) {
+                vm.isNew = false;
+
+                ServerService.getDonacion($stateParams.id)
+                    .then(function (data) {
+                        console.log(data);
+                        vm.donacion = data;
+
+                        //Valido la no existencia de la imagen:
+                        if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
+                            vm.donacion.imagen_path = 'prueba.png';
                         }
 
-                        if (element[0].type && element[0].type === 'file') {
-                            modelSetter(scope, element[0].files[0]);
-                            file = element[0].files[0];
-                        }
-                        else {
-                            var fileInput = element[0].children[1];
-                            modelSetter(scope, fileInput.files[0]);
-                            file = fileInput.files[0];
+                        //Valido la conversion del nro que viene desde el server:
+                        if (vm.donacion.dineroTotal && vm.donacion.dineroTotal.replace(/[^.,0-9]/ig, '').length > 0) {
+                            vm.donacion.dineroTotal = parseFloat(vm.donacion.dineroTotal);
                         }
 
-                        if (carpeta && file) {
-                            var fd = new FormData();
-                            fd.append('file', file);
-                            fd.append('folder', carpeta);
-                            $http.post('../subir_imagen.php', fd, {
-                                transformRequest: angular.identity,
-                                headers: { 'Content-Type': undefined, 'Process-Data': false }
+                        ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                            .then(function (data) {
+                                vm.images = data;
+                            });
+
+                        ServerService.getVideos($stateParams.id)
+                            .then(function (data) {
+                                vm.videos = data;
+                            });
+
+                        //vm.videos = ServerService.getVideos($stateParams.id);
+
+                        if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
+                            vm.isCreatedUser = true;
+                        }
+
+                        if (vm.donacion.imagen_path) {
+                            $('.dropify').dropify({
+                                messages: {
+                                    default: 'Imagen default',
+                                    replace: 'Haga click para reemplazar',
+                                    remove: 'Eliminar',
+                                    error: 'Hubo un error'
+                                },
+                                defaultFile: 'http://www.soydonar.com/imagenes/necesidades/' + vm.donacion.imagen_path
                             })
-                                .success(function (response) {
-                                    console.log("Lista la imagen");
-                                    console.log(response);
-                                })
-                                .error(function (responseError) {
-                                    console.log("Error al listar la imagen");
-                                    console.log(responseError);
+                                .on('dropify.afterClear', function (event, element) {
+                                    $scope.imagen = null;
                                 });
                         }
-
+                        else {
+                            $('.dropify').dropify({
+                                messages: {
+                                    default: 'Imagen default',
+                                    replace: 'Haga click para reemplazar',
+                                    remove: 'Eliminar',
+                                    error: 'Hubo un error'
+                                },
+                                defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
+                            })
+                                .on('dropify.afterClear', function (event, element) {
+                                    $scope.imagen = null;
+                                });
+                        }
                     });
-                });
             }
-        };
-    }]);
+            else {
+                vm.donacion.avatar = vm.usuarioLogueado.imagen_path;
+                vm.donacion.cant_likes = 0;
+                vm.donacion.cant_fotos = 0;
+                vm.donacion.cant_favs = 0;
+                vm.isCreatedUser = true;
 
-// We can write our own fileUpload service to reuse it in the controller
-angular
-    .module('donarApp').service('fileUpload', ['$http', function ($http) {
-        this.uploadFileToUrl = function (file, uploadUrl, folder) {
-            var fd = new FormData();
-            fd.append('file', file);
-            fd.append('folder', folder);
-            return $http.post(uploadUrl, fd, {
-                transformRequest: angular.identity,
-                headers: { 'Content-Type': undefined, 'Process-Data': false }
-            });
+                $('.dropify').dropify({
+                    messages: {
+                        default: 'Imagen default',
+                        replace: 'Haga click para reemplazar',
+                        remove: 'Eliminar',
+                        error: 'Hubo un error'
+                    },
+                    defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
+                })
+                    .on('dropify.afterClear', function (event, element) {
+                        $scope.imagen = null;
+                    });
+            }
+
+            ServerService.getCategorias()
+                .then(function (response) {
+                    vm.categorias = [];
+
+                    for (var i = 0; i < response.length; i++) {
+                        vm.categorias.push({ id: response[i], title: response[i] });
+                    }
+
+                    vm.tipo_options = [];
+                    for (var i = 0; i < response.length; i++) {
+                        vm.tipo_options.push({ value: response[i], title: response[i] });
+                    }
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+
+            vm.categorias_config = {
+                plugins: {
+                    'remove_button': {
+                        label: ''
+                    }
+                },
+                render: {
+                    option: function (langData, escape) {
+                        return '<div class="option">' +
+                            '<i class="item-icon"></i>' +
+                            '<span>' + escape(langData.title) + '</span>' +
+                            '</div>';
+                    },
+                    item: function (langData, escape) {
+                        return '<div class="item"><i class="item-icon"></i>' + escape(langData.title) + '</div>';
+                    }
+                },
+                valueField: 'id',
+                labelField: 'title',
+                searchField: 'title',
+                create: false,
+                placeholder: 'Seleccionar categoria...'
+            };
+
+            vm.tipo_config = {
+                valueField: 'value',
+                labelField: 'title',
+                create: false,
+                maxItems: 1,
+                placeholder: 'Seleccionar...'
+            };
         }
-    }]);
+
+        function save() {
+
+            var file = $scope.imagen;
+            var uploadUrl = "../subir_imagen.php";
+            var folder = 'necesidades';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
+            var fileName = vm.donacion.imagen_path || 'prueba.png';
+            if (file) {
+                fileName = file.name;
+                fileUpload.uploadFileToUrl(file, uploadUrl, folder)
+                    .success(function () {
+                        console.log("Acaba de subir la imagen");
+                    })
+                    .error(function () {
+                        console.log("Error al subir la imagen");
+                    });
+            }
+
+            var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
+            var pad = "00";
+            dia = pad.substring(0, pad.length - dia.toString().length) + dia;
+            mes = pad.substring(0, pad.length - mes.toString().length) + mes;
+            var fecha = anio + '-' + mes + '-' + dia;
+
+            var request = {
+                titulo: vm.donacion.titulo,
+                necesidad: vm.donacion.necesidad,
+                fecha_creacion: fecha,
+                fecha_fin: vm.donacion.fecha_fin || null,
+                telefono: vm.donacion.telefono,
+                facebook: vm.donacion.facebook,
+                twitter: vm.donacion.twitter,
+                usuario: vm.usuarioLogueado.usuario,
+                direccion: vm.donacion.direccion,
+                email: vm.donacion.email,
+                categoria: vm.donacion.categoria,
+                imagen_path: fileName,
+                dineroTotal: vm.donacion.dineroTotal,
+                dineroRecaudado: vm.donacion.dineroRecaudado,
+                usuario_mp: vm.donacion.usuario_mp
+            };
+
+            if (!vm.isNew) {
+                request.id_necesidad = $stateParams.id;
+            }
+
+            ServerService.saveDonacion(request)
+                .then(function (response) {
+                    console.log(response);
+
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se ha guardado con éxito!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function subirImagen() {
+
+            $timeout(function () {
+                UIkit.notify({
+                    message: '<i class="uk-icon-check"></i> Imagen guardada!',
+                    status: 'success',
+                    timeout: 1000,
+                    pos: 'top-right'
+                });
+
+                ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                    .then(function (data) {
+                        vm.images = data;
+                    });
+            }, 3000);
+        }
+
+        function getYTLink(src) {
+            //return 'https://www.youtube.com/v/' + src + '?rel=0';
+            return src.replace("watch?v=", "v/");;
+        };
+
+        function subirVideo() {
+            var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
+            var pad = "00";
+            dia = pad.substring(0, pad.length - dia.toString().length) + dia;
+            mes = pad.substring(0, pad.length - mes.toString().length) + mes;
+            var fecha = anio + '-' + mes + '-' + dia;
+
+            var request = {
+                url: vm.video.url,
+                comentario: vm.video.descripcion,
+                fecha: fecha,
+                usuario: vm.usuarioLogueado.usuario,
+                id_necesidad: vm.donacion.id_necesidad,
+                titulo: vm.video.titulo
+            };
+
+            ServerService.guardarVideo(request)
+                .then(function (response) {
+                    console.log(response);
+
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se ha guardado el video!',
+                        status: 'success',
+                        //timeout: 5000,
+                        pos: 'top-right'
+                    });
+                })
+                .catch(function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        $scope.subirImagen = subirImagen;
+    }
+})();
 (function () {
     "use strict";
     angular
@@ -5571,6 +5899,7 @@ angular
 
         //Methods
         vm.edit = edit;
+        vm.resultado = resultado;
 
         activate();
 
@@ -5599,6 +5928,10 @@ angular
         //Method definitions
         function edit(idNecesidad) {
             $state.go('restricted.donacion-edit', { id: idNecesidad });
+        }
+
+        function resultado(idNecesidad) {
+            $state.go('restricted.donacion-resultado', { id: idNecesidad });
         }
     }
 })();
