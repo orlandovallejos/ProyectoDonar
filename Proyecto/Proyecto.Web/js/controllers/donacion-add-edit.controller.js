@@ -233,6 +233,17 @@
                 usuario_mp: vm.donacion.usuario_mp
             };
 
+            if (!request.titulo || !request.necesidad || !request.usuario) {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> El título y la necesidad son requeridos',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+
+                return;
+            }
+
             if (!vm.isNew) {
                 request.id_necesidad = $stateParams.id;
             }

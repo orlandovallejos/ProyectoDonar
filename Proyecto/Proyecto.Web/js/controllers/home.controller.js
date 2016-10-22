@@ -22,7 +22,7 @@
         vm.buscar = buscar;
 
         activate();
-        activate2();
+        //activate2();
 
         function activate2() {
             function isPalindrome(input) {
