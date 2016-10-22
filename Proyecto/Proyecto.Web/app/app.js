@@ -5510,6 +5510,12 @@ angular
 
                         if (Object.prototype.toString.call(data) === '[object Array]') {
                             vm.favoritos = data;
+                            vm.favoritos.forEach(function (e, i, a) {
+                                //Valido la no existencia de la imagen:
+                                if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
+                                    e.imagen_path = 'prueba.png';
+                                }
+                            });
                         }
                         else {
                             vm.favoritos = [];
@@ -5925,6 +5931,13 @@ angular
 
                         if (Object.prototype.toString.call(data) === '[object Array]') {
                             vm.necesidades = data;
+
+                            vm.necesidades.forEach(function (e, i, a) {
+                                //Valido la no existencia de la imagen:
+                                if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
+                                    e.imagen_path = 'prueba.png';
+                                }
+                            });
                         }
                         else {
                             vm.necesidades = [];
