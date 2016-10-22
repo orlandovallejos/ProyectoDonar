@@ -31,174 +31,106 @@
         activate();
 
         function activate() {
-            $('#input-file-a-galeria').dropify({
-                messages: {
-                    default: 'Imagen default',
-                    replace: 'Haga click para reemplazar',
-                    remove: 'Eliminar',
-                    error: 'Hubo un error'
-                }
-            })
-                .on('dropify.afterClear', function (event, element) {
-                    $scope.imagenGaleria = null;
-                });
+            // $('#input-file-a-galeria').dropify({
+            //     messages: {
+            //         default: 'Imagen default',
+            //         replace: 'Haga click para reemplazar',
+            //         remove: 'Eliminar',
+            //         error: 'Hubo un error'
+            //     }
+            // })
+            //     .on('dropify.afterClear', function (event, element) {
+            //         $scope.imagenGaleria = null;
+            //     });
 
             vm.usuarioLogueado = SessionStorageService.get('usuario');
-            if (!vm.usuarioLogueado) {
+            if (!vm.usuarioLogueado || !$stateParams.id) {
                 $state.go('restricted.home');
             }
 
-            if ($stateParams.id) {
-                vm.isNew = false;
+            ServerService.getDonacion($stateParams.id)
+                .then(function (data) {
+                    vm.donacion = data;
+                    if (vm.usuarioLogueado && vm.usuarioLogueado.usuario !== data.usuario) {
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> No tiene permisos para editar esta necesidad.',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
 
-                ServerService.getDonacion($stateParams.id)
-                    .then(function (data) {
-                        console.log(data);
-                        vm.donacion = data;
+                        $state.go('restricted.home');
 
-                        //Valido la no existencia de la imagen:
-                        if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
-                            vm.donacion.imagen_path = 'prueba.png';
-                        }
-
-                        //Valido la conversion del nro que viene desde el server:
-                        if (vm.donacion.dineroTotal && vm.donacion.dineroTotal.replace(/[^.,0-9]/ig, '').length > 0) {
-                            vm.donacion.dineroTotal = parseFloat(vm.donacion.dineroTotal);
-                        }
-
-                        ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                            .then(function (data) {
-                                vm.images = data;
-                            });
-
-                        ServerService.getVideos($stateParams.id)
-                            .then(function (data) {
-                                vm.videos = data;
-                            });
-
-                        //vm.videos = ServerService.getVideos($stateParams.id);
-
-                        if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
-                            vm.isCreatedUser = true;
-                        }
-
-                        if (vm.donacion.imagen_path) {
-                            $('.dropify').dropify({
-                                messages: {
-                                    default: 'Imagen default',
-                                    replace: 'Haga click para reemplazar',
-                                    remove: 'Eliminar',
-                                    error: 'Hubo un error'
-                                },
-                                defaultFile: 'http://www.soydonar.com/imagenes/necesidades/' + vm.donacion.imagen_path
-                            })
-                                .on('dropify.afterClear', function (event, element) {
-                                    $scope.imagen = null;
-                                });
-                        }
-                        else {
-                            $('.dropify').dropify({
-                                messages: {
-                                    default: 'Imagen default',
-                                    replace: 'Haga click para reemplazar',
-                                    remove: 'Eliminar',
-                                    error: 'Hubo un error'
-                                },
-                                defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
-                            })
-                                .on('dropify.afterClear', function (event, element) {
-                                    $scope.imagen = null;
-                                });
-                        }
-                    });
-            }
-            else {
-                vm.donacion.avatar = vm.usuarioLogueado.imagen_path;
-                vm.donacion.cant_likes = 0;
-                vm.donacion.cant_fotos = 0;
-                vm.donacion.cant_favs = 0;
-                vm.isCreatedUser = true;
-
-                $('.dropify').dropify({
-                    messages: {
-                        default: 'Imagen default',
-                        replace: 'Haga click para reemplazar',
-                        remove: 'Eliminar',
-                        error: 'Hubo un error'
-                    },
-                    defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
-                })
-                    .on('dropify.afterClear', function (event, element) {
-                        $scope.imagen = null;
-                    });
-            }
-
-            ServerService.getCategorias()
-                .then(function (response) {
-                    vm.categorias = [];
-
-                    for (var i = 0; i < response.length; i++) {
-                        vm.categorias.push({ id: response[i], title: response[i] });
+                        return;
                     }
 
-                    vm.tipo_options = [];
-                    for (var i = 0; i < response.length; i++) {
-                        vm.tipo_options.push({ value: response[i], title: response[i] });
-                    }
-                },
-                function (responseError) {
-                    console.log(responseError);
+                    ServerService.getFilesInFolder('resultado-' + $stateParams.id)
+                        .then(function (data) {
+                            vm.images = data;
+                        });
+
+                    ServerService.getResultado($stateParams.id)
+                        .then(function (data) {
+                            vm.isNew = false;
+                            vm.resultado = data;
+
+                            //Valido la no existencia de la imagen:
+                            if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
+                                vm.donacion.imagen_path = 'prueba.png';
+                            }
+
+                            //Valido la conversion del nro que viene desde el server:
+                            if (vm.donacion.dineroTotal && vm.donacion.dineroTotal.replace(/[^.,0-9]/ig, '').length > 0) {
+                                vm.donacion.dineroTotal = parseFloat(vm.donacion.dineroTotal);
+                            }
+
+                            // ServerService.getVideos($stateParams.id)
+                            //     .then(function (data) {
+                            //         vm.videos = data;
+                            //     });
+
+                            // if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
+                            //     vm.isCreatedUser = true;
+                            // }
+
+                            // if (vm.donacion.imagen_path) {
+                            //     $('.dropify').dropify({
+                            //         messages: {
+                            //             default: 'Imagen default',
+                            //             replace: 'Haga click para reemplazar',
+                            //             remove: 'Eliminar',
+                            //             error: 'Hubo un error'
+                            //         },
+                            //         defaultFile: 'http://www.soydonar.com/imagenes/necesidades/' + vm.donacion.imagen_path
+                            //     })
+                            //         .on('dropify.afterClear', function (event, element) {
+                            //             $scope.imagen = null;
+                            //         });
+                            // }
+                            // else {
+                            //     $('.dropify').dropify({
+                            //         messages: {
+                            //             default: 'Imagen default',
+                            //             replace: 'Haga click para reemplazar',
+                            //             remove: 'Eliminar',
+                            //             error: 'Hubo un error'
+                            //         },
+                            //         defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
+                            //     })
+                            //         .on('dropify.afterClear', function (event, element) {
+                            //             $scope.imagen = null;
+                            //         });
+                            // }
+                        })
+                        .catch(function () {
+                            //Si entra por acá es porque no hay resultado, entonces hay que agregar uno nuevo:
+                            vm.isNew = true;
+                            vm.resultado = {};
+                        });
                 });
-
-            vm.categorias_config = {
-                plugins: {
-                    'remove_button': {
-                        label: ''
-                    }
-                },
-                render: {
-                    option: function (langData, escape) {
-                        return '<div class="option">' +
-                            '<i class="item-icon"></i>' +
-                            '<span>' + escape(langData.title) + '</span>' +
-                            '</div>';
-                    },
-                    item: function (langData, escape) {
-                        return '<div class="item"><i class="item-icon"></i>' + escape(langData.title) + '</div>';
-                    }
-                },
-                valueField: 'id',
-                labelField: 'title',
-                searchField: 'title',
-                create: false,
-                placeholder: 'Seleccionar categoria...'
-            };
-
-            vm.tipo_config = {
-                valueField: 'value',
-                labelField: 'title',
-                create: false,
-                maxItems: 1,
-                placeholder: 'Seleccionar...'
-            };
         }
 
         function save() {
-
-            var file = $scope.imagen;
-            var uploadUrl = "../subir_imagen.php";
-            var folder = 'necesidades';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
-            var fileName = vm.donacion.imagen_path || 'prueba.png';
-            if (file) {
-                fileName = file.name;
-                fileUpload.uploadFileToUrl(file, uploadUrl, folder)
-                    .success(function () {
-                        console.log("Acaba de subir la imagen");
-                    })
-                    .error(function () {
-                        console.log("Error al subir la imagen");
-                    });
-            }
 
             var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
             var pad = "00";
@@ -207,28 +139,27 @@
             var fecha = anio + '-' + mes + '-' + dia;
 
             var request = {
-                titulo: vm.donacion.titulo,
-                necesidad: vm.donacion.necesidad,
-                fecha_creacion: fecha,
-                fecha_fin: vm.donacion.fecha_fin || null,
-                telefono: vm.donacion.telefono,
-                facebook: vm.donacion.facebook,
-                twitter: vm.donacion.twitter,
-                usuario: vm.usuarioLogueado.usuario,
-                direccion: vm.donacion.direccion,
-                email: vm.donacion.email,
-                categoria: vm.donacion.categoria,
-                imagen_path: fileName,
-                dineroTotal: vm.donacion.dineroTotal,
-                dineroRecaudado: vm.donacion.dineroRecaudado,
-                usuario_mp: vm.donacion.usuario_mp
+                titulo: vm.resultado.titulo,
+                resultado: vm.resultado.necesidad,
+                fecha: fecha
             };
 
             if (!vm.isNew) {
-                request.id_necesidad = $stateParams.id;
+                request.id_nec = $stateParams.id;
             }
 
-            ServerService.saveDonacion(request)
+            if (!request.titulo || !request.resultado) {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> El título y el resultado son requeridos',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+
+                return;
+            }
+
+            ServerService.guardarResultado(request)
                 .then(function (response) {
                     console.log(response);
 
@@ -238,9 +169,15 @@
                         timeout: 5000,
                         pos: 'top-right'
                     });
-                },
-                function (responseError) {
-                    console.log(responseError);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Hubo un error!',
+                        status: 'danger',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
                 });
         }
 
@@ -254,7 +191,7 @@
                     pos: 'top-right'
                 });
 
-                ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                ServerService.getFilesInFolder('resultado-' + $stateParams.id)
                     .then(function (data) {
                         vm.images = data;
                     });

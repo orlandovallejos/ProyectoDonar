@@ -201,7 +201,8 @@
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
                                     'assets/js/custom/uikit_fileinput.min.js',
-                                    'lazy_dropify'
+                                    'lazy_dropify',
+                                    'lazy_ionRangeSlider'
                                 ], { serie: true });
                             }]
                         }

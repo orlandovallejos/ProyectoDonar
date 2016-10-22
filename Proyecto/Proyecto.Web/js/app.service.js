@@ -90,7 +90,9 @@
             getMisDonaciones: getMisDonaciones,
             getFilesInFolder: getFilesInFolder,
             guardarVideo: guardarVideo,
-            getVideos: getVideos
+            getVideos: getVideos,
+            guardarResultado: guardarResultado,
+            getResultado: getResultado
         };
 
         return service;
@@ -172,7 +174,6 @@
                         return responseError;
                     });
             }
-
         }
 
         function getCategorias() {
@@ -371,6 +372,47 @@
             return $http.get('http://www.soydonar.com/webservices/webresources/verVideos/' + id_necesidad)
                 .then(function (response) {
                     console.log('Get videos');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log(responseError);
+                    return $q.reject(responseError);
+                });
+        }
+
+        function guardarResultado(request) {
+            if (!request.id) {
+                return $http.post('http://www.soydonar.com/webservices/webresources/addResultado', JSON.stringify(request))
+                    .then(function (response) {
+                        console.log('Add resultado');
+                        console.log(response);
+                        return $q.resolve(response.data);
+                    })
+                    .catch(function (responseError) {
+                        console.log(responseError);
+                        return $q.reject(responseError);
+                    });
+            }
+            else {
+                return $http.post('http://www.soydonar.com/webservices/webresources/editResultado', JSON.stringify(request))
+                    .then(function (response) {
+                        console.log('Edit resultado');
+                        console.log(response);
+                        return $q.resolve(response.data);
+                    })
+                    .catch(function (responseError) {
+                        console.log(responseError);
+                        return $q.reject(responseError);
+                    });
+            }
+
+        }
+
+        function getResultado(id_necesidad) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/verResultado/' + id_necesidad)
+                .then(function (response) {
+                    console.log('Get resultado');
                     console.log(response);
                     return $q.resolve(response.data);
                 })
