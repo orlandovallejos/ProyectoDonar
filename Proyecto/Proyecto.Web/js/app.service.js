@@ -360,15 +360,7 @@
                     console.log('Guardar video');
                     console.log(response);
                     return $q.resolve(response.data);
-                }
-                //,
-                //function (responseError) {
-                //     console.log(responseError);
-                //     return responseError;
-                // }
-                //);
-
-                )
+                })
                 .catch(function (responseError) {
                     console.log(responseError);
                     return $q.reject(responseError);
@@ -376,65 +368,15 @@
         }
 
         function getVideos(id_necesidad) {
-            // var videos = [
-            //     {
-            //         id_video: 1,
-            //         url: 'https://www.youtube.com/watch?v=xizFJHKHdHw',
-            //         comentario: 'Esta es la muestra que tivimos con las primeras donaciones que pudimos recaudar.',
-            //         fecha: '2016-10-15',
-            //         id_necesidad: 5,
-            //         titulo: 'Primera muestra de avance'
-            //     },
-            //     {
-            //         id_video: 2,
-            //         url: 'https://www.youtube.com/watch?v=71AtaJpJHw0',
-            //         comentario: 'Con la ayuda de todos ustedes pudimos hacer realizar un sueño muy importante para todos los que amamos a los perritos.',
-            //         fecha: '2016-10-15',
-            //         id_necesidad: 5,
-            //         titulo: 'Gracias a todos!'
-            //     },
-            //     {
-            //         id_video: 3,
-            //         url: 'https://www.youtube.com/watch?v=sWOXYDBbz0g',
-            //         comentario: 'En este video les mostramos los avances que se hicieron gracias al aporte de todos.',
-            //         fecha: '2016-10-15',
-            //         id_necesidad: 5,
-            //         titulo: 'Ropa para los perritos'
-            //     },
-            //     {
-            //         id_video: 4,
-            //         url: 'https://www.youtube.com/watch?v=nQRXi1SVOow',
-            //         comentario: 'Esta es la muestra que tivimos con las primeras donaciones que pudimos recaudar.',
-            //         fecha: '2016-10-15',
-            //         id_necesidad: 5,
-            //         titulo: 'Primera muestra de avance'
-            //     },
-            //     {
-            //         id_video: 5,
-            //         url: 'https://www.youtube.com/watch?v=oUXku28ex-M',
-            //         comentario: 'Con la ayuda de todos ustedes pudimos hacer realizar un sueño muy importante para todos los que amamos a los perritos.',
-            //         fecha: '2016-10-15',
-            //         id_necesidad: 5,
-            //         titulo: 'Gracias a todos!'
-            //     },
-            //     {
-            //         id_video: 6,
-            //         url: 'https://www.youtube.com/watch?v=0ybzZ3zZus0',
-            //         comentario: 'En este video les mostramos los avances que se hicieron gracias al aporte de todos.',
-            //         fecha: '2016-10-15',
-            //         id_necesidad: 5,
-            //         titulo: 'Ropa para los perritos'
-            //     }
-            // ];
-
-            // return videos;
-
             return $http.get('http://www.soydonar.com/webservices/webresources/verVideos/' + id_necesidad)
                 .then(function (response) {
-                    return response.data;
+                    console.log('Get videos');
+                    console.log(response);
+                    return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
-                    return responseError;
+                    console.log(responseError);
+                    return $q.reject(responseError);
                 });
         }
     }

@@ -4702,6 +4702,7 @@ angular
         vm.imagen = {};
         vm.images = [];
         vm.videos = [];
+        vm.video = {};
 
         //Methods:
         vm.save = save;
@@ -4988,6 +4989,18 @@ angular
             mes = pad.substring(0, pad.length - mes.toString().length) + mes;
             var fecha = anio + '-' + mes + '-' + dia;
 
+            if (!vm.video.descripcion) {
+                vm.video.descripcion = '';
+            }
+
+            if (!vm.video.titulo) {
+                vm.video.titulo = '';
+            }
+
+            if (!vm.video.url) {
+                vm.video.url = '';
+            }
+
             var request = {
                 url: vm.video.url,
                 comentario: vm.video.descripcion,
@@ -4996,6 +5009,20 @@ angular
                 id_necesidad: vm.donacion.id_necesidad,
                 titulo: vm.video.titulo
             };
+
+            var tituloLimpio = vm.video.titulo.replace(/[ ]/ig, '');
+            var descripcionLimpio = vm.video.descripcion.replace(/[ ]/ig, '');
+            var urlLimpio = vm.video.url.replace(/[ ]/ig, '');
+            if (tituloLimpio.length === 0 || descripcionLimpio.length === 0 || urlLimpio.length === 0) {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> El título, la descripcion y la URL son requeridos',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+
+                return;
+            }
 
             ServerService.guardarVideo(request)
                 .then(function (response) {
@@ -5007,6 +5034,10 @@ angular
                         //timeout: 5000,
                         pos: 'top-right'
                     });
+
+                    vm.video.titulo = '';
+                    vm.video.descripcion = '';
+                    vm.video.url = '';
                 })
                 .catch(function (responseError) {
                     console.log(responseError);
@@ -5388,6 +5419,31 @@ angular
                 usuario: vm.usuarioLogueado.usuario,
                 fecha: fecha
             };
+
+            if (vm.comentario) {
+                var comentarioLimpio = vm.comentario.replace(/[ ]/ig, '');
+                if (comentarioLimpio.length === 0) {
+                    UIkit.notify({
+                        message: '<i class="uk-icon-times-circle"></i> El comentario es requerido',
+                        status: 'danger',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+
+                    return;
+                }
+            }
+            else {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> El comentario es requerido',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+
+                return;
+            }
+
             ServerService.addComment(request)
                 .then(function (response) {
                     console.log(response);
@@ -5457,6 +5513,31 @@ angular
                     aporte_donacion: vm.donacionDeCosas,
                     donatario: vm.donacion.usuario
                 };
+
+                if (vm.donacionDeCosas) {
+                    var donacionDeCosasLimpia = vm.donacionDeCosas.replace(/[ ]/ig, '');
+                    if (donacionDeCosasLimpia.length === 0) {
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> La donación es requerida',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+
+                        return;
+                    }
+                }
+                else {
+                    UIkit.notify({
+                        message: '<i class="uk-icon-times-circle"></i> La donación es requerida',
+                        status: 'danger',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+
+                    return;
+                }
+
 
                 ServerService.crearDonacionMP(request)
                     .then(function (response) {

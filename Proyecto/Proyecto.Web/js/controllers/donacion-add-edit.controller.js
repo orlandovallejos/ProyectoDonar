@@ -21,6 +21,7 @@
         vm.imagen = {};
         vm.images = [];
         vm.videos = [];
+        vm.video = {};
 
         //Methods:
         vm.save = save;
@@ -307,6 +308,18 @@
             mes = pad.substring(0, pad.length - mes.toString().length) + mes;
             var fecha = anio + '-' + mes + '-' + dia;
 
+            if (!vm.video.descripcion) {
+                vm.video.descripcion = '';
+            }
+
+            if (!vm.video.titulo) {
+                vm.video.titulo = '';
+            }
+
+            if (!vm.video.url) {
+                vm.video.url = '';
+            }
+
             var request = {
                 url: vm.video.url,
                 comentario: vm.video.descripcion,
@@ -315,6 +328,20 @@
                 id_necesidad: vm.donacion.id_necesidad,
                 titulo: vm.video.titulo
             };
+
+            var tituloLimpio = vm.video.titulo.replace(/[ ]/ig, '');
+            var descripcionLimpio = vm.video.descripcion.replace(/[ ]/ig, '');
+            var urlLimpio = vm.video.url.replace(/[ ]/ig, '');
+            if (tituloLimpio.length === 0 || descripcionLimpio.length === 0 || urlLimpio.length === 0) {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> El título, la descripcion y la URL son requeridos',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+
+                return;
+            }
 
             ServerService.guardarVideo(request)
                 .then(function (response) {
@@ -326,6 +353,10 @@
                         //timeout: 5000,
                         pos: 'top-right'
                     });
+
+                    vm.video.titulo = '';
+                    vm.video.descripcion = '';
+                    vm.video.url = '';
                 })
                 .catch(function (responseError) {
                     console.log(responseError);

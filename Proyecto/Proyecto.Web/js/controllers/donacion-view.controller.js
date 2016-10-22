@@ -67,6 +67,31 @@
                 usuario: vm.usuarioLogueado.usuario,
                 fecha: fecha
             };
+
+            if (vm.comentario) {
+                var comentarioLimpio = vm.comentario.replace(/[ ]/ig, '');
+                if (comentarioLimpio.length === 0) {
+                    UIkit.notify({
+                        message: '<i class="uk-icon-times-circle"></i> El comentario es requerido',
+                        status: 'danger',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+
+                    return;
+                }
+            }
+            else {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> El comentario es requerido',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+
+                return;
+            }
+
             ServerService.addComment(request)
                 .then(function (response) {
                     console.log(response);
@@ -136,6 +161,31 @@
                     aporte_donacion: vm.donacionDeCosas,
                     donatario: vm.donacion.usuario
                 };
+
+                if (vm.donacionDeCosas) {
+                    var donacionDeCosasLimpia = vm.donacionDeCosas.replace(/[ ]/ig, '');
+                    if (donacionDeCosasLimpia.length === 0) {
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> La donación es requerida',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+
+                        return;
+                    }
+                }
+                else {
+                    UIkit.notify({
+                        message: '<i class="uk-icon-times-circle"></i> La donación es requerida',
+                        status: 'danger',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+
+                    return;
+                }
+
 
                 ServerService.crearDonacionMP(request)
                     .then(function (response) {
