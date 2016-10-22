@@ -4737,6 +4737,20 @@ angular
                         console.log(data);
                         vm.donacion = data;
 
+                        if (vm.usuarioLogueado && vm.usuarioLogueado.usuario !== vm.donacion.usuario) {
+                            UIkit.notify({
+                                message: '<i class="uk-icon-times-circle"></i> No tiene permisos para editar esta necesidad.',
+                                status: 'danger',
+                                timeout: 5000,
+                                pos: 'top-right'
+                            });
+
+                            $state.go('restricted.home');
+                            vm.isCreatedUser = false;
+
+                            return;
+                        }
+
                         //Valido la no existencia de la imagen:
                         if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
                             vm.donacion.imagen_path = 'prueba.png';
