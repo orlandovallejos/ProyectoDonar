@@ -10971,6 +10971,8 @@ a.waves-effect .waves-ripple {
   overflow-y: auto;
   height: auto;
   min-height: 100%;
+  background-position: center top;
+    background-size: 100% auto;
 }
 @media only screen and (max-width: 767px) {
   .login_page {
@@ -13645,3 +13647,9 @@ body {
 	min-height: 80px;
 	min-width:80px;
 }
+
+#page_content_inner
+{
+	background:url('../img/home_resultados.jpg');
+}
+

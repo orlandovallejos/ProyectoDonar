@@ -2,45 +2,45 @@
 <html lang="es" ng-app="donarApp" document-events ng-click="onClick($event)" ng-keyup="onKeyUp($event)" ng-class="{ 'page_loading': pageLoading, 'page_loaded': pageLoaded, 'app_initialized': appInitialized && (!$state.is('login') && !$state.includes('error'))}">
 
 <head>
-    <meta charset="utf-8">
-    <title>Donar</title>
-    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="mobile-web-app-capable" content="yes">
-    <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="favicon.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
-    <!-- uikit  styles -->
-    <link rel="stylesheet" href="bower_components/uikit/css/uikit.almost-flat.min.css" media="all">
-    <!-- flag icons -->
-    <link rel="stylesheet" href="assets/icons/flags/flags.min.css" media="all">
-    <!-- GOOGLE WEBFONTS -->
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,400italic&subset=latin' rel='stylesheet' media="all">
-    <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700" rel="stylesheet" media="all">
-    <!-- JS -->
-    <!-- common functions -->
-    <script src="assets/js/common.min.js"></script>
-    <!-- uikit functions -->
-    <script src="assets/js/uikit_custom.min.js"></script>
-    <!-- wave effect -->
-    <script src="bower_components/Waves/dist/waves.min.js"></script>
-    <!-- ANGULAR -->
-    <!-- angularjs -->
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <!-- ui-router -->
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <!-- ocLazyLoad -->
-    <script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
-    <!-- retina images -->
-    <script src="app/modules/angular-retina.js"></script>
-    <!-- donarApp -->
-    <script src="app/app.js"></script>
-    <!--<script src="bower_components/kendo-ui/js/kendo.panelbar.min.js"></script>-->
-    
-    <!-- main stylesheet -->
-    <link rel="stylesheet" href="assets/css/main.css" media="all" id="main_stylesheet">
+	<meta charset="utf-8">
+	<title>Donar</title>
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="mobile-web-app-capable" content="yes">
+	<!-- FAVICON -->
+	<link rel="icon" type="image/png" href="favicon.png" sizes="16x16">
+	<link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
+	<!-- uikit  styles -->
+	<link rel="stylesheet" href="bower_components/uikit/css/uikit.almost-flat.min.css" media="all">
+	<!-- flag icons -->
+	<link rel="stylesheet" href="assets/icons/flags/flags.min.css" media="all">
+	<!-- GOOGLE WEBFONTS -->
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,400italic&subset=latin' rel='stylesheet' media="all">
+	<link href="http://fonts.googleapis.com/css?family=Source+Code+Pro:400,700" rel="stylesheet" media="all">
+	<!-- JS -->
+	<!-- common functions -->
+	<script src="assets/js/common.min.js"></script>
+	<!-- uikit functions -->
+	<script src="assets/js/uikit_custom.min.js"></script>
+	<!-- wave effect -->
+	<script src="bower_components/Waves/dist/waves.min.js"></script>
+	<!-- ANGULAR -->
+	<!-- angularjs -->
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.min.js"></script>
+	<!-- ui-router -->
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<!-- ocLazyLoad -->
+	<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<!-- retina images -->
+	<script src="app/modules/angular-retina.js"></script>
+	<!-- donarApp -->
+	<script src="app/app.js"></script>
+	<!--<script src="bower_components/kendo-ui/js/kendo.panelbar.min.js"></script>-->
+
+	<!-- main stylesheet -->
+	<link rel="stylesheet" href="assets/css/main.css" media="all" id="main_stylesheet">
 </head>
 
 <body class="{{main_theme}}" data-uk-observe ng-class="{
@@ -57,12 +57,17 @@
     'error_page': $state.includes('error'),
     'uk-height-1-1': page_full_height
 }" content-sidebar>
-    <div id="page_preloader" ng-hide="hidePreloader"><img src="assets/img/loading.gif" alt="" /></div>
-    <div ui-view="main_header"></div>
-    
+	<div id="page_preloader" ng-hide="hidePreloader"><img src="assets/img/loading.gif" alt="" /></div>
+	<div ui-view="main_header"></div>
 
-    <div ui-view id="main_view" ng-class="{'uk-height-1-1': page_full_height }"></div>
-    <!--<div ui-view="main_sidebar" ng-hide="topMenuActive"></div>-->
+
+	<div ui-view id="main_view" ng-class="{'uk-height-1-1': page_full_height }"></div>
+	<!--<div ui-view="main_sidebar" ng-hide="topMenuActive"></div>-->
+
+
+	
+
+	
 </body>
 
 </html>
