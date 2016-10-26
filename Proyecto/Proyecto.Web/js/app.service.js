@@ -356,7 +356,7 @@
 
         function guardarVideo(request) {
 
-            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos/carga', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos2/carga', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Guardar video');
                     console.log(response);

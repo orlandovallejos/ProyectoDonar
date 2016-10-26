@@ -3046,7 +3046,7 @@
 
         function guardarVideo(request) {
 
-            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos/carga', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos2/carga', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Guardar video');
                     console.log(response);
@@ -4964,7 +4964,9 @@ angular
 
         function getYTLink(src) {
             //return 'https://www.youtube.com/v/' + src + '?rel=0';
-            return src.replace("watch?v=", "v/");;
+            return src.replace("watch?v=", "embed/");
+            //https://www.youtube.com/embed/VIDEO_ID
+            //"https://www.youtube.com/watch?v=czmulJ9NBP0"
         };
 
         function subirVideo() {

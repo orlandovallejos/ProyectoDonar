@@ -298,7 +298,9 @@
 
         function getYTLink(src) {
             //return 'https://www.youtube.com/v/' + src + '?rel=0';
-            return src.replace("watch?v=", "v/");;
+            return src.replace("watch?v=", "embed/");
+            //https://www.youtube.com/embed/VIDEO_ID
+            //"https://www.youtube.com/watch?v=czmulJ9NBP0"
         };
 
         function subirVideo() {
