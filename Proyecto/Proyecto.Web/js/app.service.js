@@ -92,7 +92,9 @@
             guardarVideo: guardarVideo,
             getVideos: getVideos,
             guardarResultado: guardarResultado,
-            getResultado: getResultado
+            getResultado: getResultado,
+            mostrarNotificaciones: mostrarNotificaciones,
+            deleteNotificacion: deleteNotificacion
         };
 
         return service;
@@ -421,6 +423,33 @@
                     return $q.reject(responseError);
                 });
         }
+
+        function mostrarNotificaciones(usuario) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/MostrarNotificaciones/' + usuario)
+                .then(function (response) {
+                    console.log('Get notificaciones');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log(responseError);
+                    return $q.reject(responseError);
+                });
+        }
+
+        function deleteNotificacion(id_notificacion) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/DeleteNotificacion/' + id_notificacion)
+                .then(function (response) {
+                    console.log('delete notificaciones');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log(responseError);
+                    return $q.reject(responseError);
+                });
+        }
+        //
     }
 
     SessionStorageService.$inject = ['$window'];

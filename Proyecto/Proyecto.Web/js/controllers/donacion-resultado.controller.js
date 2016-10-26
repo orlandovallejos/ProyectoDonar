@@ -90,7 +90,7 @@
 
             var request = {
                 titulo: vm.resultado.titulo,
-                resultado: vm.resultado.necesidad,
+                resultado: vm.resultado.resultado,
                 fecha: fecha
             };
 
