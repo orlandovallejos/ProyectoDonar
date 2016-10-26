@@ -31,18 +31,6 @@
         activate();
 
         function activate() {
-            // $('#input-file-a-galeria').dropify({
-            //     messages: {
-            //         default: 'Imagen default',
-            //         replace: 'Haga click para reemplazar',
-            //         remove: 'Eliminar',
-            //         error: 'Hubo un error'
-            //     }
-            // })
-            //     .on('dropify.afterClear', function (event, element) {
-            //         $scope.imagenGaleria = null;
-            //     });
-
             vm.usuarioLogueado = SessionStorageService.get('usuario');
             if (!vm.usuarioLogueado || !$stateParams.id) {
                 $state.go('restricted.home');
@@ -83,44 +71,6 @@
                             if (vm.donacion.dineroTotal && vm.donacion.dineroTotal.replace(/[^.,0-9]/ig, '').length > 0) {
                                 vm.donacion.dineroTotal = parseFloat(vm.donacion.dineroTotal);
                             }
-
-                            // ServerService.getVideos($stateParams.id)
-                            //     .then(function (data) {
-                            //         vm.videos = data;
-                            //     });
-
-                            // if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
-                            //     vm.isCreatedUser = true;
-                            // }
-
-                            // if (vm.donacion.imagen_path) {
-                            //     $('.dropify').dropify({
-                            //         messages: {
-                            //             default: 'Imagen default',
-                            //             replace: 'Haga click para reemplazar',
-                            //             remove: 'Eliminar',
-                            //             error: 'Hubo un error'
-                            //         },
-                            //         defaultFile: 'http://www.soydonar.com/imagenes/necesidades/' + vm.donacion.imagen_path
-                            //     })
-                            //         .on('dropify.afterClear', function (event, element) {
-                            //             $scope.imagen = null;
-                            //         });
-                            // }
-                            // else {
-                            //     $('.dropify').dropify({
-                            //         messages: {
-                            //             default: 'Imagen default',
-                            //             replace: 'Haga click para reemplazar',
-                            //             remove: 'Eliminar',
-                            //             error: 'Hubo un error'
-                            //         },
-                            //         defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
-                            //     })
-                            //         .on('dropify.afterClear', function (event, element) {
-                            //             $scope.imagen = null;
-                            //         });
-                            // }
                         })
                         .catch(function () {
                             //Si entra por acá es porque no hay resultado, entonces hay que agregar uno nuevo:
@@ -144,8 +94,12 @@
                 fecha: fecha
             };
 
-            if (!vm.isNew) {
+            if (vm.isNew) {
                 request.id_nec = $stateParams.id;
+            }
+            else {
+                console.log(vm.resultado);
+                request.id = vm.resultado.id;
             }
 
             if (!request.titulo || !request.resultado) {

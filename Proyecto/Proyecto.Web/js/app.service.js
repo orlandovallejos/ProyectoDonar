@@ -383,7 +383,7 @@
 
         function guardarResultado(request) {
             if (!request.id) {
-                return $http.post('http://www.soydonar.com/webservices/webresources/addResultado', JSON.stringify(request))
+                return $http.post('http://www.soydonar.com/webservices/webresources/addResultado/alta', JSON.stringify(request))
                     .then(function (response) {
                         console.log('Add resultado');
                         console.log(response);
