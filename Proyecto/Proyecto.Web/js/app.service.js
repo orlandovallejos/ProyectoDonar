@@ -237,15 +237,6 @@
         }
 
         function crearDonacionMP(request) {
-            // var request = {
-            //     donante: 'paolaservis@yahoo.com',
-            //     id_necesidad: '67',
-            //     fecha: '2000-05-07',
-            //     aporte_monetario: '100',
-            //     aporte_donacion: '',
-            //     donatario: 'juan@gmail.com'
-            // };
-
             return $http.post('http://soydonar.com/webservices/webresources/CrearDonacion/alta', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Donacion edit');
@@ -357,7 +348,6 @@
         }
 
         function guardarVideo(request) {
-
             return $http.post('http://www.soydonar.com/webservices/webresources/CargarVideos2/carga', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Guardar video');
@@ -408,7 +398,6 @@
                         return $q.reject(responseError);
                     });
             }
-
         }
 
         function getResultado(id_necesidad) {
@@ -449,7 +438,6 @@
                     return $q.reject(responseError);
                 });
         }
-        //
     }
 
     SessionStorageService.$inject = ['$window'];
