@@ -661,7 +661,15 @@
                 ]
 
             }
-        ]);
+        ])
+
+        .directive('banner', function () {
+            return function (scope, element, attrs) {
+                element.height($(window).height()-40);
+
+                //$('#fondo_home').css('min-height', $(window).height() + "px");
+            }
+        });
 
     MainHeaderController.$inject = ['$timeout', '$scope', '$window', 'SessionStorageService', 'ServerService'];
 
@@ -749,6 +757,14 @@
                     $($window).resize();
                 }, 280)
             });
+
+            //$('#fondo_home').css('min-height', $(window).height() + "px");
+            //$('#fondo_home').css('min-height', "1000px");
+
+            //console.log($(window).height());   // returns height of browser viewport
+            // console.log($(document).height()); // returns height of HTML document
+            // console.log($(window).width());   // returns width of browser viewport
+            // console.log($(document).width());
 
             var usuario = SessionStorageService.get('usuario');
 
