@@ -192,6 +192,19 @@
                             }]
                         }
                     })
+                    .state("restricted.mapas", {
+                        url: "/Donacion/Mapas",
+                        controller: 'MapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/mapa.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
                     .state("restricted.donacion-resultado", {
                         url: "/Donacion/Resultado/{id}",
                         controller: 'DonacionResultadoController',
