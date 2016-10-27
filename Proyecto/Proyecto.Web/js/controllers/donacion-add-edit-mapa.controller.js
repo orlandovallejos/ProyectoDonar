@@ -86,13 +86,6 @@
                         vm.donacion.latitud = -34.66492800516767;
                         vm.donacion.longitud = -58.57205388302003;
 
-                        // NgMap.getMap()
-                        //     .then(function (map) {
-                        //         map.markers[0].position = [40.75, -74.17];
-                        //         // console.log('latitud: ', map.markers[0].position.lat());
-                        //         // console.log('longitud: ', map.markers[0].position.lng());
-                        //     });
-
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
                                 vm.images = data;
@@ -102,8 +95,6 @@
                             .then(function (data) {
                                 vm.videos = data;
                             });
-
-                        //vm.videos = ServerService.getVideos($stateParams.id);
 
                         if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                             vm.isCreatedUser = true;
@@ -268,57 +259,54 @@
                     vm.donacion.longitud = map.markers[0].position.lng();
 
                     console.log(vm.donacion);
-                });
 
+                    var request = {
+                        titulo: vm.donacion.titulo,
+                        necesidad: vm.donacion.necesidad,
+                        fecha_creacion: fecha,
+                        fecha_fin: vm.donacion.fecha_fin || null,
+                        telefono: vm.donacion.telefono,
+                        facebook: vm.donacion.facebook,
+                        twitter: vm.donacion.twitter,
+                        usuario: vm.usuarioLogueado.usuario,
+                        direccion: vm.donacion.direccion,
+                        email: vm.donacion.email,
+                        categoria: vm.donacion.categoria,
+                        imagen_path: fileName,
+                        dineroTotal: vm.donacion.dineroTotal,
+                        dineroRecaudado: vm.donacion.dineroRecaudado,
+                        usuario_mp: vm.donacion.usuario_mp
+                    };
 
-            return;
+                    if (!request.titulo || !request.necesidad || !request.usuario) {
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> El título y la necesidad son requeridos',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
 
-            var request = {
-                titulo: vm.donacion.titulo,
-                necesidad: vm.donacion.necesidad,
-                fecha_creacion: fecha,
-                fecha_fin: vm.donacion.fecha_fin || null,
-                telefono: vm.donacion.telefono,
-                facebook: vm.donacion.facebook,
-                twitter: vm.donacion.twitter,
-                usuario: vm.usuarioLogueado.usuario,
-                direccion: vm.donacion.direccion,
-                email: vm.donacion.email,
-                categoria: vm.donacion.categoria,
-                imagen_path: fileName,
-                dineroTotal: vm.donacion.dineroTotal,
-                dineroRecaudado: vm.donacion.dineroRecaudado,
-                usuario_mp: vm.donacion.usuario_mp
-            };
+                        return;
+                    }
 
-            if (!request.titulo || !request.necesidad || !request.usuario) {
-                UIkit.notify({
-                    message: '<i class="uk-icon-times-circle"></i> El título y la necesidad son requeridos',
-                    status: 'danger',
-                    timeout: 5000,
-                    pos: 'top-right'
-                });
+                    if (!vm.isNew) {
+                        request.id_necesidad = $stateParams.id;
+                    }
 
-                return;
-            }
+                    ServerService.saveDonacion(request)
+                        .then(function (response) {
+                            console.log(response);
 
-            if (!vm.isNew) {
-                request.id_necesidad = $stateParams.id;
-            }
-
-            ServerService.saveDonacion(request)
-                .then(function (response) {
-                    console.log(response);
-
-                    UIkit.notify({
-                        message: '<i class="uk-icon-check"></i> Se ha guardado con éxito!',
-                        status: 'success',
-                        timeout: 5000,
-                        pos: 'top-right'
-                    });
-                },
-                function (responseError) {
-                    console.log(responseError);
+                            UIkit.notify({
+                                message: '<i class="uk-icon-check"></i> Se ha guardado con éxito!',
+                                status: 'success',
+                                timeout: 5000,
+                                pos: 'top-right'
+                            });
+                        },
+                        function (responseError) {
+                            console.log(responseError);
+                        });
                 });
         }
 

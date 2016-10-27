@@ -4,9 +4,9 @@
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
+    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService', 'NgMap'];
 
-    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService) {
+    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService, NgMap) {
         var vm = this;
 
         //Variables
@@ -43,6 +43,11 @@
                     if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                         vm.isCreatedUser = true;
                     }
+
+                    //Maps magic:
+                    //This should come from server:
+                    vm.donacion.latitud = -34.66492800516767;
+                    vm.donacion.longitud = -58.57205388302003;
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                         .then(function (data) {

@@ -3292,8 +3292,8 @@
                     .state("restricted.my-profile.profile", {
                         url: "/perfil",
                         templateUrl: 'app/views/perfil/perfil.html',
-                        controller:  'PerfilController',
-                        controllerAs:'vm',
+                        controller: 'PerfilController',
+                        controllerAs: 'vm',
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
@@ -3345,7 +3345,8 @@
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
-                                    'lazy_ionRangeSlider'
+                                    'lazy_ionRangeSlider',
+                                    'lazy_google_maps'
                                 ], { serie: true });
                             }],
                             user_data: function ($http) {
@@ -3356,47 +3357,47 @@
                             }
                         }
                     })
-                    .state("restricted.donacion-add", {
-                        url: "/Donacion/Alta",
-                        controller: 'DonacionAddEditController',
-                        controllerAs: 'vm',
-                        templateUrl: 'app/views/donacion/add-edit.html',
-                        resolve: {
-                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                                return $ocLazyLoad.load([
-                                    'assets/js/custom/uikit_fileinput.min.js',
-                                    'lazy_dropify',
-                                    'app/components/pages/user_editController.js'
-                                ], { serie: true });
-                            }],
-                            user_data: function ($http) {
-                                return $http({ method: 'GET', url: 'data/user_data.json' })
-                                    .then(function (data) {
-                                        return data.data;
-                                    });
-                            },
-                            groups_data: function ($http) {
-                                return $http({ method: 'GET', url: 'data/groups_data.json' })
-                                    .then(function (data) {
-                                        return data.data;
-                                    });
-                            }
-                        }
-                    })
-                    .state("restricted.donacion-edit", {
-                        url: "/Donacion/Editar/{id}",
-                        controller: 'DonacionAddEditController',
-                        controllerAs: 'vm',
-                        templateUrl: 'app/views/donacion/add-edit.html',
-                        resolve: {
-                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                                return $ocLazyLoad.load([
-                                    'assets/js/custom/uikit_fileinput.min.js',
-                                    'lazy_dropify'
-                                ], { serie: true });
-                            }]
-                        }
-                    })
+                    // .state("restricted.donacion-add", {
+                    //     url: "/Donacion/Alta",
+                    //     controller: 'DonacionAddEditController',
+                    //     controllerAs: 'vm',
+                    //     templateUrl: 'app/views/donacion/add-edit.html',
+                    //     resolve: {
+                    //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    //             return $ocLazyLoad.load([
+                    //                 'assets/js/custom/uikit_fileinput.min.js',
+                    //                 'lazy_dropify',
+                    //                 'app/components/pages/user_editController.js'
+                    //             ], { serie: true });
+                    //         }],
+                    //         user_data: function ($http) {
+                    //             return $http({ method: 'GET', url: 'data/user_data.json' })
+                    //                 .then(function (data) {
+                    //                     return data.data;
+                    //                 });
+                    //         },
+                    //         groups_data: function ($http) {
+                    //             return $http({ method: 'GET', url: 'data/groups_data.json' })
+                    //                 .then(function (data) {
+                    //                     return data.data;
+                    //                 });
+                    //         }
+                    //     }
+                    // })
+                    // .state("restricted.donacion-edit", {
+                    //     url: "/Donacion/Editar/{id}",
+                    //     controller: 'DonacionAddEditController',
+                    //     controllerAs: 'vm',
+                    //     templateUrl: 'app/views/donacion/add-edit.html',
+                    //     resolve: {
+                    //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    //             return $ocLazyLoad.load([
+                    //                 'assets/js/custom/uikit_fileinput.min.js',
+                    //                 'lazy_dropify'
+                    //             ], { serie: true });
+                    //         }]
+                    //     }
+                    // })
                     .state("restricted.mapas", {
                         url: "/Donacion/Mapas",
                         controller: 'MapaController',
@@ -3410,8 +3411,10 @@
                             }]
                         }
                     })
-                    .state("restricted.donacion-add-mapa", {
-                        url: "/Donacion/AltaMapa",
+                    //.state("restricted.donacion-add-mapa", {
+                    .state("restricted.donacion-add", {
+                        //url: "/Donacion/AltaMapa",
+                        url: "/Donacion/Alta",
                         controller: 'DonacionAddEditMapaController',
                         controllerAs: 'vm',
                         templateUrl: 'app/views/donacion/add-edit-mapa.html',
@@ -3425,8 +3428,10 @@
                             }]
                         }
                     })
-                    .state("restricted.donacion-edit-mapa", {
-                        url: "/Donacion/EditarMapa/{id}",
+                    //.state("restricted.donacion-edit-mapa", {
+                    .state("restricted.donacion-edit", {
+                        //url: "/Donacion/EditarMapa/{id}",
+                        url: "/Donacion/Editar/{id}",
                         controller: 'DonacionAddEditMapaController',
                         controllerAs: 'vm',
                         templateUrl: 'app/views/donacion/add-edit-mapa.html',
@@ -4857,13 +4862,6 @@ angular
                         vm.donacion.latitud = -34.66492800516767;
                         vm.donacion.longitud = -58.57205388302003;
 
-                        // NgMap.getMap()
-                        //     .then(function (map) {
-                        //         map.markers[0].position = [40.75, -74.17];
-                        //         // console.log('latitud: ', map.markers[0].position.lat());
-                        //         // console.log('longitud: ', map.markers[0].position.lng());
-                        //     });
-
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
                                 vm.images = data;
@@ -4873,8 +4871,6 @@ angular
                             .then(function (data) {
                                 vm.videos = data;
                             });
-
-                        //vm.videos = ServerService.getVideos($stateParams.id);
 
                         if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                             vm.isCreatedUser = true;
@@ -5039,57 +5035,54 @@ angular
                     vm.donacion.longitud = map.markers[0].position.lng();
 
                     console.log(vm.donacion);
-                });
 
+                    var request = {
+                        titulo: vm.donacion.titulo,
+                        necesidad: vm.donacion.necesidad,
+                        fecha_creacion: fecha,
+                        fecha_fin: vm.donacion.fecha_fin || null,
+                        telefono: vm.donacion.telefono,
+                        facebook: vm.donacion.facebook,
+                        twitter: vm.donacion.twitter,
+                        usuario: vm.usuarioLogueado.usuario,
+                        direccion: vm.donacion.direccion,
+                        email: vm.donacion.email,
+                        categoria: vm.donacion.categoria,
+                        imagen_path: fileName,
+                        dineroTotal: vm.donacion.dineroTotal,
+                        dineroRecaudado: vm.donacion.dineroRecaudado,
+                        usuario_mp: vm.donacion.usuario_mp
+                    };
 
-            return;
+                    if (!request.titulo || !request.necesidad || !request.usuario) {
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> El título y la necesidad son requeridos',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
 
-            var request = {
-                titulo: vm.donacion.titulo,
-                necesidad: vm.donacion.necesidad,
-                fecha_creacion: fecha,
-                fecha_fin: vm.donacion.fecha_fin || null,
-                telefono: vm.donacion.telefono,
-                facebook: vm.donacion.facebook,
-                twitter: vm.donacion.twitter,
-                usuario: vm.usuarioLogueado.usuario,
-                direccion: vm.donacion.direccion,
-                email: vm.donacion.email,
-                categoria: vm.donacion.categoria,
-                imagen_path: fileName,
-                dineroTotal: vm.donacion.dineroTotal,
-                dineroRecaudado: vm.donacion.dineroRecaudado,
-                usuario_mp: vm.donacion.usuario_mp
-            };
+                        return;
+                    }
 
-            if (!request.titulo || !request.necesidad || !request.usuario) {
-                UIkit.notify({
-                    message: '<i class="uk-icon-times-circle"></i> El título y la necesidad son requeridos',
-                    status: 'danger',
-                    timeout: 5000,
-                    pos: 'top-right'
-                });
+                    if (!vm.isNew) {
+                        request.id_necesidad = $stateParams.id;
+                    }
 
-                return;
-            }
+                    ServerService.saveDonacion(request)
+                        .then(function (response) {
+                            console.log(response);
 
-            if (!vm.isNew) {
-                request.id_necesidad = $stateParams.id;
-            }
-
-            ServerService.saveDonacion(request)
-                .then(function (response) {
-                    console.log(response);
-
-                    UIkit.notify({
-                        message: '<i class="uk-icon-check"></i> Se ha guardado con éxito!',
-                        status: 'success',
-                        timeout: 5000,
-                        pos: 'top-right'
-                    });
-                },
-                function (responseError) {
-                    console.log(responseError);
+                            UIkit.notify({
+                                message: '<i class="uk-icon-check"></i> Se ha guardado con éxito!',
+                                status: 'success',
+                                timeout: 5000,
+                                pos: 'top-right'
+                            });
+                        },
+                        function (responseError) {
+                            console.log(responseError);
+                        });
                 });
         }
 
@@ -5752,9 +5745,9 @@ angular
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
+    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService', 'NgMap'];
 
-    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService) {
+    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService, NgMap) {
         var vm = this;
 
         //Variables
@@ -5791,6 +5784,11 @@ angular
                     if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
                         vm.isCreatedUser = true;
                     }
+
+                    //Maps magic:
+                    //This should come from server:
+                    vm.donacion.latitud = -34.66492800516767;
+                    vm.donacion.longitud = -58.57205388302003;
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                         .then(function (data) {
