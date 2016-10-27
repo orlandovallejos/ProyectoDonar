@@ -205,6 +205,36 @@
                             }]
                         }
                     })
+                    .state("restricted.donacion-add-mapa", {
+                        url: "/Donacion/AltaMapa",
+                        controller: 'DonacionAddEditMapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/add-edit-mapa.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'assets/js/custom/uikit_fileinput.min.js',
+                                    'lazy_dropify',
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
+                    .state("restricted.donacion-edit-mapa", {
+                        url: "/Donacion/EditarMapa/{id}",
+                        controller: 'DonacionAddEditMapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/add-edit-mapa.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'assets/js/custom/uikit_fileinput.min.js',
+                                    'lazy_dropify',
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
                     .state("restricted.donacion-resultado", {
                         url: "/Donacion/Resultado/{id}",
                         controller: 'DonacionResultadoController',
