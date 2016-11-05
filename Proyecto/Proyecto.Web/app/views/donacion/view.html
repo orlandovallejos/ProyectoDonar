@@ -237,7 +237,7 @@
                             />
 
                             <div ng-if="vm.donacion.categoria == 'DINERO'">
-                                <div id="ionslider_2" name="ionslider_2" ion-slider ng-model="vm.donacion.dineroRecaudado" min="0" max="5000" grid="true"
+                                <div id="ionslider_2" name="ionslider_2" ion-slider ng-model="vm.donacion.dineroRecaudado" min="0" max="{{vm.donacion.dineroTotal}}" grid="true"
                                     prefix="$" ng-disabled="true"></div>
                                 <span class="uk-form-help-block">Recaudado</span>
                             </div>
