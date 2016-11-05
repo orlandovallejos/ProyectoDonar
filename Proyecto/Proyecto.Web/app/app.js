@@ -4859,8 +4859,40 @@ angular
 
                         //Maps magic:
                         //This should come from server:
-                        vm.donacion.latitud = -34.66492800516767;
-                        vm.donacion.longitud = -58.57205388302003;
+                        // vm.donacion.latitud = -34.66492800516767;
+                        // vm.donacion.longitud = -58.57205388302003;
+                        var _lat = '';
+                        if (vm.donacion.latitud) {
+                            _lat = vm.donacion.latitud.replace(/[ ]/ig, '');
+                        }
+
+                        var _long = '';
+                        if (vm.donacion.longitud) {
+                            _long = vm.donacion.longitud.replace(/[ ]/ig, '');
+                        }
+
+                        if (!_lat || !_long) {
+                            navigator.geolocation.getCurrentPosition(
+                                function (pos) {
+                                    var crd = pos.coords;
+
+                                    vm.donacion.latitud = crd.latitude;
+                                    vm.donacion.longitud = crd.longitude;
+                                },
+                                function error(err) {
+                                    console.warn('ERROR(' + err.code + '): ' + err.message);
+
+                                    //Posicion por defecto en caso de que los mapas no funcionen.
+                                    vm.donacion.latitud = -34.60832672898665;
+                                    vm.donacion.longitud = -58.37232587093507;
+                                },
+                                {
+                                    enableHighAccuracy: false,
+                                    timeout: 2000,
+                                    maximumAge: 6000000
+                                });
+                        }
+
 
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
@@ -5051,7 +5083,9 @@ angular
                         imagen_path: fileName,
                         dineroTotal: vm.donacion.dineroTotal,
                         dineroRecaudado: vm.donacion.dineroRecaudado,
-                        usuario_mp: vm.donacion.usuario_mp
+                        usuario_mp: vm.donacion.usuario_mp,
+                        latitud: vm.donacion.latitud,
+                        longitud: vm.donacion.longitud
                     };
 
                     if (!request.titulo || !request.necesidad || !request.usuario) {
@@ -6407,6 +6441,7 @@ angular
 
         //Methods:
         vm.mostrarPosicion = mostrarPosicion;
+        vm.mapaClick = mapaClick;
 
         activate();
 
@@ -6416,6 +6451,15 @@ angular
             // if (!vm.usuarioLogueado) {
             //     $state.go('restricted.home');
             // }
+
+            vm.positions =
+                [
+                    { lat: -34.66492800516767, lng: -58.57205388302003 },
+                    { lat: -34.672782153026866, lng: -58.58262062072754 },
+                    { lat: -34.66565241857749, lng: -58.55682849884033 },
+                    { lat: -34.67669971615515, lng: -58.57403755187988 },
+                    { lat: -34.66981738748909, lng: -58.59433650970459 }
+                ];
         }
 
         function mostrarPosicion() {
@@ -6434,6 +6478,11 @@ angular
                     // });
                 });
         }
+
+        function mapaClick(event) {
+        var ll = event.latLng;
+        console.log(ll.lat()+' - '+ ll.lng());
+      }
     }
 })();
 (function () {

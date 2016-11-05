@@ -83,8 +83,40 @@
 
                         //Maps magic:
                         //This should come from server:
-                        vm.donacion.latitud = -34.66492800516767;
-                        vm.donacion.longitud = -58.57205388302003;
+                        // vm.donacion.latitud = -34.66492800516767;
+                        // vm.donacion.longitud = -58.57205388302003;
+                        var _lat = '';
+                        if (vm.donacion.latitud) {
+                            _lat = vm.donacion.latitud.replace(/[ ]/ig, '');
+                        }
+
+                        var _long = '';
+                        if (vm.donacion.longitud) {
+                            _long = vm.donacion.longitud.replace(/[ ]/ig, '');
+                        }
+
+                        if (!_lat || !_long) {
+                            navigator.geolocation.getCurrentPosition(
+                                function (pos) {
+                                    var crd = pos.coords;
+
+                                    vm.donacion.latitud = crd.latitude;
+                                    vm.donacion.longitud = crd.longitude;
+                                },
+                                function error(err) {
+                                    console.warn('ERROR(' + err.code + '): ' + err.message);
+
+                                    //Posicion por defecto en caso de que los mapas no funcionen.
+                                    vm.donacion.latitud = -34.60832672898665;
+                                    vm.donacion.longitud = -58.37232587093507;
+                                },
+                                {
+                                    enableHighAccuracy: false,
+                                    timeout: 2000,
+                                    maximumAge: 6000000
+                                });
+                        }
+
 
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                             .then(function (data) {
@@ -275,7 +307,9 @@
                         imagen_path: fileName,
                         dineroTotal: vm.donacion.dineroTotal,
                         dineroRecaudado: vm.donacion.dineroRecaudado,
-                        usuario_mp: vm.donacion.usuario_mp
+                        usuario_mp: vm.donacion.usuario_mp,
+                        latitud: vm.donacion.latitud,
+                        longitud: vm.donacion.longitud
                     };
 
                     if (!request.titulo || !request.necesidad || !request.usuario) {
