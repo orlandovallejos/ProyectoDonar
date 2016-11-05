@@ -16,6 +16,7 @@
         vm.comentario = '';
         vm.usuarioLogueado = null;
         vm.images = [];
+        vm.videos = [];
 
         //Methods
         vm.addComment = addComment;
@@ -23,6 +24,7 @@
         vm.pagarMercadoPago = pagarMercadoPago;
         vm.addFavorite = addFavorite;
         vm.donarCosas = donarCosas;
+        vm.getYTLink = getYTLink;
 
         activate();
 
@@ -46,12 +48,17 @@
 
                     //Maps magic:
                     //This should come from server:
-                    vm.donacion.latitud = -34.66492800516767;
-                    vm.donacion.longitud = -58.57205388302003;
+                    // vm.donacion.latitud = -34.66492800516767;
+                    // vm.donacion.longitud = -58.57205388302003;
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                        .then(function (data) {
-                            vm.images = data;
+                        .then(function (dataImages) {
+                            vm.images = dataImages;
+                        });
+
+                    ServerService.getVideos($stateParams.id)
+                        .then(function (dataVideo) {
+                            vm.videos = dataVideo;
                         });
                 });
         }
@@ -225,5 +232,12 @@
                     console.log(responseError);
                 });
         }
+
+        function getYTLink(src) {
+            //return 'https://www.youtube.com/v/' + src + '?rel=0';
+            return src.replace("watch?v=", "embed/");
+            //https://www.youtube.com/embed/VIDEO_ID
+            //"https://www.youtube.com/watch?v=czmulJ9NBP0"
+        };
     }
 })();
