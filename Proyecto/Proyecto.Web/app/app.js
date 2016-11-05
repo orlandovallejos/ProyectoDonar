@@ -4774,7 +4774,7 @@ angular
             });
         }
     }]);
-(function () {
+(function() {
     "use strict";
 
     angular
@@ -4816,7 +4816,7 @@ angular
                     error: 'Hubo un error'
                 }
             })
-                .on('dropify.afterClear', function (event, element) {
+                .on('dropify.afterClear', function(event, element) {
                     $scope.imagenGaleria = null;
                 });
 
@@ -4829,7 +4829,7 @@ angular
                 vm.isNew = false;
 
                 ServerService.getDonacion($stateParams.id)
-                    .then(function (data) {
+                    .then(function(data) {
                         console.log(data);
                         vm.donacion = data;
 
@@ -4873,7 +4873,7 @@ angular
 
                         if (!_lat || !_long) {
                             navigator.geolocation.getCurrentPosition(
-                                function (pos) {
+                                function(pos) {
                                     var crd = pos.coords;
 
                                     vm.donacion.latitud = crd.latitude;
@@ -4895,12 +4895,12 @@ angular
 
 
                         ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                            .then(function (data) {
+                            .then(function(data) {
                                 vm.images = data;
                             });
 
                         ServerService.getVideos($stateParams.id)
-                            .then(function (data) {
+                            .then(function(data) {
                                 vm.videos = data;
                             });
 
@@ -4918,7 +4918,7 @@ angular
                                 },
                                 defaultFile: 'http://www.soydonar.com/imagenes/necesidades/' + vm.donacion.imagen_path
                             })
-                                .on('dropify.afterClear', function (event, element) {
+                                .on('dropify.afterClear', function(event, element) {
                                     $scope.imagen = null;
                                 });
                         }
@@ -4932,7 +4932,7 @@ angular
                                 },
                                 defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
                             })
-                                .on('dropify.afterClear', function (event, element) {
+                                .on('dropify.afterClear', function(event, element) {
                                     $scope.imagen = null;
                                 });
                         }
@@ -4955,7 +4955,7 @@ angular
                 vm.isCreatedUser = true;
 
                 navigator.geolocation.getCurrentPosition(
-                    function (pos) {
+                    function(pos) {
                         var crd = pos.coords;
 
                         vm.donacion.latitud = crd.latitude;
@@ -4983,13 +4983,13 @@ angular
                     },
                     defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
                 })
-                    .on('dropify.afterClear', function (event, element) {
+                    .on('dropify.afterClear', function(event, element) {
                         $scope.imagen = null;
                     });
             }
 
             ServerService.getCategorias()
-                .then(function (response) {
+                .then(function(response) {
                     vm.categorias = [];
 
                     for (var i = 0; i < response.length; i++) {
@@ -5001,7 +5001,7 @@ angular
                         vm.tipo_options.push({ value: response[i], title: response[i] });
                     }
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
 
@@ -5012,13 +5012,13 @@ angular
                     }
                 },
                 render: {
-                    option: function (langData, escape) {
+                    option: function(langData, escape) {
                         return '<div class="option">' +
                             '<i class="item-icon"></i>' +
                             '<span>' + escape(langData.title) + '</span>' +
                             '</div>';
                     },
-                    item: function (langData, escape) {
+                    item: function(langData, escape) {
                         return '<div class="item"><i class="item-icon"></i>' + escape(langData.title) + '</div>';
                     }
                 },
@@ -5047,10 +5047,10 @@ angular
             if (file) {
                 fileName = file.name;
                 fileUpload.uploadFileToUrl(file, uploadUrl, folder)
-                    .success(function () {
+                    .success(function() {
                         console.log("Acaba de subir la imagen");
                     })
-                    .error(function () {
+                    .error(function() {
                         console.log("Error al subir la imagen");
                     });
             }
@@ -5062,7 +5062,7 @@ angular
             var fecha = anio + '-' + mes + '-' + dia;
 
             NgMap.getMap()
-                .then(function (map) {
+                .then(function(map) {
                     vm.donacion.latitud = map.markers[0].position.lat();
                     vm.donacion.longitud = map.markers[0].position.lng();
 
@@ -5071,7 +5071,6 @@ angular
                     var request = {
                         titulo: vm.donacion.titulo,
                         necesidad: vm.donacion.necesidad,
-                        fecha_creacion: fecha,
                         fecha_fin: vm.donacion.fecha_fin || null,
                         telefono: vm.donacion.telefono,
                         facebook: vm.donacion.facebook,
@@ -5088,9 +5087,9 @@ angular
                         longitud: vm.donacion.longitud
                     };
 
-                    if (!request.titulo || !request.necesidad || !request.usuario) {
+                    if (!request.titulo || !request.necesidad || !request.categoria || !request.usuario) {
                         UIkit.notify({
-                            message: '<i class="uk-icon-times-circle"></i> El título y la necesidad son requeridos',
+                            message: '<i class="uk-icon-times-circle"></i> El título, la categoría y la necesidad son requeridos',
                             status: 'danger',
                             timeout: 5000,
                             pos: 'top-right'
@@ -5101,10 +5100,11 @@ angular
 
                     if (!vm.isNew) {
                         request.id_necesidad = $stateParams.id;
+                        request.fecha_creacion = fecha;
                     }
 
                     ServerService.saveDonacion(request)
-                        .then(function (response) {
+                        .then(function(response) {
                             console.log(response);
 
                             UIkit.notify({
@@ -5114,7 +5114,7 @@ angular
                                 pos: 'top-right'
                             });
                         },
-                        function (responseError) {
+                        function(responseError) {
                             console.log(responseError);
                         });
                 });
@@ -5122,7 +5122,7 @@ angular
 
         function subirImagen() {
 
-            $timeout(function () {
+            $timeout(function() {
                 UIkit.notify({
                     message: '<i class="uk-icon-check"></i> Imagen guardada!',
                     status: 'success',
@@ -5131,7 +5131,7 @@ angular
                 });
 
                 ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                    .then(function (data) {
+                    .then(function(data) {
                         vm.images = data;
                     });
             }, 3000);
@@ -5187,7 +5187,7 @@ angular
             }
 
             ServerService.guardarVideo(request)
-                .then(function (response) {
+                .then(function(response) {
                     console.log(response);
 
                     UIkit.notify({
@@ -5201,7 +5201,7 @@ angular
                     vm.video.descripcion = '';
                     vm.video.url = '';
                 })
-                .catch(function (responseError) {
+                .catch(function(responseError) {
                     console.log(responseError);
                 });
         }
@@ -5773,7 +5773,7 @@ angular
         $scope.subirImagen = subirImagen;
     }
 })();
-(function () {
+(function() {
     "use strict";
     angular
         .module('donarApp')
@@ -5808,7 +5808,7 @@ angular
             vm.usuarioLogueado = SessionStorageService.get('usuario');
 
             ServerService.getDonacion($stateParams.id)
-                .then(function (data) {
+                .then(function(data) {
                     console.log(data);
                     vm.donacion = data;
 
@@ -5821,18 +5821,22 @@ angular
                         vm.isCreatedUser = true;
                     }
 
+                    if (!isNaN(parseInt(vm.donacion.dineroRecaudado)) && !isNaN(parseInt(vm.donacion.dineroTotal))) {
+                        vm.donacion.dineroTotal = parseInt(vm.donacion.dineroRecaudado);
+                    }
+
                     //Maps magic:
                     //This should come from server:
                     // vm.donacion.latitud = -34.66492800516767;
                     // vm.donacion.longitud = -58.57205388302003;
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                        .then(function (dataImages) {
+                        .then(function(dataImages) {
                             vm.images = dataImages;
                         });
 
                     ServerService.getVideos($stateParams.id)
-                        .then(function (dataVideo) {
+                        .then(function(dataVideo) {
                             vm.videos = dataVideo;
                         });
                 });
@@ -5880,13 +5884,13 @@ angular
             }
 
             ServerService.addComment(request)
-                .then(function (response) {
+                .then(function(response) {
                     console.log(response);
                     request.imagen_path = vm.usuarioLogueado.imagen_path;
                     vm.donacion.lista_coment.push(request);
                     vm.comentario = '';
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }
@@ -5913,7 +5917,7 @@ angular
                 };
 
                 ServerService.crearDonacionMP(request)
-                    .then(function (response) {
+                    .then(function(response) {
                         console.log(response);
 
                         vm.donacionMonetaria = '';
@@ -5924,7 +5928,7 @@ angular
                             pos: 'top-right'
                         });
                     },
-                    function (responseError) {
+                    function(responseError) {
                         console.log(responseError);
                     });
             }
@@ -5975,7 +5979,7 @@ angular
 
 
                 ServerService.crearDonacionMP(request)
-                    .then(function (response) {
+                    .then(function(response) {
                         console.log(response);
 
                         vm.donacionDeCosas = '';
@@ -5986,7 +5990,7 @@ angular
                             pos: 'top-right'
                         });
                     },
-                    function (responseError) {
+                    function(responseError) {
                         console.log(responseError);
                     });
             }
@@ -5994,7 +5998,7 @@ angular
 
         function addFavorite() {
             ServerService.addFavorite(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
-                .then(function (response) {
+                .then(function(response) {
                     console.log(response);
                     UIkit.notify({
                         message: '<i class="uk-icon-check"></i> Se agregó a la lista de favoritos!',
@@ -6003,7 +6007,7 @@ angular
                         pos: 'top-right'
                     });
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }

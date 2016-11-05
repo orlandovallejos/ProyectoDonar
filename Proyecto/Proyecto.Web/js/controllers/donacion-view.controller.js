@@ -1,4 +1,4 @@
-(function () {
+(function() {
     "use strict";
     angular
         .module('donarApp')
@@ -33,7 +33,7 @@
             vm.usuarioLogueado = SessionStorageService.get('usuario');
 
             ServerService.getDonacion($stateParams.id)
-                .then(function (data) {
+                .then(function(data) {
                     console.log(data);
                     vm.donacion = data;
 
@@ -46,18 +46,22 @@
                         vm.isCreatedUser = true;
                     }
 
+                    if (!isNaN(parseInt(vm.donacion.dineroRecaudado)) && !isNaN(parseInt(vm.donacion.dineroTotal))) {
+                        vm.donacion.dineroTotal = parseInt(vm.donacion.dineroRecaudado);
+                    }
+
                     //Maps magic:
                     //This should come from server:
                     // vm.donacion.latitud = -34.66492800516767;
                     // vm.donacion.longitud = -58.57205388302003;
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                        .then(function (dataImages) {
+                        .then(function(dataImages) {
                             vm.images = dataImages;
                         });
 
                     ServerService.getVideos($stateParams.id)
-                        .then(function (dataVideo) {
+                        .then(function(dataVideo) {
                             vm.videos = dataVideo;
                         });
                 });
@@ -105,13 +109,13 @@
             }
 
             ServerService.addComment(request)
-                .then(function (response) {
+                .then(function(response) {
                     console.log(response);
                     request.imagen_path = vm.usuarioLogueado.imagen_path;
                     vm.donacion.lista_coment.push(request);
                     vm.comentario = '';
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }
@@ -138,7 +142,7 @@
                 };
 
                 ServerService.crearDonacionMP(request)
-                    .then(function (response) {
+                    .then(function(response) {
                         console.log(response);
 
                         vm.donacionMonetaria = '';
@@ -149,7 +153,7 @@
                             pos: 'top-right'
                         });
                     },
-                    function (responseError) {
+                    function(responseError) {
                         console.log(responseError);
                     });
             }
@@ -200,7 +204,7 @@
 
 
                 ServerService.crearDonacionMP(request)
-                    .then(function (response) {
+                    .then(function(response) {
                         console.log(response);
 
                         vm.donacionDeCosas = '';
@@ -211,7 +215,7 @@
                             pos: 'top-right'
                         });
                     },
-                    function (responseError) {
+                    function(responseError) {
                         console.log(responseError);
                     });
             }
@@ -219,7 +223,7 @@
 
         function addFavorite() {
             ServerService.addFavorite(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
-                .then(function (response) {
+                .then(function(response) {
                     console.log(response);
                     UIkit.notify({
                         message: '<i class="uk-icon-check"></i> Se agregó a la lista de favoritos!',
@@ -228,7 +232,7 @@
                         pos: 'top-right'
                     });
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }
