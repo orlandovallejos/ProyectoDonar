@@ -530,7 +530,16 @@
 
         .directive('banner', function () {
             return function (scope, element, attrs) {
-                element.height($(window).height()-40);
+                if ($(window).width() > 360) {
+                    element.height($(window).height() - 40);
+                }
+                else {
+                    element.css('background', 'none');
+                    element.css('min-height', '');
+                    element.css('height', '');
+
+                    element.find('form').css('position','');
+                }
 
                 //$('#fondo_home').css('min-height', $(window).height() + "px");
             }

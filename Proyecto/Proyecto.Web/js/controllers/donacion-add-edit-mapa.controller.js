@@ -324,6 +324,9 @@
 
                     if (!vm.isNew) {
                         request.id_necesidad = $stateParams.id;
+
+                    }
+                    else {
                         request.fecha_creacion = fecha;
                     }
 

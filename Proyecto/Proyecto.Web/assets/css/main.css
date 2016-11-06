@@ -13653,3 +13653,6 @@ body {
 	/* background:url('../img/home_resultados.png'); */
 }
 
+.not_login_page{
+	background:none !important;
+}
