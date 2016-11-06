@@ -1,5 +1,4 @@
 /*
-*  Altair Admin AngularJS
 */
 (function () {
     "use strict";
@@ -134,10 +133,9 @@
 })();
 
 /*
- *  Altair Admin angularjs
  *  controller
  */
-(function () {
+(function() {
     "use strict";
 
     angular
@@ -145,24 +143,24 @@
         .controller('mainCtrl', [
             '$scope',
             '$rootScope',
-            function ($scope, $rootScope) { }
+            function($scope, $rootScope) { }
         ])
         .controller('MainHeaderController', MainHeaderController)
         .controller('main_sidebarCtrl', [
             '$timeout',
             '$scope',
             '$rootScope',
-            function ($timeout, $scope, $rootScope) {
+            function($timeout, $scope, $rootScope) {
 
-                $scope.$on('onLastRepeat', function (scope, element, attrs) {
-                    $timeout(function () {
+                $scope.$on('onLastRepeat', function(scope, element, attrs) {
+                    $timeout(function() {
                         if (!$rootScope.miniSidebarActive) {
                             // activate current section
                             $('#sidebar_main').find('.current_section > a').trigger('click');
                         } else {
                             // add tooltips to mini sidebar
                             var tooltip_elem = $('#sidebar_main').find('.menu_tooltip');
-                            tooltip_elem.each(function () {
+                            tooltip_elem.each(function() {
                                 var $this = $(this);
 
                                 $this.attr('title', $this.find('.menu_title').text());
@@ -187,13 +185,13 @@
                 $scope.langSwitcherConfig = {
                     maxItems: 1,
                     render: {
-                        option: function (langData, escape) {
+                        option: function(langData, escape) {
                             return '<div class="option">' +
                                 '<i class="item-icon flag-' + escape(langData.value).toUpperCase() + '"></i>' +
                                 '<span>' + escape(langData.title) + '</span>' +
                                 '</div>';
                         },
-                        item: function (langData, escape) {
+                        item: function(langData, escape) {
                             return '<div class="item"><i class="item-icon flag-' + escape(langData.value).toUpperCase() + '"></i></div>';
                         }
                     },
@@ -201,7 +199,7 @@
                     labelField: 'title',
                     searchField: 'title',
                     create: false,
-                    onInitialize: function (selectize) {
+                    onInitialize: function(selectize) {
                         $('#lang_switcher').next().children('.selectize-input').find('input').attr('readonly', true);
                     }
                 };
@@ -663,8 +661,8 @@
             }
         ])
 
-        .directive('banner', function () {
-            return function (scope, element, attrs) {
+        .directive('banner', function() {
+            return function(scope, element, attrs) {
                 if ($(window).width() > 360) {
                     element.height($(window).height() - 40);
                 }
@@ -673,7 +671,7 @@
                     element.css('min-height', '');
                     element.css('height', '');
 
-                    element.find('form').css('position','');
+                    element.find('form').css('position', '');
                 }
 
                 //$('#fondo_home').css('min-height', $(window).height() + "px");
@@ -757,12 +755,13 @@
 
         //Methods
         vm.eliminarNotificacion = eliminarNotificacion;
+        vm.activate = activate;
 
         activate();
 
         function activate() {
-            $('#menu_top').children('[data-uk-dropdown]').on('show.uk.dropdown', function () {
-                $timeout(function () {
+            $('#menu_top').children('[data-uk-dropdown]').on('show.uk.dropdown', function() {
+                $timeout(function() {
                     $($window).resize();
                 }, 280)
             });
@@ -788,7 +787,7 @@
         //Method definitions
         function eliminarNotificacion(id_notificacion) {
             ServerService.deleteNotificacion(id_notificacion)
-                .then(function () {
+                .then(function() {
                     cargarNotificaciones();
                 });
         }
@@ -796,24 +795,23 @@
         //Functions
         function cargarNotificaciones() {
             ServerService.mostrarNotificaciones(vm.usuario.usuario)
-                .then(function (data) {
+                .then(function(data) {
                     vm.notificaciones = data;
 
-                    vm.notificaciones.forEach(function (e, i, a) {
+                    vm.notificaciones.forEach(function(e, i, a) {
                         ServerService.getDonacion(e.necesidades_id_necesidad)
-                            .then(function (dataDonacion) {
+                            .then(function(dataDonacion) {
                                 e.donacion = dataDonacion;
                             });
                     });
                 })
-                .catch(function () {
+                .catch(function() {
 
                 });
         }
     }
 })();
 /*
-*  Altair Admin AngularJS
 *  directives
 */
 
