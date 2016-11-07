@@ -755,7 +755,6 @@
 
         //Methods
         vm.eliminarNotificacion = eliminarNotificacion;
-        vm.activate = activate;
 
         activate();
 
@@ -2836,7 +2835,8 @@
             guardarResultado: guardarResultado,
             getResultado: getResultado,
             mostrarNotificaciones: mostrarNotificaciones,
-            deleteNotificacion: deleteNotificacion
+            deleteNotificacion: deleteNotificacion,
+            donacionesConcretadas: donacionesConcretadas
         };
 
         return service;
@@ -3180,6 +3180,20 @@
                     return $q.reject(responseError);
                 });
         }
+
+        function donacionesConcretadas(usuario) {
+            return $http.get('http://soydonar.com/webservices/webresources/DonacionesConcretadas/' + usuario)
+                .then(function (response) {
+                    console.log('Get notificaciones');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log(responseError);
+                    return $q.reject(responseError);
+                });
+        }
+        //
     }
 
     SessionStorageService.$inject = ['$window'];
@@ -3321,6 +3335,12 @@
                         url: "/mis-necesidades",
                         templateUrl: 'app/views/perfil/mis-necesidades.html',
                         controller: 'MisNecesidadesController',
+                        controllerAs: 'vm'
+                    })
+                    .state("restricted.my-profile.mis-donaciones", {
+                        url: "/mis-donaciones",
+                        templateUrl: 'app/views/perfil/mis-donaciones.html',
+                        controller: 'MisDonacionesController',
                         controllerAs: 'vm'
                     })
                     .state("restricted.my-profile.pendiente", {
@@ -6511,6 +6531,66 @@ angular
         var ll = event.latLng;
         console.log(ll.lat()+' - '+ ll.lng());
       }
+    }
+})();
+(function () {
+    "use strict";
+    angular
+        .module('donarApp')
+        .controller('MisDonacionesController', MisDonacionesController);
+
+    MisDonacionesController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
+
+    function MisDonacionesController($window, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
+        var vm = this;
+
+        //Variables
+        vm.usuarioLogueado = null;
+        vm.favoritos = [];
+
+        //Methods
+        vm.edit = edit;
+        vm.resultado = resultado;
+
+        activate();
+
+        function activate() {
+
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+            if (vm.usuarioLogueado) {
+
+                ServerService.donacionesConcretadas(vm.usuarioLogueado.usuario)
+                    .then(function (data) {
+                        console.log(data);
+
+                        if (Object.prototype.toString.call(data) === '[object Array]') {
+                            vm.necesidades = data;
+
+                            vm.necesidades.forEach(function (e, i, a) {
+                                //Valido la no existencia de la imagen:
+                                if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
+                                    e.imagen_path = 'prueba.png';
+                                }
+                            });
+                        }
+                        else {
+                            vm.necesidades = [];
+                        }
+                    });
+            }
+            else {
+                $state.go('restricted.home');
+            }
+        }
+
+        //Method definitions
+        function edit(idNecesidad) {
+            $state.go('restricted.donacion-edit', { id: idNecesidad });
+        }
+
+        function resultado(idNecesidad) {
+            $state.go('restricted.donacion-resultado', { id: idNecesidad });
+        }
     }
 })();
 (function () {

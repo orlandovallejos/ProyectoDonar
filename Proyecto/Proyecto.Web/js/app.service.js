@@ -94,7 +94,8 @@
             guardarResultado: guardarResultado,
             getResultado: getResultado,
             mostrarNotificaciones: mostrarNotificaciones,
-            deleteNotificacion: deleteNotificacion
+            deleteNotificacion: deleteNotificacion,
+            donacionesConcretadas: donacionesConcretadas
         };
 
         return service;
@@ -438,6 +439,20 @@
                     return $q.reject(responseError);
                 });
         }
+
+        function donacionesConcretadas(usuario) {
+            return $http.get('http://soydonar.com/webservices/webresources/DonacionesConcretadas/' + usuario)
+                .then(function (response) {
+                    console.log('Get notificaciones');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log(responseError);
+                    return $q.reject(responseError);
+                });
+        }
+        //
     }
 
     SessionStorageService.$inject = ['$window'];

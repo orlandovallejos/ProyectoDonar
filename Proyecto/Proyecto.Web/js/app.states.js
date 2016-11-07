@@ -111,6 +111,12 @@
                         controller: 'MisNecesidadesController',
                         controllerAs: 'vm'
                     })
+                    .state("restricted.my-profile.mis-donaciones", {
+                        url: "/mis-donaciones",
+                        templateUrl: 'app/views/perfil/mis-donaciones.html',
+                        controller: 'MisDonacionesController',
+                        controllerAs: 'vm'
+                    })
                     .state("restricted.my-profile.pendiente", {
                         url: "/pendientes",
                         templateUrl: 'app/views/perfil/pendiente.html',
