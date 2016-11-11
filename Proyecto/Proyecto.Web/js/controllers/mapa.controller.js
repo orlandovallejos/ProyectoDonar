@@ -11,28 +11,32 @@
         var vm = this;
 
         //Variables
-        vm.usuarioLogueado = {};
+        //vm.map = {};
 
         //Methods:
         vm.mostrarPosicion = mostrarPosicion;
         vm.mapaClick = mapaClick;
+        vm.showDetail = showDetail;
+        vm.hideDetail = hideDetail;
+        vm.clicked = clicked;
 
         activate();
 
         function activate() {
             //Key:  AIzaSyAwC6bRAW_7P_epNfEg517L2VJF6K6R7MM 
-            // vm.usuarioLogueado = SessionStorageService.get('usuario');
-            // if (!vm.usuarioLogueado) {
-            //     $state.go('restricted.home');
-            // }
 
-            vm.positions =
+            NgMap.getMap().then(function (map) {
+                console.log('map', map);
+                vm.map = map;
+            });
+
+            vm.donaciones =
                 [
-                    { lat: -34.66492800516767, lng: -58.57205388302003 },
-                    { lat: -34.672782153026866, lng: -58.58262062072754 },
-                    { lat: -34.66565241857749, lng: -58.55682849884033 },
-                    { lat: -34.67669971615515, lng: -58.57403755187988 },
-                    { lat: -34.66981738748909, lng: -58.59433650970459 }
+                    { id: 1, name: 'donacion test 1', position: [-34.66492800516767, -58.57205388302003] },
+                    { id: 2, name: 'donacion test 2', position: [-34.672782153026866, -58.58262062072754] },
+                    { id: 3, name: 'donacion test 3', position: [-34.66565241857749, -58.55682849884033] },
+                    { id: 4, name: 'donacion test 4', position: [-34.67669971615515, -58.57403755187988] },
+                    { id: 5, name: 'donacion test 5', position: [-34.66981738748909, -58.59433650970459] }
                 ];
         }
 
@@ -54,8 +58,21 @@
         }
 
         function mapaClick(event) {
-        var ll = event.latLng;
-        console.log(ll.lat()+' - '+ ll.lng());
-      }
+            var ll = event.latLng;
+            console.log(ll.lat() + ' - ' + ll.lng());
+        }
+
+        function showDetail(e, donacion) {
+            vm.donacion = donacion;
+            vm.map.showInfoWindow('foo-iw', donacion.id.toString());
+        };
+
+        function hideDetail() {
+            vm.map.hideInfoWindow('foo-iw');
+        };
+
+        function clicked(don) {
+            console.log(don);
+        }
     }
 })();

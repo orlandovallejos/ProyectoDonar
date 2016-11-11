@@ -212,6 +212,19 @@
                             }]
                         }
                     })
+                    .state("restricted.geomapas", {
+                        url: "/Donacion/Cercanas",
+                        controller: 'GeoMapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/donacion-mapa.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
                     //.state("restricted.donacion-add-mapa", {
                     .state("restricted.donacion-add", {
                         //url: "/Donacion/AltaMapa",

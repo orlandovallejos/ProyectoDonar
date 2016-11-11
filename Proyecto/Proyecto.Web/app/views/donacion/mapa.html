@@ -4,9 +4,18 @@
 			<div class="uk-grid" data-uk-grid-margin>
 				<div class="uk-width-large-10-10">
 					<div class="md-card">
-						<ng-map zoom="13" on-click="vm.mapaClick()">
+						<ng-map default-style="true" zoom="13" on-click="vm.mapaClick()">
+						<!--<ng-map default-style="true" zoom="13" >-->
 							<marker position="current" centered="true" icon="http://soydonar.com/mapicon.png"></marker>
-							<marker ng-repeat="pos in vm.positions" position="{{pos.lat}}, {{pos.lng}}"></marker>
+							<marker ng-repeat="donacion in vm.donaciones" id='{{donacion.id}}' position="{{donacion.position}}" on-click="vm.showDetail(donacion)"></marker>
+
+							<!--<info-window id="foo-iw">
+								<div ng-non-bindable="">
+									<span style="color:red">id:</span> {{vm.donacion.id}}
+									<br/> name: {{vm.donacion.name}}
+									<a href="#" ng-click="vm.clicked()">Click Here</a>
+								</div>
+							</info-window>-->
 						</ng-map>
 					</div>
 				</div>
