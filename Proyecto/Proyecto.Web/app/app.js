@@ -5637,6 +5637,7 @@ angular
         //Variables
         //vm.map = {};
 
+
         //Methods:
         vm.mapaClick = mapaClick;
         vm.showDetail = showDetail;
@@ -5651,6 +5652,33 @@ angular
             NgMap.getMap().then(function (map) {
                 console.log('map', map);
                 vm.map = map;
+
+                //console.log('markers', map.markers);
+
+                if (vm.map.markers[0].position.lat() == 0 && vm.map.markers[0].position.lng() == 0) {
+                    var latlng = new google.maps.LatLng(-34.66964091000385, -58.562965393066406);
+                    vm.map.markers[0].setPosition(latlng);
+                    vm.map.setCenter(latlng);
+                }
+
+                // navigator.geolocation.getCurrentPosition(
+                //     function (pos) {
+                //         var crd = pos.coords;
+                //         // vm.donacion.latitud = crd.latitude;
+                //         // vm.donacion.longitud = crd.longitude;
+                //     },
+                //     function error(err) {
+                //         console.warn('ERROR(' + err.code + '): ' + err.message);
+
+                //         //Posicion por defecto en caso de que los mapas no funcionen.
+                //         var latlng = new google.maps.LatLng(-34.66964091000385, -58.562965393066406);
+                //         map.markers[0].setPosition(latlng);
+                //     },
+                //     {
+                //         enableHighAccuracy: false,
+                //         timeout: 2000,
+                //         maximumAge: 6000000
+                //     });
             });
 
             ServerService.homeGetDonaciones()
