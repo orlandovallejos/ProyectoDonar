@@ -237,8 +237,8 @@
                             />
 
                             <div ng-if="vm.donacion.categoria == 'DINERO'">
-                                <div id="ionslider_2" name="ionslider_2" ion-slider ng-model="vm.donacion.dineroRecaudado" min="0" max="{{vm.donacion.dineroTotal}}" grid="true"
-                                    prefix="$" ng-disabled="true"></div>
+                                <div id="ionslider_2" name="ionslider_2" ion-slider ng-model="vm.donacion.dineroRecaudado" min="0" max="{{vm.donacion.dineroTotal}}"
+                                    grid="true" prefix="$" ng-disabled="true"></div>
                                 <span class="uk-form-help-block">Recaudado</span>
                             </div>
 
@@ -304,7 +304,7 @@
                                         <label>Donacion monetaria con Mercado Pago</label>
                                         <input type="number" class="md-input" ng-model="vm.donacionMonetaria" md-input pattern="^[0-9]+$" />
                                         <span class="uk-input-group-addon">
-                                        <a ng-click="vm.pagarMercadoPago()">
+                                        <a ng-click="vm.pagarMercadoPago()" data-uk-modal="{target:'#modal_overflow'}">
                                             <i class="material-icons">&#xE163;</i>
                                         </a>
                                     </span>
@@ -321,6 +321,23 @@
                                                 <i class="material-icons">&#xE163;</i>
                                             </a>
                                         </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <!--<button class="md-btn" data-uk-modal="{target:'#modal_overflow'}">Open</button>-->
+                                <div id="modal_overflow" class="uk-modal">
+                                    <div class="uk-modal-dialog" style="width:1000px;">
+                                        <button type="button" class="uk-modal-close uk-close"></button>
+                                        <iframe data-ng-src="{{vm.mercadoPagoURL}}" frameborder="0" style="width: 100%; height: 560px;"></iframe>
+                                        <!--<h2 class="heading_a">Some text above the scrollable box</h2>
+                                    <p>Quia porro id amet eos optio veniam repudiandae repudiandae quae ipsam dolores dolores eveniet qui et consequatur molestiae minima eos qui et esse optio et iusto vel quis delectus numquam saepe saepe reiciendis cupiditate libero voluptates magnam est facilis.</p>
+                                    <div class="uk-overflow-container">
+                                        <h2 class="heading_b">Overflow container</h2>
+                                        
+                                    </div>
+                                    <h2 class="heading_a">Some text below the overflow container</h2>
+                                    <p>Ipsum beatae optio magnam consectetur iste aut aut nihil id dolor totam sed repellat animi suscipit ex numquam quisquam debitis autem ea non occaecati esse laborum temporibus vel ut laborum explicabo magnam ratione et repellat vel labore quasi non rem consequuntur qui dolore eligendi eos explicabo cumque.</p>-->
                                     </div>
                                 </div>
                             </div>

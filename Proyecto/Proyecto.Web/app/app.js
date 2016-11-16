@@ -5936,15 +5936,15 @@ angular
         $scope.subirImagen = subirImagen;
     }
 })();
-(function() {
+(function () {
     "use strict";
     angular
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService', 'NgMap'];
+    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService', 'NgMap', '$sce'];
 
-    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService, NgMap) {
+    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService, NgMap, $sce) {
         var vm = this;
 
         //Variables
@@ -5971,7 +5971,7 @@ angular
             vm.usuarioLogueado = SessionStorageService.get('usuario');
 
             ServerService.getDonacion($stateParams.id)
-                .then(function(data) {
+                .then(function (data) {
                     console.log(data);
                     vm.donacion = data;
 
@@ -5994,12 +5994,12 @@ angular
                     // vm.donacion.longitud = -58.57205388302003;
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                        .then(function(dataImages) {
+                        .then(function (dataImages) {
                             vm.images = dataImages;
                         });
 
                     ServerService.getVideos($stateParams.id)
-                        .then(function(dataVideo) {
+                        .then(function (dataVideo) {
                             vm.videos = dataVideo;
                         });
                 });
@@ -6047,13 +6047,13 @@ angular
             }
 
             ServerService.addComment(request)
-                .then(function(response) {
+                .then(function (response) {
                     console.log(response);
                     request.imagen_path = vm.usuarioLogueado.imagen_path;
                     vm.donacion.lista_coment.push(request);
                     vm.comentario = '';
                 },
-                function(responseError) {
+                function (responseError) {
                     console.log(responseError);
                 });
         }
@@ -6079,24 +6079,25 @@ angular
                     donatario: vm.donacion.usuario
                 };
 
-                ServerService.crearDonacionMP(request)
-                    .then(function(response) {
-                        console.log(response);
+                // ServerService.crearDonacionMP(request)
+                //     .then(function(response) {
+                //         console.log(response);
 
-                        vm.donacionMonetaria = '';
-                        UIkit.notify({
-                            message: '<i class="uk-icon-check"></i> Donación concretada!',
-                            status: 'success',
-                            timeout: 5000,
-                            pos: 'top-right'
-                        });
-                    },
-                    function(responseError) {
-                        console.log(responseError);
-                    });
+                //         vm.donacionMonetaria = '';
+                //         UIkit.notify({
+                //             message: '<i class="uk-icon-check"></i> Donación concretada!',
+                //             status: 'success',
+                //             timeout: 5000,
+                //             pos: 'top-right'
+                //         });
+                //     },
+                //     function(responseError) {
+                //         console.log(responseError);
+                //     });
             }
 
-            $window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
+            vm.mercadoPagoURL = $sce.trustAsResourceUrl("https://www.mercadopago.com.ar/money-transfer?dummyVar=" + (new Date()).getTime());
+            //$window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
         }
 
         function donarCosas() {
@@ -6142,7 +6143,7 @@ angular
 
 
                 ServerService.crearDonacionMP(request)
-                    .then(function(response) {
+                    .then(function (response) {
                         console.log(response);
 
                         vm.donacionDeCosas = '';
@@ -6153,7 +6154,7 @@ angular
                             pos: 'top-right'
                         });
                     },
-                    function(responseError) {
+                    function (responseError) {
                         console.log(responseError);
                     });
             }
@@ -6161,7 +6162,7 @@ angular
 
         function addFavorite() {
             ServerService.addFavorite(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
-                .then(function(response) {
+                .then(function (response) {
                     console.log(response);
                     UIkit.notify({
                         message: '<i class="uk-icon-check"></i> Se agregó a la lista de favoritos!',
@@ -6170,7 +6171,7 @@ angular
                         pos: 'top-right'
                     });
                 },
-                function(responseError) {
+                function (responseError) {
                     console.log(responseError);
                 });
         }
