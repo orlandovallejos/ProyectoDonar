@@ -131,6 +131,16 @@
             mes = pad.substring(0, pad.length - mes.toString().length) + mes;
             var fecha = anio + '-' + mes + '-' + dia;
 
+            if (isNaN(vm.donacionMonetaria) || vm.donacionMonetaria <= 0) {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> La donación tiene que ser un número positivo.',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+                return;
+            }
+
             if (vm.usuarioLogueado) {
                 var request = {
                     donante: vm.usuarioLogueado.usuario,
@@ -141,24 +151,25 @@
                     donatario: vm.donacion.usuario
                 };
 
-                // ServerService.crearDonacionMP(request)
-                //     .then(function(response) {
-                //         console.log(response);
+                ServerService.crearDonacionMP(request)
+                    .then(function (response) {
+                        console.log(response);
 
-                //         vm.donacionMonetaria = '';
-                //         UIkit.notify({
-                //             message: '<i class="uk-icon-check"></i> Donación concretada!',
-                //             status: 'success',
-                //             timeout: 5000,
-                //             pos: 'top-right'
-                //         });
-                //     },
-                //     function(responseError) {
-                //         console.log(responseError);
-                //     });
+                        vm.donacionMonetaria = '';
+                        // UIkit.notify({
+                        //     message: '<i class="uk-icon-check"></i> Donación concretada!',
+                        //     status: 'success',
+                        //     timeout: 5000,
+                        //     pos: 'top-right'
+                        // });
+
+                        UIkit.modal("#modal_overflow").show();
+                        vm.mercadoPagoURL = $sce.trustAsResourceUrl("https://www.mercadopago.com.ar/money-transfer?dummyVar=" + (new Date()).getTime());
+                    },
+                    function (responseError) {
+                        console.log(responseError);
+                    });
             }
-
-            vm.mercadoPagoURL = $sce.trustAsResourceUrl("https://www.mercadopago.com.ar/money-transfer?dummyVar=" + (new Date()).getTime());
             //$window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
         }
 
