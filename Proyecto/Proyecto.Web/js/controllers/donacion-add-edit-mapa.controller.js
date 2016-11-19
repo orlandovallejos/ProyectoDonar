@@ -340,6 +340,11 @@
                                 timeout: 5000,
                                 pos: 'top-right'
                             });
+
+                            if (vm.isNew) {
+                                //$state.go('restricted.donacion-edit', { id: response.id_necesidad });
+                                $state.go('restricted.home');
+                            }
                         })
                         .catch(function (responseError) {
                             UIkit.notify({
