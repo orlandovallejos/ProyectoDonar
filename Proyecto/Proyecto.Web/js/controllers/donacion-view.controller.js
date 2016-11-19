@@ -25,6 +25,7 @@
         vm.addFavorite = addFavorite;
         vm.donarCosas = donarCosas;
         vm.getYTLink = getYTLink;
+        vm.addLike = addLike;
 
         activate();
 
@@ -54,6 +55,26 @@
                     //This should come from server:
                     // vm.donacion.latitud = -34.66492800516767;
                     // vm.donacion.longitud = -58.57205388302003;
+
+                    if (vm.donacion.email) {
+                        vm.donacion.email = vm.donacion.email.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.telefono) {
+                        vm.donacion.telefono = vm.donacion.telefono.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.facebook) {
+                        vm.donacion.facebook = vm.donacion.facebook.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.twitter) {
+                        vm.donacion.twitter = vm.donacion.twitter.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.usuario_mp) {
+                        vm.donacion.usuario_mp = vm.donacion.usuario_mp.replace(/ /g, '');
+                    }
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                         .then(function (dataImages) {
@@ -239,6 +260,22 @@
                     console.log(response);
                     UIkit.notify({
                         message: '<i class="uk-icon-check"></i> Se agregó a la lista de favoritos!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function addLike() {
+            ServerService.addLike(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
+                .then(function (response) {
+                    console.log(response);
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se agregó el like!',
                         status: 'success',
                         timeout: 5000,
                         pos: 'top-right'

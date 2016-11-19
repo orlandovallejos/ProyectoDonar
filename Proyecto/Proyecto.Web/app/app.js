@@ -2836,7 +2836,9 @@
             getResultado: getResultado,
             mostrarNotificaciones: mostrarNotificaciones,
             deleteNotificacion: deleteNotificacion,
-            donacionesConcretadas: donacionesConcretadas
+            donacionesConcretadas: donacionesConcretadas,
+            addLike: addLike,
+            verLikes: verLikes
         };
 
         return service;
@@ -2900,7 +2902,7 @@
         }
 
         function homeGetDonaciones() {
-            return $http.get('http://soydonar.com/webservices/webresources/necesidadesHome')
+            return $http.get('http://www.soydonar.com/webservices/webresources/necesidadesHome')
                 .then(function (response) {
                     return response.data;
                 })
@@ -2912,7 +2914,7 @@
         }
 
         function login(request) {
-            return $http.get('http://soydonar.com/webservices/webresources/Login/' + request.username + '&' + request.password)
+            return $http.get('http://www.soydonar.com/webservices/webresources/Login/' + request.username + '&' + request.password)
                 .then(function (response) {
                     return response.data;
                 })
@@ -2924,7 +2926,7 @@
         }
 
         function register(request) {
-            return $http.get('http://soydonar.com/webservices/webresources/Register/' + request.username + '&' + request.password + '&' + request.password + '&' + request.name + '&' + request.lastname)
+            return $http.get('http://www.soydonar.com/webservices/webresources/Register/' + request.username + '&' + request.password + '&' + request.password + '&' + request.name + '&' + request.lastname)
                 .then(function (response) {
                     return response.data;
                 })
@@ -2936,7 +2938,7 @@
         }
 
         function getDonacion(id) {
-            return $http.get('http://soydonar.com/webservices/webresources/NecesidadInfo/' + id)
+            return $http.get('http://www.soydonar.com/webservices/webresources/NecesidadInfo/' + id)
                 .then(function (response) {
                     return response.data;
                 })
@@ -2952,7 +2954,7 @@
             console.log('Entra al servicio de comentario:');
             console.log(request);
 
-            return $http.post('http://soydonar.com/webservices/webresources/Comment/post1', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/Comment/post1', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Comentario');
                     console.log(response);
@@ -2971,7 +2973,7 @@
             console.log(request);
 
             if (request.id_necesidad) {
-                return $http.post('http://soydonar.com/webservices/webresources/editNecesidad/edit', JSON.stringify(request))
+                return $http.post('http://www.soydonar.com/webservices/webresources/editNecesidad/edit', JSON.stringify(request))
                     .then(function (response) {
                         console.log('Donacion edit');
                         console.log(response);
@@ -2984,7 +2986,7 @@
                     });
             }
             else {
-                return $http.post('http://soydonar.com/webservices/webresources/crearNecesidad/alta', JSON.stringify(request))
+                return $http.post('http://www.soydonar.com/webservices/webresources/crearNecesidad/alta', JSON.stringify(request))
                     .then(function (response) {
                         console.log('Donacion add');
                         console.log(response);
@@ -2999,7 +3001,7 @@
         }
 
         function getCategorias() {
-            return $http.get('http://soydonar.com/webservices/webresources/verCategorias/')
+            return $http.get('http://www.soydonar.com/webservices/webresources/verCategorias/')
                 .then(function (response) {
                     return response.data;
                 })
@@ -3011,7 +3013,7 @@
         }
 
         function addFavorite(idNecesidad, idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/addFav/' + idNecesidad + '&' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/addFav/' + idNecesidad + '&' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 })
@@ -3023,7 +3025,7 @@
         }
 
         function getFavorites(idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/verFavoritos/' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/verFavoritos/' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 })
@@ -3035,7 +3037,7 @@
         }
 
         function deleteFav(idDonacion, idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/DeleteFav/' + idDonacion + '&' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/DeleteFav/' + idDonacion + '&' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 })
@@ -3052,7 +3054,7 @@
                 clave: filtro,
                 categoria: (categoria && categoria != '') ? categoria : 'todas'
             };
-            return $http.post('http://soydonar.com/webservices/webresources/filtro/Nec', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/filtro/Nec', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Search');
                     console.log(response);
@@ -3066,7 +3068,7 @@
         }
 
         function crearDonacionMP(request) {
-            return $http.post('http://soydonar.com/webservices/webresources/CrearDonacion/alta', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/CrearDonacion/alta', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Donacion edit');
                     console.log(response);
@@ -3080,7 +3082,7 @@
         }
 
         function getPendienteDonante(idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/pendientes/donante/' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/pendientes/donante/' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 })
@@ -3092,7 +3094,7 @@
         }
 
         function getPendienteDonatario(idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/pendientes/donatario/' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/pendientes/donatario/' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 })
@@ -3104,7 +3106,7 @@
         }
 
         function savePendienteDonante(id_donacion) {
-            return $http.get('http://soydonar.com/webservices/webresources/donacionGuardarEstado/donante/' + id_donacion)
+            return $http.get('http://www.soydonar.com/webservices/webresources/donacionGuardarEstado/donante/' + id_donacion)
                 .then(function (response) {
                     return response.data;
                 })
@@ -3116,7 +3118,7 @@
         }
 
         function savePendienteDonatario(id_donacion) {
-            return $http.get('http://soydonar.com/webservices/webresources/donacionGuardarEstado/donatario/' + id_donacion)
+            return $http.get('http://www.soydonar.com/webservices/webresources/donacionGuardarEstado/donatario/' + id_donacion)
                 .then(function (response) {
                     return response.data;
                 })
@@ -3128,7 +3130,7 @@
         }
 
         function getInfoUsuario(idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/infoUsuario/' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/infoUsuario/' + idUsuario)
                 .then(function (response) {
                     return response.data;
                 })
@@ -3140,7 +3142,7 @@
         }
 
         function guardarUsuario(request) {
-            return $http.post('http://soydonar.com/webservices/webresources/editUsuario/edit', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/editUsuario/edit', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Usuario edit');
                     console.log(response);
@@ -3159,10 +3161,10 @@
                     return response.data;
                 })
                 .catch(function (responseError) {
-                        console.log('Error getMisDonaciones');
-                        console.log(responseError);
-                        return $q.reject(parsearError(responseError));
-                    });
+                    console.log('Error getMisDonaciones');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
+                });
         }
 
         function getFilesInFolder(folder) {
@@ -3181,7 +3183,7 @@
                     // console.log(responseError);
                 });
 
-            return $http.get('http://soydonar.com/webservices/webresources/obtenerarchivos/' + folder)
+            return $http.get('http://www.soydonar.com/webservices/webresources/obtenerarchivos/' + folder)
                 .then(function (response) {
                     return $q.resolve(response.data);
                 },
@@ -3198,6 +3200,7 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error guardarVideo');
                     console.log(responseError);
                     return $q.reject(parsearError(responseError));
                 });
@@ -3211,6 +3214,7 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error getVideos');
                     console.log(responseError);
                     return $q.reject(parsearError(responseError));
                 });
@@ -3225,6 +3229,7 @@
                         return $q.resolve(response.data);
                     })
                     .catch(function (responseError) {
+                        console.log('Error add guardarResultado');
                         console.log(responseError);
                         return $q.reject(parsearError(responseError));
                     });
@@ -3237,6 +3242,7 @@
                         return $q.resolve(response.data);
                     })
                     .catch(function (responseError) {
+                        console.log('Error edit guardarUsuario');
                         console.log(responseError);
                         return $q.reject(parsearError(responseError));
                     });
@@ -3251,6 +3257,7 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error getResultado');
                     console.log(responseError);
                     return $q.reject(parsearError(responseError));
                 });
@@ -3264,6 +3271,7 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error mostrarNotificaciones');
                     console.log(responseError);
                     return $q.reject(parsearError(responseError));
                 });
@@ -3277,19 +3285,49 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error deleteNotificacion');
                     console.log(responseError);
                     return $q.reject(parsearError(responseError));
                 });
         }
 
         function donacionesConcretadas(usuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/DonacionesConcretadas/' + usuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/DonacionesConcretadas/' + usuario)
                 .then(function (response) {
                     console.log('Get notificaciones');
                     console.log(response);
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error donacionesConcretadas');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
+                });
+        }
+
+        function addLike(id_necesidad, usuario) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/addLike/' + id_necesidad + '&' + usuario)
+                .then(function (response) {
+                    console.log('Get addLike');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log('Error addLike');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
+                });
+        }
+
+        function verLikes(usuario) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/verLikes/' + usuario)
+                .then(function (response) {
+                    console.log('Get verLikes');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log('Error verLikes');
                     console.log(responseError);
                     return $q.reject(parsearError(responseError));
                 });
@@ -5257,6 +5295,11 @@ angular
                                 timeout: 5000,
                                 pos: 'top-right'
                             });
+
+                            if (vm.isNew) {
+                                //$state.go('restricted.donacion-edit', { id: response.id_necesidad });
+                                $state.go('restricted.home');
+                            }
                         })
                         .catch(function (responseError) {
                             UIkit.notify({
@@ -6069,6 +6112,7 @@ angular
         vm.addFavorite = addFavorite;
         vm.donarCosas = donarCosas;
         vm.getYTLink = getYTLink;
+        vm.addLike = addLike;
 
         activate();
 
@@ -6098,6 +6142,26 @@ angular
                     //This should come from server:
                     // vm.donacion.latitud = -34.66492800516767;
                     // vm.donacion.longitud = -58.57205388302003;
+
+                    if (vm.donacion.email) {
+                        vm.donacion.email = vm.donacion.email.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.telefono) {
+                        vm.donacion.telefono = vm.donacion.telefono.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.facebook) {
+                        vm.donacion.facebook = vm.donacion.facebook.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.twitter) {
+                        vm.donacion.twitter = vm.donacion.twitter.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.usuario_mp) {
+                        vm.donacion.usuario_mp = vm.donacion.usuario_mp.replace(/ /g, '');
+                    }
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                         .then(function (dataImages) {
@@ -6283,6 +6347,22 @@ angular
                     console.log(response);
                     UIkit.notify({
                         message: '<i class="uk-icon-check"></i> Se agregó a la lista de favoritos!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function addLike() {
+            ServerService.addLike(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
+                .then(function (response) {
+                    console.log(response);
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se agregó el like!',
                         status: 'success',
                         timeout: 5000,
                         pos: 'top-right'
