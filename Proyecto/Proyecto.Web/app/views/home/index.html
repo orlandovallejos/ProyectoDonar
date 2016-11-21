@@ -56,7 +56,10 @@
 						<div class="blog_list_footer">
 							<div class="blog_list_footer_info">
 								<span class="uk-margin-right">
-									<i class="uk-icon-thumbs-o-up" style="color:#908c8c;"></i>
+									<a ng-if="vm.usuarioLogueado" ng-click="vm.addLike(d.id_necesidad)">
+										<i class="uk-icon-thumbs-o-up" style="color:#908c8c;"></i>	
+									</a>
+									<i ng-if="!vm.usuarioLogueado" class="uk-icon-thumbs-o-up" style="color:#908c8c;"></i>
 									<small class="ng-binding">{{d.cant_likes}}</small>
 								</span>
 								<span>

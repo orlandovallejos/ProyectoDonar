@@ -76,6 +76,19 @@
                         vm.donacion.usuario_mp = vm.donacion.usuario_mp.replace(/ /g, '');
                     }
 
+                    if (vm.donacion.fecha_fin) {
+                        var _date = new Date();
+                        var _fechaFin = new Date(vm.donacion.fecha_fin);
+
+                        if (_fechaFin >= _date) {
+                            vm.estaActiva = true;
+                        }
+                        else {
+                            vm.estaActiva = false;
+                        }
+                    }
+                    //
+
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
                         .then(function (dataImages) {
                             vm.images = dataImages;

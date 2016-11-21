@@ -17,9 +17,11 @@
 
         vm.palabraClave = '';
         vm.categoriaSeleccionada = '';
+        vm.usuarioLogueado = {};
 
         //Methods
         vm.buscar = buscar;
+        vm.addLike = addLike;
 
         activate();
         //activate2();
@@ -135,6 +137,8 @@
         }
 
         function activate() {
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+
             vm.tipo_config = {
                 valueField: 'value',
                 labelField: 'title',
@@ -183,6 +187,31 @@
                     else {
                         vm.donaciones = [];
                     }
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function addLike(id_necesidad) {
+            ServerService.addLike(id_necesidad, vm.usuarioLogueado.usuario)
+                .then(function (response) {
+
+                    vm.donaciones.forEach(function (e, i, a) {
+                        if (e.id_necesidad == id_necesidad) {
+                            var cant = parseInt(e.cant_likes);
+                            cant++;
+                            e.cant_likes = cant;
+                        }
+                    });
+
+                    console.log(response);
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se agregó el like!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
                 },
                 function (responseError) {
                     console.log(responseError);
