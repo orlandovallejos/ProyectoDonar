@@ -34,6 +34,9 @@
                                 <li>
                                     <h4 class="heading_a">{{vm.donacion.cant_favs}}<span class="sub-heading"><i class="uk-icon-heart-o"></i> Favoritos</span></h4>
                                 </li>
+                                <li>
+                                    <h4 class="heading_a">{{vm.donacion.confianza}}<span class="sub-heading"><i class="uk-icon-trophy"></i> Confianza</span></h4>
+                                </li>
                             </ul>
 
                             <div id="botones-para-compartir">
@@ -305,8 +308,8 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div ng-if="vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp &&  vm.estaActiva" class="uk-grid" data-uk-grid-margin
-                                data-uk-grid-match>
+                            <div ng-if="vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp &&  vm.estaActiva" class="uk-grid"
+                                data-uk-grid-margin data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
                                     <div class="uk-input-group">
                                         <label>Donacion monetaria con Mercado Pago</label>

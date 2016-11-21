@@ -322,6 +322,33 @@
                         return;
                     }
 
+                    if (request.dineroTotal) {
+                        var _dinero = request.dineroTotal.replace(/[ ]/ig, '');
+                        if (isNaN(_dinero)) {
+                            UIkit.notify({
+                                message: '<i class="uk-icon-times-circle"></i> El campo de dinero objetivo debe ser un número.',
+                                status: 'danger',
+                                timeout: 5000,
+                                pos: 'top-right'
+                            });
+
+                            return;
+                        }
+
+                        request.dineroTotal = _dinero.toString();
+                    }
+
+                    if (request.categoria == 'DINERO' && !request.dineroTotal) {
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> El campo de dinero objetivo es requerido.',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+
+                        return;
+                    }
+
                     if (!vm.isNew) {
                         request.id_necesidad = $stateParams.id;
 
