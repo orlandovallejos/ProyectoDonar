@@ -5278,7 +5278,7 @@ angular
                     }
 
                     if (request.dineroTotal) {
-                        var _dinero = request.dineroTotal.replace(/[ ]/ig, '');
+                        var _dinero = request.dineroTotal.toString().replace(/[ ]/ig, '');
                         if (isNaN(_dinero)) {
                             UIkit.notify({
                                 message: '<i class="uk-icon-times-circle"></i> El campo de dinero objetivo debe ser un número.',
@@ -6193,7 +6193,8 @@ angular
                     if (vm.donacion.usuario_mp) {
                         vm.donacion.usuario_mp = vm.donacion.usuario_mp.replace(/ /g, '');
                     }
-
+                    
+                    vm.estaActiva = true;
                     if (vm.donacion.fecha_fin) {
                         var _date = new Date();
                         var _fechaFin = new Date(vm.donacion.fecha_fin);
@@ -6493,7 +6494,7 @@ angular
         }
     }
 })();
-(function () {
+(function() {
     "use strict";
 
     angular
@@ -6538,11 +6539,11 @@ angular
                 var words = input.split(' ');
                 var lengths = [];
 
-                lengths = words.filter(function (e, i, a) {
+                lengths = words.filter(function(e, i, a) {
                     return isPalindrome(e);
                 });
 
-                lengths.sort(function (a, b) {
+                lengths.sort(function(a, b) {
                     return b.length - a.length;
                 });
 
@@ -6557,7 +6558,7 @@ angular
             function wrongClosureId(arrayActores) {
                 var i;
                 for (i = 0; i < arrayActores.length; i++) {
-                    arrayActores[i].id = function () {
+                    arrayActores[i].id = function() {
                         return i;
                     };
                 }
@@ -6568,8 +6569,8 @@ angular
             function goodClosureId(arrayActores) {
                 var i;
                 for (i = 0; i < arrayActores.length; i++) {
-                    arrayActores[i].id = (function (j) {
-                        return function () {
+                    arrayActores[i].id = (function(j) {
+                        return function() {
                             return j;
                         } ();
                     })(i);
@@ -6596,10 +6597,10 @@ angular
                 var palabrasArray = palabras.split(',');
                 var palabrasConCantidad = [];
 
-                palabrasArray.forEach(function (e, i, a) {
+                palabrasArray.forEach(function(e, i, a) {
                     var arrayLetras = e.split('');
                     var arrayCant = [];
-                    arrayLetras.forEach(function (element, index, array) {
+                    arrayLetras.forEach(function(element, index, array) {
 
                         if (arrayCant.indexOf(element) === -1) {
                             //No encontró la letra, entonces la agrego:
@@ -6613,7 +6614,7 @@ angular
                 });
 
                 if (palabrasConCantidad.length > 0) {
-                    palabrasConCantidad.sort(function (a, b) {
+                    palabrasConCantidad.sort(function(a, b) {
                         return b.palabra.length - a.palabra.length;
                     });
 
@@ -6643,11 +6644,11 @@ angular
             };
 
             ServerService.homeGetDonaciones()
-                .then(function (data) {
+                .then(function(data) {
                     console.log(data);
                     vm.donaciones = data;
 
-                    vm.donaciones.forEach(function (e, i, a) {
+                    vm.donaciones.forEach(function(e, i, a) {
                         //Valido la no existencia de la imagen:
                         if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
                             e.imagen_path = 'prueba.png';
@@ -6656,7 +6657,7 @@ angular
                 });
 
             ServerService.getCategorias()
-                .then(function (response) {
+                .then(function(response) {
 
 
                     vm.tipo_options = [];
@@ -6666,14 +6667,14 @@ angular
                         vm.tipo_options.push({ value: response[i], title: response[i] });
                     }
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }
 
         function buscar() {
             ServerService.searchDonacion(vm.palabraClave, vm.categoriaSeleccionada)
-                .then(function (response) {
+                .then(function(response) {
                     console.log(response);
 
                     if (Object.prototype.toString.call(response) === '[object Array]') {
@@ -6683,16 +6684,16 @@ angular
                         vm.donaciones = [];
                     }
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }
 
         function addLike(id_necesidad) {
             ServerService.addLike(id_necesidad, vm.usuarioLogueado.usuario)
-                .then(function (response) {
+                .then(function(response) {
 
-                    vm.donaciones.forEach(function (e, i, a) {
+                    vm.donaciones.forEach(function(e, i, a) {
                         if (e.id_necesidad == id_necesidad) {
                             var cant = parseInt(e.cant_likes);
                             cant++;
@@ -6708,7 +6709,7 @@ angular
                         pos: 'top-right'
                     });
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }

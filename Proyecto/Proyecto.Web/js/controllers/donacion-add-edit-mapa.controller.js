@@ -323,7 +323,7 @@
                     }
 
                     if (request.dineroTotal) {
-                        var _dinero = request.dineroTotal.replace(/[ ]/ig, '');
+                        var _dinero = request.dineroTotal.toString().replace(/[ ]/ig, '');
                         if (isNaN(_dinero)) {
                             UIkit.notify({
                                 message: '<i class="uk-icon-times-circle"></i> El campo de dinero objetivo debe ser un número.',

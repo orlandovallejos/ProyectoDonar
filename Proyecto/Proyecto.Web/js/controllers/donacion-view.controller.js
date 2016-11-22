@@ -75,7 +75,8 @@
                     if (vm.donacion.usuario_mp) {
                         vm.donacion.usuario_mp = vm.donacion.usuario_mp.replace(/ /g, '');
                     }
-
+                    
+                    vm.estaActiva = true;
                     if (vm.donacion.fecha_fin) {
                         var _date = new Date();
                         var _fechaFin = new Date(vm.donacion.fecha_fin);
