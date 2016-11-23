@@ -309,7 +309,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div ng-if="vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp &&  vm.estaActiva" class="uk-grid"
+                            <div ng-if="vm.usuarioLogueado && vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp &&  vm.estaActiva" class="uk-grid"
                                 data-uk-grid-margin data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
                                     <div class="uk-input-group">

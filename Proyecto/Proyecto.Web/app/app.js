@@ -3370,8 +3370,15 @@
         .module('donarApp')
         .config([
             '$stateProvider',
-            '$urlRouterProvider',
-            function ($stateProvider, $urlRouterProvider) {
+            '$urlRouterProvider','$locationProvider',
+            function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+                // $locationProvider.html5Mode({
+                //     enabled: true,
+                //     requireBase: false
+                //     });
+
+                //$locationProvider.html5Mode(true); 
 
                 // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
                 $urlRouterProvider
