@@ -158,6 +158,20 @@
                             }
                         }
                     })
+                    .state("restricted.donacion-resultado-ver", {
+                        url: "/Necesidad/Resultado/{id:int}",
+                        controller: 'DonacionViewResultadoController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/view-resultado.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_ionRangeSlider',
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
                     // .state("restricted.donacion-add", {
                     //     url: "/Donacion/Alta",
                     //     controller: 'DonacionAddEditController',

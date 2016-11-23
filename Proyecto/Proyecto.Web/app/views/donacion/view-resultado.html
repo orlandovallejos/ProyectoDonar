@@ -21,7 +21,7 @@
                         </div>
                         <div class="user_heading_content">
                             <h2 class="heading_b uk-margin-bottom">
-                                <span class="uk-text-truncate">{{vm.donacion.titulo}}</span>
+                                <span class="uk-text-truncate">{{vm.resultado.titulo}}</span>
                                 <!--<span class="sub-heading">{{vm.user_data.position}}</span>-->
                             </h2>
                             <ul class="user_stats" style="display: table;float: left;">
@@ -106,7 +106,8 @@
                         </ul>
                         <ul id="user_profile_tabs_content" class="uk-switcher uk-margin">
                             <li>
-                                {{vm.donacion.necesidad}}
+                                <!--{{vm.donacion.necesidad}}-->
+                                {{vm.resultado.resultado}}
                                 <div class="uk-grid uk-margin-medium-top uk-margin-large-bottom" data-uk-grid-margin>
                                     <div class="uk-width-large-1-2">
                                         <h4 class="heading_c uk-margin-small-bottom">Contacto</h4>
@@ -223,10 +224,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div ng-if="vm.usuarioLogueado">
+                            <!--<div ng-if="vm.usuarioLogueado">
                                 <textarea cols="30" rows="4" class="md-input" placeholder="Agregar comentario..." md-input ng-model="vm.comentario"></textarea>
                                 <a class="md-btn uk-margin-top" ng-click="vm.addComment()">Comentar</a>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -246,53 +247,6 @@
                                 <span class="uk-form-help-block">Recaudado</span>
                             </div>
 
-                            <!--<ul class="md-list md-list-addon">
-                                <li>
-                                    <div class="md-list-addon-element">
-                                        <i class="md-list-addon-icon material-icons uk-text-warning">&#xE88F;</i>
-                                    </div>
-                                    <div class="md-list-content">
-                                        <span class="md-list-heading">Ropa</span>
-                                        <span class="uk-text-small uk-text-muted uk-text-truncate">Aceptamos nueva y usada</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="md-list-addon-element">
-                                        <i class="md-list-addon-icon material-icons uk-text-warning">&#xE88F;</i>
-                                    </div>
-                                    <div class="md-list-content">
-                                        <span class="md-list-heading">Dinero</span>
-                                        <span class="uk-text-small uk-text-muted uk-text-truncate">Para comprar alimentos</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="md-list-addon-element">
-                                        <i class="md-list-addon-icon material-icons uk-text-warning">&#xE88F;</i>
-                                    </div>
-                                    <div class="md-list-content">
-                                        <span class="md-list-heading">Utiles escolares</span>
-                                        <span class="uk-text-small uk-text-muted uk-text-truncate">Desde lapices hasta mochilas</span>
-                                    </div>
-                                </li>
-                            </ul>-->
-                            <div ng-if="vm.usuarioLogueado" class="uk-grid" data-uk-grid-margin data-uk-grid-match id="user_profile">
-                                <div class="uk-width-large-1-2">
-                                    <span class="uk-input-group-addon">
-                                        <a class="md-btn md-btn-primary" ng-click="vm.addFavorite()">
-                                            <i class="uk-icon-heart" style="color:#f44336"></i>
-                                            Favorito
-                                        </a>
-                                    </span>
-                                </div>
-                                <div class="uk-width-large-1-2">
-                                    <span class="uk-input-group-addon">
-                                        <a class="md-btn md-btn-primary" ng-click="vm.addLike()">
-                                            <i class="uk-icon-thumbs-up" style="color:#fff"></i>
-                                            Me gusta
-                                        </a>
-                                    </span>
-                                </div>
-                            </div>
                             <div ng-if="vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp" class="uk-grid" data-uk-grid-margin
                                 data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
@@ -307,51 +261,6 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </div>
-                            </div>
-                            <div ng-if="vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp &&  vm.estaActiva" class="uk-grid"
-                                data-uk-grid-margin data-uk-grid-match>
-                                <div class="uk-width-large-1-1">
-                                    <div class="uk-input-group">
-                                        <label>Donacion monetaria con Mercado Pago</label>
-                                        <input type="number" class="md-input" ng-model="vm.donacionMonetaria" md-input pattern="^[0-9]+$" />
-                                        <span class="uk-input-group-addon">
-                                        <!--<a ng-click="vm.pagarMercadoPago()" data-uk-modal="{target:'#modal_overflow'}">-->
-                                        <a ng-click="vm.pagarMercadoPago()">
-                                            <i class="material-icons">&#xE163;</i>
-                                        </a>
-                                    </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div ng-if="vm.usuarioLogueado  && vm.estaActiva" class="uk-grid" data-uk-grid-margin data-uk-grid-match>
-                                <div class="uk-width-large-1-1">
-                                    <div class="uk-input-group">
-                                        <label>Donar elementos</label>
-                                        <input type="text" class="md-input" ng-model="vm.donacionDeCosas" md-input maxlength="200" />
-                                        <span class="uk-input-group-addon">
-                                            <a ng-click="vm.donarCosas()">
-                                                <i class="material-icons">&#xE163;</i>
-                                            </a>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <!--<button class="md-btn" data-uk-modal="{target:'#modal_overflow'}">Open</button>-->
-                                <div id="modal_overflow" class="uk-modal">
-                                    <div class="uk-modal-dialog" style="width:1000px;">
-                                        <button type="button" class="uk-modal-close uk-close"></button>
-                                        <iframe data-ng-src="{{vm.mercadoPagoURL}}" frameborder="0" style="width: 100%; height: 560px;"></iframe>
-                                        <!--<h2 class="heading_a">Some text above the scrollable box</h2>
-                                    <p>Quia porro id amet eos optio veniam repudiandae repudiandae quae ipsam dolores dolores eveniet qui et consequatur molestiae minima eos qui et esse optio et iusto vel quis delectus numquam saepe saepe reiciendis cupiditate libero voluptates magnam est facilis.</p>
-                                    <div class="uk-overflow-container">
-                                        <h2 class="heading_b">Overflow container</h2>
-                                        
-                                    </div>
-                                    <h2 class="heading_a">Some text below the overflow container</h2>
-                                    <p>Ipsum beatae optio magnam consectetur iste aut aut nihil id dolor totam sed repellat animi suscipit ex numquam quisquam debitis autem ea non occaecati esse laborum temporibus vel ut laborum explicabo magnam ratione et repellat vel labore quasi non rem consequuntur qui dolore eligendi eos explicabo cumque.</p>-->
-                                    </div>
                                 </div>
                             </div>
                         </div>
