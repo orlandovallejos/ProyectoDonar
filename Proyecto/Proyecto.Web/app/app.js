@@ -6247,7 +6247,8 @@ angular
                     }
 
                     if (!isNaN(parseInt(vm.donacion.dineroRecaudado)) && !isNaN(parseInt(vm.donacion.dineroTotal))) {
-                        vm.donacion.dineroTotal = parseInt(vm.donacion.dineroRecaudado);
+
+                        vm.donacion.dineroTotal = (parseInt(vm.donacion.dineroRecaudado) > parseInt(vm.donacion.dineroTotal)) ? vm.donacion.dineroRecaudado : vm.donacion.dineroTotal;
                     }
 
                     //Maps magic:
@@ -6274,7 +6275,7 @@ angular
                     if (vm.donacion.usuario_mp) {
                         vm.donacion.usuario_mp = vm.donacion.usuario_mp.replace(/ /g, '');
                     }
-                    
+
                     vm.estaActiva = true;
                     if (vm.donacion.fecha_fin) {
                         var _date = new Date();
