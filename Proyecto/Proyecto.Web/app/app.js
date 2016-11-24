@@ -6749,7 +6749,7 @@ angular
                             var _date = new Date();
                             var _fechaFin = new Date(e.fecha_fin);
 
-                            e.fecha_texto += ' - ' + getFormattedDate(_fechaFin);
+                            e.fecha_texto_fin = getFormattedDate(_fechaFin);
                             if (_fechaFin >= _date) {
                                 e.estaActiva = true;
                             }
@@ -6793,27 +6793,27 @@ angular
                     if (Object.prototype.toString.call(response) === '[object Array]') {
                         vm.donaciones = response;
 
-                       vm.donaciones.forEach(function (e, i, a) {
-                        //Valido la no existencia de la imagen:
-                        if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
-                            e.imagen_path = 'prueba.png';
-                        }
-
-                        e.estaActiva = true;
-                        e.fecha_texto = getFormattedDate(new Date(e.fecha_creacion));
-                        if (e.fecha_fin) {
-                            var _date = new Date();
-                            var _fechaFin = new Date(e.fecha_fin);
-
-                            e.fecha_texto += ' - ' + getFormattedDate(_fechaFin);
-                            if (_fechaFin >= _date) {
-                                e.estaActiva = true;
+                        vm.donaciones.forEach(function (e, i, a) {
+                            //Valido la no existencia de la imagen:
+                            if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
+                                e.imagen_path = 'prueba.png';
                             }
-                            else {
-                                e.estaActiva = false;
+
+                            e.estaActiva = true;
+                            e.fecha_texto = getFormattedDate(new Date(e.fecha_creacion));
+                            if (e.fecha_fin) {
+                                var _date = new Date();
+                                var _fechaFin = new Date(e.fecha_fin);
+
+                                e.fecha_texto_fin = getFormattedDate(_fechaFin);
+                                if (_fechaFin >= _date) {
+                                    e.estaActiva = true;
+                                }
+                                else {
+                                    e.estaActiva = false;
+                                }
                             }
-                        }
-                    }); 
+                        });
                     }
                     else {
                         vm.donaciones = [];

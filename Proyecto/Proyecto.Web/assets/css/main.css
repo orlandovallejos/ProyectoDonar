@@ -13655,3 +13655,7 @@ body {
 .not_login_page{
 	background:none !important;
 }
+
+.fecha-vencida{
+	color:red;
+}
