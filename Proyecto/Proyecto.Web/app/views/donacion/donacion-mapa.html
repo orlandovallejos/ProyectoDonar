@@ -50,7 +50,8 @@
 							<div class="blog_list_teaser" style="min-height: 194px;">
 								<a ui-sref="restricted.donacion({ id: vm.donacion.id_necesidad })" style="margin-top: 15px;display: table;">
 									<h2 class="blog_list_teaser_title uk-text-truncate ng-binding">{{vm.donacion.titulo}}</h2>
-									<p class="ng-binding sin-overflow" style="color:#585858">{{vm.donacion.necesidad }}</p>
+									<!--<p class="ng-binding sin-overflow" style="color:#585858">{{vm.donacion.necesidad }}</p>-->
+									<div ng-bind-html="vm.donacion.necesidad" class="sin-overflow" style="white-space: pre-wrap;height: 200px;font-style: unset;color: #5d5c5c;"></div>
 									<span class="uk-text-muted uk-text-small ng-binding">{{vm.donacion.fecha_creacion}}</span>
 								</a>
 							</div>
