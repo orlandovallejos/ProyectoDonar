@@ -17,28 +17,30 @@
     <body>
          <div>
             <p class="greeting-id">The ID is </p>
-            <p><%
-                Select seleccion=new Select();
-                String datos[]={"daniStone"};
-                ResultSet lista = seleccion.simpleSelect(datos);
-                if(lista.next())
-                    out.println(lista.getString("usuario"));
-                %>
+            <p>
+            </p>    
         </div>
     </body>
 </html>
 
 <script>
 $(document).ready(function () {
- 
+var Comentario = {
+    id_necesidad:'4',
+    comentario:'este es un comentario de prueba',
+    fecha: '1992-05-07',
+    usuario:'orlando@donar.com'
+};
+var obj="hola";
+alert("entre");
         $.ajax({
-            type: 'GET',
-            url: "http://localhost:8080/API-DONAR/webresources/servicio",           
-            data: "{}",
-            contentType: 'application/json; utf-8',
-            dataType: 'xml',
+            type: 'post',
+            url: "http://soydonar.com/webservices/webresources/Comment/post1",           
+            data: JSON.stringify(Comentario),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
             success: function (data) {
-                    $('.greeting-id').append($(data).find("id").text());
+                    $('.greeting-id').append($(data).find("nombre").text());
                     
             },
             error: function (jqXHR, textStatus, errorThrown) {
