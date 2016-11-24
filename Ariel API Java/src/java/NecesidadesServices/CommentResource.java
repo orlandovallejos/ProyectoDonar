@@ -9,6 +9,7 @@ package NecesidadesServices;
 import BD.Insert;
 import BD.Select;
 import Extras.Comentario;
+import Extras.Notificacion;
 import com.google.gson.Gson;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
@@ -75,6 +76,7 @@ public class CommentResource {
         Insert insert=new Insert();
         Select select=new Select();
         String imagen_path;
+        Notificacion not;
         try{
             if(!coment.validarComentario())
                 return Response.status(734).build();
@@ -87,6 +89,10 @@ public class CommentResource {
             else 
                 imagen_path="null";
             select.cerrarConexion();
+            //una vez que guarde el comentario,guardo la notificacion
+            not=new Notificacion("",coment.getId_necesidad(),"","El usuario "+coment.getUsuario()+" ha realizado un comentario en tu necesidad!","");
+            if("746".equals(not.guardar_coment()))
+                return Response.status(746).build();
         }
         catch(SQLException ex){
             return Response.status(714).build();

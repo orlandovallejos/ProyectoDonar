@@ -46,18 +46,19 @@ public class ResumenHomeResource {
       
     @GET
     @Produces("application/json")
-    public String getJson() throws SQLException {
+    public Response getJson() throws SQLException {
         List<String> lista_resumen=null;
         lista_resumen = new ArrayList<String>();
         Select select=new Select();
         ResultSet rs,rs2,rs3;
         String resultado;
         Gson gson=new Gson();
+        try{
         rs=select.cantDonacionesConc();
         if(!rs.next()){
             select.cerrarConexion();
             Extras.Error error=new Extras.Error("743","No hay donaciones concretadas");
-            return gson.toJson(error);
+            return Response.ok(gson.toJson(error)).build();        
         }
         resultado=rs.getString(1);
         lista_resumen.add(resultado); 
@@ -65,7 +66,7 @@ public class ResumenHomeResource {
         if(!rs2.next()){
             select.cerrarConexion();
             Extras.Error error=new Extras.Error("744","No hay donaciones no concretadas");
-            return gson.toJson(error);
+            return Response.ok(gson.toJson(error)).build();        
         }
         resultado=rs2.getString(1);
         lista_resumen.add(resultado);
@@ -73,13 +74,17 @@ public class ResumenHomeResource {
         if(!rs3.next()){
             select.cerrarConexion();
             Extras.Error error=new Extras.Error("745","Monto recaudado nulo");
-            return gson.toJson(error);
+            return Response.ok(gson.toJson(error)).build();
         }
         resultado=rs3.getString(1);
         lista_resumen.add(resultado);
-        
+        }
+        catch(SQLException ex){
+            select.cerrarConexion();
+            return Response.status(714).build();
+        }
         select.cerrarConexion();//siempre cierro la conexion luego de terminar de usar el resultset
-        return gson.toJson(lista_resumen);//nuevo metodo para pasar a formato json un objeto
+        return Response.ok(gson.toJson(lista_resumen)).build();//nuevo metodo para pasar a formato json un objeto
         
     }
 

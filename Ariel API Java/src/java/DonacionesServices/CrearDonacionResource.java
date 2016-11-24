@@ -7,6 +7,7 @@ package DonacionesServices;
 
 import BD.Insert;
 import Extras.Donacion;
+import Extras.Notificacion;
 import com.google.gson.Gson;
 import java.sql.SQLException;
 import javax.ws.rs.Consumes;
@@ -66,11 +67,14 @@ public class CrearDonacionResource {
         Donacion donacion=gson.fromJson(don, Donacion.class); 
         String datos[]={donacion.getDonante(),donacion.getId_necesidad(),donacion.getFecha(), donacion.getAporte_monetario(), donacion.getAporte_donacion(),donacion.getDonatario()};
         Insert insert=new Insert();
+        Notificacion not=new Notificacion("",donacion.getId_necesidad(),donacion.getDonatario(),"Has recibido una donacion del usuario "+donacion.getDonante(),"");
         try{    
             if(!donacion.validarDonacion())
                 return Response.status(735).build();
             insert.insert("INSERT INTO donacion ( usuarios_usuario_donante, necesidades_id_necesidad,fecha,aporte_monetario,aporte_donacion,usuarios_usuario_donatario) VALUES (?,?,STR_TO_DATE( ?, '%Y-%m-%d'),?,?,?)",datos);     
             insert.cerrarConexion();
+            not.guardar_don();
+            not.envio(donacion.getDonatario(), "Has recibido una donacion!","Has recibido una donacion del usuario "+donacion.getDonante() );
         }
         catch(SQLException ex){
             insert.cerrarConexion();

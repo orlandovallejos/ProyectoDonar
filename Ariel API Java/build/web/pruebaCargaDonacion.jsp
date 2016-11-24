@@ -31,7 +31,7 @@ var Donacion = {
     fecha:'2000-05-07',
     aporte_monetario:'100',
     aporte_donacion:'',
-    donatario:'juan@gmail.com'
+    donatario:'arielklodolce@hotmail.com'
 };
 alert("Holaaaa!!");
         $.ajax({

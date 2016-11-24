@@ -8,15 +8,16 @@ package NecesidadesServices;
 import BD.Insert;
 import com.google.gson.Gson;
 import java.sql.SQLException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * REST Web Service
@@ -42,7 +43,7 @@ public class DeleteLikeResource {
     @GET
     @Path("/{id}&{user}")  //parametros que vienen en la url
     @Produces("application/json")
-    public String getJson(@PathParam("id") String id,@PathParam("user") String user) throws SQLException {
+    public Response getJson(@PathParam("id") String id,@PathParam("user") String user) throws SQLException {
         Insert insert=new Insert();
         String datos[]={user,id};
         Gson gson=new Gson();
@@ -54,9 +55,9 @@ public class DeleteLikeResource {
        catch (SQLException ex) {
             ex.printStackTrace();
             Extras.Error error=new Extras.Error("714","Error inesperado.");
-            return gson.toJson(error);
+            return Response.status(714).build();
         }
-        return gson.toJson("OK");
+        return Response.ok(gson.toJson("OK")).build();
     }
 
     /**

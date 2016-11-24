@@ -56,6 +56,8 @@ public class CargarVideosResource {
     public void putJson(String content) {
     }
     
+    
+    
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
@@ -64,9 +66,9 @@ public class CargarVideosResource {
         Gson gson=new Gson();
         Video video=gson.fromJson(vi, Video.class); 
         String datos[]={video.getUrl(),video.getComentario(),video.getFecha(), video.getUsuario(),video.getId_necesidad(),video.getTitulo()};
-        Insert insert=new Insert();;
+        Insert insert=new Insert();
         try{            
-            insert.insert("INSERT INTO videos (url,comentario,fecha,usuarios_usuario,necesidades_id_necesidad, titulo) VALUES (?,?,?,STR_TO_DATE( ?, '%Y-%m-%d'),?,?)",datos);     
+            insert.insert("INSERT INTO videos (url,comentario,fecha,usuarios_usuario,necesidades_id_necesidad, titulo) VALUES (?,?,STR_TO_DATE( ?, '%Y-%m-%d'),?,?,?)",datos);     
             insert.cerrarConexion();
         }
         

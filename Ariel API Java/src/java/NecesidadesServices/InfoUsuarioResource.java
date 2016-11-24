@@ -57,6 +57,7 @@ public class InfoUsuarioResource {
                 return Response.status(715).build();                
             }
             user=new Usuario(rs.getString("usuario"),rs.getString("contrasenia"),rs.getString("nombre"),rs.getString("apellido"),rs.getString("sexo"),rs.getString("nacionalidad"),rs.getString("residencia"),rs.getString("telefono"),rs.getString("facebook"),rs.getString("twitter"),rs.getString("imagen_path"),rs.getString("fecha_nacimiento"));
+            user.setConfianza(Usuario.confianza(rs.getString("usuario")));
         }
         catch(SQLException ex){
             select.cerrarConexion();

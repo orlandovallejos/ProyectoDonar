@@ -67,20 +67,20 @@ public class EditNecesidadResource {
     public Response postStrMsg( String nec) throws SQLException { //en nec llega el json con todos los datos
         Gson gson=new Gson();
         Necesidad necesidad=gson.fromJson(nec, Necesidad.class); //con este metodo parseo el gson y lo paso a un objeto comentario
-        String datos[]={necesidad.getTitulo(),necesidad.getNecesidad(),necesidad.getFecha_creacion(),necesidad.getFecha_fin(),necesidad.getTelefono(),necesidad.getFacebook(),necesidad.getTwitter(),necesidad.getUsuario(),necesidad.getDireccion(),necesidad.getDia_horario(),necesidad.getEmail(),necesidad.getCategoria(),necesidad.getImagen_path(),necesidad.getDineroTotal(),necesidad.getUsuario_mp(),necesidad.getId_necesidad()};
+        String datos[]={necesidad.getTitulo(),necesidad.getNecesidad(),necesidad.getFecha_fin(),necesidad.getTelefono(),necesidad.getFacebook(),necesidad.getTwitter(),necesidad.getUsuario(),necesidad.getDireccion(),necesidad.getDia_horario(),necesidad.getEmail(),necesidad.getCategoria(),necesidad.getImagen_path(),necesidad.getDineroTotal(),necesidad.getUsuario_mp(),necesidad.getLatitud(),necesidad.getLongitud(),necesidad.getId_necesidad()};
         Insert insert=new Insert();
         //insert.insert("INSERT INTO necesidades ( titulo, necesidad,fecha_creacion,fecha_fin,telefono,facebook,twitter,usuarios_usuario,direccion,email,categorias_nombre_categoria,imagen_path,recaudacion_total) VALUES (?,?,STR_TO_DATE( ?, '%Y-%m-%d'),STR_TO_DATE( ?, '%Y-%m-%d'),?,?,?,?,?,?,?,?,?)",datos);
         try{
             String validacion=necesidad.validarNecesidad();
             if(!("OK".equals(validacion)))
                 return Response.status(Integer.parseInt(validacion)).build();
-            insert.insert("UPDATE necesidades SET titulo=? , necesidad=? , fecha_creacion=STR_TO_DATE( ?, '%Y-%m-%d') , fecha_fin=STR_TO_DATE( ?, '%Y-%m-%d') , telefono=? , facebook=? , twitter=? , usuarios_usuario=? , direccion=? , dia_horario=? , email=? , categorias_nombre_categoria=? , imagen_path=? , recaudacion_total=? , usuario_mp=? WHERE id_necesidad=?",datos);
+            insert.insert("UPDATE necesidades SET titulo=? , necesidad=? , fecha_fin=STR_TO_DATE( ?, '%Y-%m-%d') , telefono=? , facebook=? , twitter=? , usuarios_usuario=? , direccion=? , dia_horario=? , email=? , categorias_nombre_categoria=? , imagen_path=? , recaudacion_total=? , usuario_mp=? , latitud=? , longitud=? WHERE id_necesidad=?",datos);
             insert.cerrarConexion();
         }
         catch(SQLException ex){
             insert.cerrarConexion();
             return Response.status(714).build();
         }
-        return Response.ok(gson.toJson("Comentario OK")).build();
+        return Response.ok(gson.toJson("edicion OK")).build();
     }
 }

@@ -47,6 +47,16 @@ public class Donacion {
         this.fecha_fin=fecha_fin;
     }
 
+    public Donacion(String id_don,String donante, String fecha, String aporte_monetario, String aporte_donacion) {
+        this.id_donacion=id_don;
+        this.donante = donante;
+        this.fecha = fecha;
+        this.aporte_monetario = aporte_monetario;
+        this.aporte_donacion = aporte_donacion;
+    }
+    
+    
+
     public String getImagen_path() {
         return imagen_path;
     }

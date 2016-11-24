@@ -69,6 +69,7 @@ public class VerLikesResource {
             select.cerrarConexion();//siempre cierro la conexion luego de terminar de usar el resultset
         }
         catch(SQLException ex){
+            select.cerrarConexion();
             return Response.status(714).build();
         }
         return Response.ok(gson.toJson(lista_nec)).build();//nuevo metodo para pasar a formato json un objeto

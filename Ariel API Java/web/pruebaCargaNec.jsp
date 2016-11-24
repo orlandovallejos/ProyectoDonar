@@ -26,17 +26,28 @@
 <script>
 $(document).ready(function () {
 var Necesidad = {
-    titulo:'Ropa para el interior',
-    necesidad:'Necesitamos llevar ropa para el interior del pais',
-    fecha_creacion: '2016-09-23',
-    fecha_fin: '2016-10-02', //si no tiene fecha de fin mandas esa fecha
-    telefono:'1536078453',
-    facebook:'/ropaParaelInterior',
-    twitter:'@ropaPorelInterior',
-    usuario:'juan@gmail.com',
-    direccion:'San Martin 2232 Moron',
-    email:'',
-    categoria:'ropa'
+    //titulo:'titulo de pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    //necesidad:'necesidade de pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    //fecha_creacion: '2016-09-23',
+    //fecha_fin: '2016-10-02', //si no tiene fecha de fin mandas esa fecha
+    //telefono:'44444444444444444444444444444444444444444444444444',
+    //facebook:'/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    //twitter:'@dndnsmssssssssssssssshsssssssssssssssssssssssssss',
+    //usuario:'juan@gmail.com',
+    //direccion:'dir de pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    //email:'aaaaaaaaaaaaaaaaaaaaaaaaa@gmail.com',
+    //categoria:'ropa',
+    //usuario_mp:'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+
+categoria:"DINERO",
+fecha_creacion:"2016-11-17",
+fecha_fin:null,
+imagen_path:"prueba.png",
+latitud:"-34.60832672898665",
+longitud:"-58.37232587093507",
+necesidad:"nec de prueba 2",
+titulo:"nec de prueba 2",
+usuario:"alejcalodolce@gmail.com"
 };
 alert("estoy");
         $.ajax({

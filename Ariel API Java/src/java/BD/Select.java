@@ -44,6 +44,53 @@ public class Select {
             return resultado;
     }
     
+    public ResultSet selectResultado(String id) throws SQLException
+    {
+        
+            s=con.prepareStatement("select * from resultado where necesidades_id_necesidad=?");  
+                s.setString(1,id);
+            resultado = s.executeQuery();
+            return resultado;
+    }
+    
+    
+    public ResultSet selectUsuario(String id) throws SQLException
+    {
+        
+            s=con.prepareStatement("select usuarios_usuario from necesidades where id_necesidad=?");  
+                s.setString(1,id);
+            resultado = s.executeQuery();
+            return resultado;
+    }
+    
+    public ResultSet selectVideos(String id) throws SQLException
+    {
+        
+            s=con.prepareStatement("select * from videos where necesidades_id_necesidad=?");  
+                s.setString(1,id);
+            resultado = s.executeQuery();
+            return resultado;
+    }
+    
+    
+    public ResultSet selectNotificaciones(String usuario) throws SQLException
+    {
+        
+            s=con.prepareStatement("select * from notificaciones where usuarios_usuario=?");  
+                s.setString(1,usuario);
+            resultado = s.executeQuery();
+            return resultado;
+    }
+    
+    public ResultSet selectDonadores(String id) throws SQLException
+    {
+        
+            s=con.prepareStatement("select usuarios_usuario_donante from donacion where necesidades_id_necesidad=? and estado=1");  
+            s.setString(1,id);
+            resultado = s.executeQuery();
+            return resultado;
+    }
+    
     public ResultSet selectUsuario(String datos[]) throws SQLException
     {
         
@@ -59,7 +106,7 @@ public class Select {
   public ResultSet selectCategorias() throws SQLException
     {
         try{
-            s=con.prepareStatement("select nombre_categoria from categorias");  
+            s=con.prepareStatement("select nombre_categoria from categorias ORDER BY nombre_categoria asc");  
             resultado = s.executeQuery();
         } 
         catch (SQLException ex) {
@@ -90,7 +137,7 @@ public class Select {
     {
         
         try{
-            s=con.prepareStatement("SELECT id_necesidad,titulo,fecha_creacion,comentarios,necesidad,cant_likes,imagen_path FROM necesidades ORDER BY fecha_creacion desc limit 9");
+            s=con.prepareStatement("SELECT id_necesidad,titulo,fecha_creacion,fecha_fin,comentarios,necesidad,cant_likes,imagen_path FROM necesidades ORDER BY fecha_creacion desc limit 12");
             resultado = s.executeQuery();
         } 
         catch (SQLException ex) {
@@ -111,7 +158,18 @@ public class Select {
             ex.printStackTrace();
         }
         return resultado;
-    }    
+    }   
+    //obtengo las donaciones realizadas a una necesidad
+    public ResultSet donacionesConcPorNec(String id) throws SQLException
+    {
+        
+        
+            s=con.prepareStatement("SELECT * FROM donacion WHERE necesidades_id_necesidad=? AND estado='1'");
+            s.setString(1, id);
+            resultado = s.executeQuery();
+
+        return resultado;
+    }
 	
      public ResultSet necesidadesLikes(String user) throws SQLException
     {
@@ -211,6 +269,21 @@ public class Select {
         
         return resultado;
     }
+        
+        
+    public ResultSet confianza(String user) throws SQLException
+    {
+        
+            //s=con.prepareStatement("select * from comentarios where necesidades_id_necesidad=?");  
+            s=con.prepareStatement("SELECT COUNT(id_donacion) FROM donacion  WHERE usuarios_usuario_donante=? OR usuarios_usuario_donatario=?");  
+            s.setString(1,user);
+            s.setString(2,user);
+            resultado = s.executeQuery();
+        
+        
+        
+        return resultado;
+    }    
     
         
         
@@ -218,7 +291,7 @@ public class Select {
     {
         try{
             //s=con.prepareStatement("select * from comentarios where necesidades_id_necesidad=?");  
-            s=con.prepareStatement("SELECT * FROM donacion d JOIN necesidades n ON d.necesidades_id_necesidad = n.id_necesidad  WHERE d.usuarios_usuario_donatario=? AND d.estado_donatario='0' ");  
+            s=con.prepareStatement("SELECT * FROM donacion d JOIN necesidades n ON d.necesidades_id_necesidad = n.id_necesidad  WHERE d.usuarios_usuario_donatario=? AND (d.estado_donatario='0' OR d.estado_donante='0') ORDER BY fecha desc");  
             s.setString(1,id);
             resultado = s.executeQuery();
         } 
@@ -234,7 +307,7 @@ public class Select {
     {
         
             //s=con.prepareStatement("select * from comentarios where necesidades_id_necesidad=?");  
-            s=con.prepareStatement("SELECT * FROM donacion d JOIN necesidades n ON d.necesidades_id_necesidad = n.id_necesidad  WHERE d.usuarios_usuario_donante=? AND d.estado_donante='0' ");  
+            s=con.prepareStatement("SELECT * FROM donacion d JOIN necesidades n ON d.necesidades_id_necesidad = n.id_necesidad  WHERE d.usuarios_usuario_donante=? AND (d.estado_donante='0' OR d.estado_donatario='0') ORDER BY fecha desc");  
             s.setString(1,id);
             resultado = s.executeQuery();
      
@@ -258,7 +331,22 @@ public class Select {
         return resultado;
     }
         
+            public ResultSet cantDonacionesConcretadas(String user) throws SQLException
+    {
+        try{
+            //s=con.prepareStatement("select * from comentarios where necesidades_id_necesidad=?");  
+            s=con.prepareStatement("SELECT COUNT(id_donacion) FROM `donacion` WHERE (`usuarios_usuario_donante`=? or `usuarios_usuario_donatario`=?) AND estado='1'");  
+            s.setString(1,user);
+            s.setString(2,user);
+            resultado = s.executeQuery();
+        } 
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         
+        return resultado;
+    }
+            
         
     //obtiene toda la info de un usuario
     public ResultSet infoUusario(String id) throws SQLException
@@ -285,14 +373,14 @@ public class Select {
                 datos[0]=filtro.getClave();
                 datos[1]=filtro.getCategoria();
                 if("todas".equals(filtro.getCategoria()))
-                    s=con.prepareStatement("SELECT * FROM necesidades WHERE direccion LIKE '%"+datos[0]+"%' OR titulo LIKE '%"+datos[0]+"%' OR necesidad LIKE '%"+datos[0]+"%'");
+                    s=con.prepareStatement("SELECT * FROM necesidades WHERE direccion LIKE '%"+datos[0]+"%' OR titulo LIKE '%"+datos[0]+"%' OR necesidad LIKE '%"+datos[0]+"%' ORDER BY fecha_creacion desc");
                 else
-                    s=con.prepareStatement("SELECT * FROM necesidades WHERE (direccion LIKE '%"+datos[0]+"%' OR titulo LIKE '%"+datos[0]+"%' OR necesidad LIKE '%"+datos[0]+"%') AND categorias_nombre_categoria LIKE '%"+datos[1]+"%'");
+                    s=con.prepareStatement("SELECT * FROM necesidades WHERE (direccion LIKE '%"+datos[0]+"%' OR titulo LIKE '%"+datos[0]+"%' OR necesidad LIKE '%"+datos[0]+"%') AND categorias_nombre_categoria LIKE '%"+datos[1]+"%' ORDER BY fecha_creacion desc");
             }
             else{
                 if("cat".equals(filtro.getTipo()))
                     datos[0]=filtro.getCategoria();//en datos 0 escribo la categoria para filtrar solo por las categorias
-                s=con.prepareStatement("SELECT * FROM necesidades WHERE categorias_nombre_categoria LIKE '%"+datos[0]+"%'");
+                s=con.prepareStatement("SELECT * FROM necesidades WHERE categorias_nombre_categoria LIKE '%"+datos[0]+"%' ORDER BY fecha_creacion desc");
             }
             resultado = s.executeQuery();
         } 

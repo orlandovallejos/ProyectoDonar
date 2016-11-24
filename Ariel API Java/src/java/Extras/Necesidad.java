@@ -6,6 +6,9 @@
 
 package Extras;
 
+import BD.Select;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,7 +42,10 @@ public class Necesidad {
     private String dineroRecaudado;
     private String usuario_mp;
     private ArrayList<Comentario> lista_coment = new ArrayList<Comentario>();
-
+    private String latitud;
+    private String longitud;
+    private String confianza;
+    private String tiene_resultado;
     
 
 public Necesidad() {
@@ -100,7 +106,7 @@ public Necesidad() {
     
     
     //este constructor se utiliza para el servicio NecesidadInfo ,deberia ser modificado en el caso de que se agreguen mas datos a la tabla de necesidades
-    public Necesidad(String id_necesidad, String titulo, String necesidad, String fecha_creacion, String fecha_fin, String cant_likes,String cant_favs,String dir,String dia_horario,String telefono,String facebook,String twitter, String usuario,String email, String id_resultado, String categoria, String comentarios_cant, String imagen_path,String din_act,String din_total,String user_mp) {
+    public Necesidad(String id_necesidad, String titulo, String necesidad, String fecha_creacion, String fecha_fin, String cant_likes,String cant_favs,String dir,String dia_horario,String telefono,String facebook,String twitter, String usuario,String email, String id_resultado, String categoria, String comentarios_cant, String imagen_path,String din_act,String din_total,String user_mp,String latitud,String longitud) {
         this.id_necesidad = id_necesidad;
         this.titulo = titulo;
         this.email=email;
@@ -122,8 +128,46 @@ public Necesidad() {
         this.imagen_path = imagen_path;
         this.dia_horario=dia_horario;
         this.usuario_mp=user_mp;
+        this.latitud=latitud;
+        this.longitud=longitud;
     }
 
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getTiene_resultado() {
+        return tiene_resultado;
+    }
+
+    public void setTiene_resultado(String tiene_resultado) {
+        this.tiene_resultado = tiene_resultado;
+    }
+
+    
+    
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public String getConfianza() {
+        return confianza;
+    }
+
+    public void setConfianza(String confianza) {
+        this.confianza = confianza;
+    }
+
+    
+    
     public String getId_necesidad() {
         return id_necesidad;
     }
@@ -365,7 +409,7 @@ public Necesidad() {
         if (getTitulo() == null || getTitulo().length() < 1) {
             return "726";
         }
-        if (getTitulo().length() > 25) {
+        if (getTitulo().length() > 50) {
             return "727";
         }
         
@@ -373,20 +417,20 @@ public Necesidad() {
         if (getDireccion().length() > 50) {
             return "729";
         }
-        if (getTelefono().length() > 13) {
+        if (getTelefono().length() > 50) {
             return "716";
         }
         
-        if(!getEmail().isEmpty())
+        if(!" ".equals(getEmail())) 
         if (!validateEmail(getEmail())) {
             return "710";
         }
         
-        if (getFacebook().length() > 25) {
+        if (getFacebook().length() > 50) {
             return "717";
         }
         
-        if (getTwitter().length() > 25) {
+        if (getTwitter().length() > 50) {
             return "718";
         }
         
@@ -394,7 +438,7 @@ public Necesidad() {
             return "731";
         }
         
-        if (getUsuario_mp().length() > 40) {
+        if (getUsuario_mp().length() > 50) {
             return "732";
         }
         
@@ -416,6 +460,21 @@ public Necesidad() {
     Matcher matcher = pattern.matcher(email);
     return matcher.matches();
  
+    }
+    
+    public static String tiene_res(String id) throws SQLException{
+        Select select=new Select();
+        String res;
+        ResultSet rs;
+        rs=select.selectResultado(id);
+        if(rs.next()){
+            select.cerrarConexion();
+            return "1";
+        }
+        else {
+            select.cerrarConexion();
+            return "0";
+        }
     }
 
 }

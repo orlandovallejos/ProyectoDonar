@@ -49,11 +49,16 @@ public class ForgotPasswordResource {
     String pass;
             // reads SMTP server setting from web.xml file
         
-        host = "smtp.gmail.com";
-        port = "587";
-        user = "donar.pass@gmail.com";
-        pass = "equipo111";
+        //host = "smtp.gmail.com";
+        //port = "587";
+        //user = "donar.pass@gmail.com";
+        //pass = "equipo111";
         
+        host = "mail.soydonar.com";
+        port = "8025";
+        user = "info@soydonar.com";
+        pass = "111Equipo111";
+    
         Select seleccion=new Select();
         String datos[]={mail};
         ResultSet r=seleccion.selectContrasenia(datos);

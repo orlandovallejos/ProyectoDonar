@@ -33,6 +33,7 @@ public class Usuario {
     private String twitter;
     private String imagen_path;
     private String fecha_nacimiento;
+    private String confianza;
  
     // Must have no-argument constructor
     public Usuario() {
@@ -87,6 +88,16 @@ public class Usuario {
         this.telefono = telefono;
     }
 
+    public String getConfianza() {
+        return confianza;
+    }
+
+    public void setConfianza(String confianza) {
+        this.confianza = confianza;
+    }
+
+    
+    
     public String getFacebook() {
         return facebook;
     }
@@ -256,6 +267,21 @@ public class Usuario {
     Matcher matcher = pattern.matcher(email);
     return matcher.matches();
  
+    }
+    
+    public static String confianza(String user) throws SQLException{
+        Select select =new Select();
+        ResultSet rs;
+        String cumplidas;
+        String totales;
+        rs=select.confianza(user);
+        rs.next();
+        totales=rs.getString(1);
+        rs=select.cantDonacionesConcretadas(user);
+        rs.next();
+        cumplidas=rs.getString(1);
+        select.cerrarConexion();
+        return cumplidas+"/"+totales;
     }
     
 }

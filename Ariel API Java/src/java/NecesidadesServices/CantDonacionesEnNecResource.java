@@ -46,24 +46,28 @@ public class CantDonacionesEnNecResource {
      @GET
     @Path("/{id}")
     @Produces("application/json")
-    public String getJson(@PathParam("id") String id_necesidad) throws SQLException{
+    public Response getJson(@PathParam("id") String id_necesidad) throws SQLException{
         
         Select select=new Select();
         ResultSet rs;
         Gson gson=new Gson();
         String resultado;
-         
+        try{
         rs=select.cantDonaciones(id_necesidad);
         if(!rs.next()){
             select.cerrarConexion();
             Extras.Error error=new Extras.Error("711","No existe necesidad");
-            return gson.toJson(error);
+            return Response.ok(gson.toJson(error)).build();
         }
         resultado=rs.getString(1);
             
-            
+        }
+        catch(SQLException ex){
+            select.cerrarConexion();
+            return Response.status(714).build();
+        }
         select.cerrarConexion();//siempre cierro la conexion luego de terminar de usar el resultset
-        return gson.toJson(resultado);
+        return Response.ok(gson.toJson(resultado)).build();
     }    
     /**
      * PUT method for updating or creating an instance of CantDonacionesEnNecResource

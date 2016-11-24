@@ -85,9 +85,18 @@ public class FiltroResource {
         lista_nec = new ArrayList<Necesidad>();
         Necesidad nec;
         nec=new Necesidad(rs.getString("id_necesidad"),rs.getString("titulo"),rs.getString("necesidad"),rs.getString("fecha_creacion"),rs.getString("cant_likes"),rs.getString("comentarios"),rs.getString("imagen_path"));
+        //los pongo con el set para no modificar el constructor que utilizan otros servicios
+        nec.setTiene_resultado(Necesidad.tiene_res(rs.getString("id_necesidad")));
+        nec.setLatitud(rs.getString("latitud"));
+        nec.setFecha_fin(rs.getString("fecha_fin"));
+        nec.setLongitud(rs.getString("longitud"));
         lista_nec.add(nec);
         while(rs.next()){
             nec=new Necesidad(rs.getString("id_necesidad"),rs.getString("titulo"),rs.getString("necesidad"),rs.getString("fecha_creacion"),rs.getString("cant_likes"),rs.getString("comentarios"),rs.getString("imagen_path"));
+            nec.setLatitud(rs.getString("latitud"));
+            nec.setLongitud(rs.getString("longitud"));
+            nec.setFecha_fin(rs.getString("fecha_fin"));
+            nec.setTiene_resultado(Necesidad.tiene_res(rs.getString("id_necesidad")));
             lista_nec.add(nec);
         }
         select.cerrarConexion();//siempre cierro la conexion luego de terminar de usar el resultset

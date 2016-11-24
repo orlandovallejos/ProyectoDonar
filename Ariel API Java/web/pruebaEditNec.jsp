@@ -26,7 +26,7 @@
 <script>
 $(document).ready(function () {
 var Necesidad = {
-    id_necesidad:'67',
+    id_necesidad:'85',
     titulo:'Necesidad de prueba edit',
     necesidad:'esta es una necesidad de prueba editada',
     fecha_creacion: '1992-05-07',
@@ -40,7 +40,9 @@ var Necesidad = {
     email:'juan@gmail.com',
     categoria:'ropa',
     imagen_path:null,
-    usuario_mp:'juanelo67'
+    usuario_mp:'juanelo67',
+    latitud:'-34.66',
+    longitud:'-58.66'
 };
 alert("estoy");
         $.ajax({

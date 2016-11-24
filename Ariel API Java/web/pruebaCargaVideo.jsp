@@ -21,18 +21,17 @@
 <script>
 $(document).ready(function () {
 var Video = {
-    id_video:'001',
     url:'https://youtu.be/ghABkLllJ74',
     comentario:'Este es un comentario de prueba',
     fecha:'2016-09-24',
-    usuario:'100',
+    usuario:'user de prueba',
     id_necesidad:'2',
-    titulo:'[PRUEBA] Ladrillos'
+    titulo:'tiulo de video de prueba'
 };
 alert("Holaaaa!!");
         $.ajax({
             type: 'post',
-            url: "http://localhost:8080/API-DONAR/webresources/CargarVideos/carga",           
+            url: "http://soydonar.com/webservices/webresources/CargarVideos/carga",           
             data: JSON.stringify(Video),
             contentType: "application/json; charset=utf-8",
             dataType: 'json',

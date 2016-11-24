@@ -9,6 +9,7 @@ package NecesidadesServices;
 import BD.Select;
 import Extras.Comentario;
 import Extras.Necesidad;
+import Extras.Usuario;
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,7 +68,9 @@ public class NecesidadInfoResource {
         }
         
         //creo el objeto necesidad y le agrego el array de comentarios
-        nec=new Necesidad(rs.getString("id_necesidad"),rs.getString("titulo"),rs.getString("necesidad"),rs.getString("fecha_creacion"),rs.getString("fecha_fin"),rs.getString("cant_likes"),rs.getString("cant_favs"),rs.getString("direccion"),rs.getString("dia_horario"),rs.getString("telefono"),rs.getString("facebook"),rs.getString("twitter"),rs.getString("usuarios_usuario"),rs.getString("email"),rs.getString("resultado_id_resultado"),rs.getString("categorias_nombre_categoria"),rs.getString("comentarios"),rs.getString("imagen_path"),rs.getString("recaudacion_actual"),rs.getString("recaudacion_total"),rs.getString("usuario_mp"));
+        nec=new Necesidad(rs.getString("id_necesidad"),rs.getString("titulo"),rs.getString("necesidad"),rs.getString("fecha_creacion"),rs.getString("fecha_fin"),rs.getString("cant_likes"),rs.getString("cant_favs"),rs.getString("direccion"),rs.getString("dia_horario"),rs.getString("telefono"),rs.getString("facebook"),rs.getString("twitter"),rs.getString("usuarios_usuario"),rs.getString("email"),rs.getString("resultado_id_resultado"),rs.getString("categorias_nombre_categoria"),rs.getString("comentarios"),rs.getString("imagen_path"),rs.getString("recaudacion_actual"),rs.getString("recaudacion_total"),rs.getString("usuario_mp"),rs.getString("latitud"),rs.getString("longitud"));
+        nec.setConfianza(Usuario.confianza(rs.getString("usuarios_usuario")));
+        nec.setTiene_resultado(Necesidad.tiene_res(rs.getString("id_necesidad")));
         nec.setLista_coment(lista_com);
         rs=select.cantFotos(id);//busco cantidad de fotos
         if(!rs.next()){ //si por algun motivo no devuelve resultado tiro error inesperado

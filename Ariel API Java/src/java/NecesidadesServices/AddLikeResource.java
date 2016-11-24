@@ -58,6 +58,7 @@ public class AddLikeResource {
         insert.cerrarConexion();
        }
        catch (SQLException ex) {
+            insert.cerrarConexion();
             return Response.status(714).build();
         }
         return Response.ok(gson.toJson("ok")).build();
