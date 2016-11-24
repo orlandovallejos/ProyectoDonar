@@ -337,6 +337,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div ng-if="!vm.estaActiva" class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+                                <div class="uk-width-large-1-1">
+                                    <span class="uk-badge uk-badge-danger">Necesidad vencida</span>
+                                </div>
+                            </div>
+                            
                             <div>
                                 <!--<button class="md-btn" data-uk-modal="{target:'#modal_overflow'}">Open</button>-->
                                 <div id="modal_overflow" class="uk-modal">
