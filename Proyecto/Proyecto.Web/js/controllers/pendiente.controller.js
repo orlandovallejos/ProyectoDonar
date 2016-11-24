@@ -67,6 +67,18 @@
         }
 
         function savePendienteDonante(id_donacion) {
+            if (!vm.PendientesDonante) {
+                return;
+            }
+
+            var elem = vm.PendientesDonante.find(function (e) {
+                return e.id_donacion == id_donacion;
+            });
+
+            if (elem && elem.estado_donante == '1') {
+                return;
+            }
+
             ServerService.savePendienteDonante(id_donacion)
                 .then(function (data) {
                     console.log(data);
@@ -93,6 +105,17 @@
         }
 
         function savePendienteDonatario(id_donacion) {
+            if (!vm.PendientesDonatario) {
+                return;
+            }
+
+            var elem = vm.PendientesDonatario.find(function (e) {
+                return e.id_donacion == id_donacion;
+            });
+
+            if (elem && elem.estado_donatario == '1') {
+                return;
+            }
             ServerService.savePendienteDonatario(id_donacion)
                 .then(function (data) {
                     console.log(data);
