@@ -6232,6 +6232,7 @@ angular
         vm.donarCosas = donarCosas;
         vm.getYTLink = getYTLink;
         vm.addLike = addLike;
+        vm.donarVoluntariado = donarVoluntariado;
 
         activate();
 
@@ -6513,6 +6514,47 @@ angular
             //https://www.youtube.com/embed/VIDEO_ID
             //"https://www.youtube.com/watch?v=czmulJ9NBP0"
         };
+
+        function donarVoluntariado() {
+
+            var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
+            var pad = "00";
+            dia = pad.substring(0, pad.length - dia.toString().length) + dia;
+            mes = pad.substring(0, pad.length - mes.toString().length) + mes;
+            var fecha = anio + '-' + mes + '-' + dia;
+
+            if (vm.usuarioLogueado) {
+                var request = {
+                    donante: vm.usuarioLogueado.usuario,
+                    id_necesidad: vm.donacion.id_necesidad,
+                    fecha: fecha,
+                    aporte_donacion: 'Voluntario!',
+                    donatario: vm.donacion.usuario
+                };
+
+                ServerService.crearDonacionMP(request)
+                    .then(function (response) {
+                        console.log(response);
+
+                        vm.donacionDeCosas = '';
+                        UIkit.notify({
+                            message: '<i class="uk-icon-check"></i> Voluntariado ofrecido! \nContactate para saber en qué ayudar',
+                            status: 'success',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+                    },
+                    function (responseError) {
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> Hubo un error',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+                        console.log(responseError);
+                    });
+            }
+        }
     }
 })();
 (function () {

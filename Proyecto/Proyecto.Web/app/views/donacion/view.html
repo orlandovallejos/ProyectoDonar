@@ -309,8 +309,20 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div ng-if="vm.usuarioLogueado && vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp &&  vm.estaActiva" class="uk-grid"
+                            <div ng-if="vm.usuarioLogueado && vm.donacion.categoria.toUpperCase() == 'VOLUNTARIADO' && vm.estaActiva" class="uk-grid"
                                 data-uk-grid-margin data-uk-grid-match>
+                                <div class="uk-width-large-1-1">
+                                  <!--<a class="md-btn md-btn-success md-btn-block md-btn-wave-light" href="javascript:void(0)">Quiero ser voluntario!</a>  -->
+                                  <span class="uk-input-group-addon">
+                                        <a class="md-btn md-btn-success md-btn-block md-btn-wave-light" style="background-color: #00b650;" ng-click="vm.donarVoluntariado()">
+                                            <i class="uk-icon-smile-o" style="color: #f3f67b;font-size: 25px;padding-top: 7px;"></i>
+                                            Quiero ser voluntario!
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div ng-if="vm.usuarioLogueado && vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp &&  vm.estaActiva"
+                                class="uk-grid" data-uk-grid-margin data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
                                     <div class="uk-input-group">
                                         <label>Donacion monetaria con Mercado Pago</label>
@@ -342,7 +354,7 @@
                                     <span class="uk-badge uk-badge-danger">Necesidad vencida</span>
                                 </div>
                             </div>
-                            
+
                             <div>
                                 <!--<button class="md-btn" data-uk-modal="{target:'#modal_overflow'}">Open</button>-->
                                 <div id="modal_overflow" class="uk-modal">
