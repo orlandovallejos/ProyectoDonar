@@ -1,8 +1,9 @@
 ﻿<div id="page_content">
-	<div id="fondo_home" banner style="min-height: 270px;
-    background: url('assets/img/login/8.1.jpg');
-    display: block;
-    position: relative;
+	<div id="fondo_home" banner style="background: url('assets/img/login/8.1.jpg');
+    height: auto;
+  	min-height: 100%;
+  	background-position: center top;
+    background-size: 100% auto;
 	">
 		<form style="position: absolute;
     bottom: 0px;
@@ -41,17 +42,25 @@
 			<div ng-repeat="d in vm.donaciones">
 				<div class="md-card">
 					<div class="md-card-content small-padding">
-						<img ng-src="http://www.soydonar.com/imagenes/necesidades/{{d.imagen_path}}" alt="" class="blog_list_teaser_image ng-scope"
-						/>
+						<a ui-sref="restricted.donacion({ id: d.id_necesidad })">
+							<img ng-src="http://www.soydonar.com/imagenes/necesidades/{{d.imagen_path}}" alt="" class="blog_list_teaser_image ng-scope"
+							/>
+						</a>
 						<div class="blog_list_teaser">
-							<h2 class="blog_list_teaser_title uk-text-truncate ng-binding">{{d.titulo}}</h2>
-							<p class="ng-binding sin-overflow">{{d.necesidad | limitTo: 100 }}{{d.necesidad.length > 100 ? '...' : ''}}</p>
-							<span class="uk-text-muted uk-text-small ng-binding">{{d.fecha_creacion}}</span>
+							<a ui-sref="restricted.donacion({ id: d.id_necesidad })">
+								<h2 class="blog_list_teaser_title uk-text-truncate ng-binding">{{d.titulo}}</h2>
+								<p class="ng-binding sin-overflow" style="color:#585858">{{d.necesidad | limitTo: 100 }}{{d.necesidad.length > 100 ? '...' : ''}}</p>
+								<span class="uk-text-muted uk-text-small ng-binding">{{d.fecha_texto}} <span ng-show="d.fecha_texto_fin">- <span ng-class="{'fecha-vencida': !d.estaActiva}">{{d.fecha_texto_fin}}</span>								</span>
+								</span>
+							</a>
 						</div>
 						<div class="blog_list_footer">
 							<div class="blog_list_footer_info">
 								<span class="uk-margin-right">
-									<i class="uk-icon-thumbs-o-up" style="color:#908c8c;"></i>
+									<a ng-if="vm.usuarioLogueado" ng-click="vm.addLike(d.id_necesidad)">
+										<i class="uk-icon-thumbs-o-up" style="color:#908c8c;"></i>	
+									</a>
+									<i ng-if="!vm.usuarioLogueado" class="uk-icon-thumbs-o-up" style="color:#908c8c;"></i>
 									<small class="ng-binding">{{d.cant_likes}}</small>
 								</span>
 								<span>
@@ -62,6 +71,8 @@
 							<!--<a ui-sref="restricted.pages.blog.article({ articleId: 1 })" class="md-btn md-btn-small md-btn-flat md-btn-flat-primary uk-float-right" href="#/pages/blog/article/1">Donar</a>-->
 							<a ui-sref="restricted.donacion({ id: d.id_necesidad })" class="md-btn md-btn-small md-btn-flat md-btn-flat-primary uk-float-right"
 								href="#/pages/blog/article/1">Ver</a>
+
+							<a ng-show="d.tiene_resultado=='1'" ui-sref="restricted.donacion-resultado-ver({ id: d.id_necesidad })" class="md-btn md-btn-small md-btn-flat md-btn-flat-primary uk-float-right">Ver resultado</a>
 						</div>
 					</div>
 				</div>

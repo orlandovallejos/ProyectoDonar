@@ -4,9 +4,9 @@
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
+    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService', 'NgMap', '$sce'];
 
-    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService) {
+    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService, NgMap, $sce) {
         var vm = this;
 
         //Variables
@@ -16,6 +16,7 @@
         vm.comentario = '';
         vm.usuarioLogueado = null;
         vm.images = [];
+        vm.videos = [];
 
         //Methods
         vm.addComment = addComment;
@@ -23,6 +24,8 @@
         vm.pagarMercadoPago = pagarMercadoPago;
         vm.addFavorite = addFavorite;
         vm.donarCosas = donarCosas;
+        vm.getYTLink = getYTLink;
+        vm.addLike = addLike;
 
         activate();
 
@@ -44,9 +47,58 @@
                         vm.isCreatedUser = true;
                     }
 
+                    if (!isNaN(parseInt(vm.donacion.dineroRecaudado)) && !isNaN(parseInt(vm.donacion.dineroTotal))) {
+
+                        vm.donacion.dineroTotal = (parseInt(vm.donacion.dineroRecaudado) > parseInt(vm.donacion.dineroTotal)) ? vm.donacion.dineroRecaudado : vm.donacion.dineroTotal;
+                    }
+
+                    //Maps magic:
+                    //This should come from server:
+                    // vm.donacion.latitud = -34.66492800516767;
+                    // vm.donacion.longitud = -58.57205388302003;
+
+                    if (vm.donacion.email) {
+                        vm.donacion.email = vm.donacion.email.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.telefono) {
+                        vm.donacion.telefono = vm.donacion.telefono.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.facebook) {
+                        vm.donacion.facebook = vm.donacion.facebook.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.twitter) {
+                        vm.donacion.twitter = vm.donacion.twitter.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.usuario_mp) {
+                        vm.donacion.usuario_mp = vm.donacion.usuario_mp.replace(/ /g, '');
+                    }
+
+                    vm.estaActiva = true;
+                    if (vm.donacion.fecha_fin) {
+                        var _date = new Date();
+                        var _fechaFin = new Date(vm.donacion.fecha_fin);
+
+                        if (_fechaFin >= _date) {
+                            vm.estaActiva = true;
+                        }
+                        else {
+                            vm.estaActiva = false;
+                        }
+                    }
+                    //
+
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                        .then(function (data) {
-                            vm.images = data;
+                        .then(function (dataImages) {
+                            vm.images = dataImages;
+                        });
+
+                    ServerService.getVideos($stateParams.id)
+                        .then(function (dataVideo) {
+                            vm.videos = dataVideo;
                         });
                 });
         }
@@ -115,6 +167,16 @@
             mes = pad.substring(0, pad.length - mes.toString().length) + mes;
             var fecha = anio + '-' + mes + '-' + dia;
 
+            if (isNaN(vm.donacionMonetaria) || vm.donacionMonetaria <= 0) {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> La donación tiene que ser un número positivo.',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+                return;
+            }
+
             if (vm.usuarioLogueado) {
                 var request = {
                     donante: vm.usuarioLogueado.usuario,
@@ -130,19 +192,21 @@
                         console.log(response);
 
                         vm.donacionMonetaria = '';
-                        UIkit.notify({
-                            message: '<i class="uk-icon-check"></i> Donación concretada!',
-                            status: 'success',
-                            timeout: 5000,
-                            pos: 'top-right'
-                        });
+                        // UIkit.notify({
+                        //     message: '<i class="uk-icon-check"></i> Donación concretada!',
+                        //     status: 'success',
+                        //     timeout: 5000,
+                        //     pos: 'top-right'
+                        // });
+
+                        UIkit.modal("#modal_overflow").show();
+                        vm.mercadoPagoURL = $sce.trustAsResourceUrl("https://www.mercadopago.com.ar/money-transfer?dummyVar=" + (new Date()).getTime());
                     },
                     function (responseError) {
                         console.log(responseError);
                     });
             }
-
-            $window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
+            //$window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
         }
 
         function donarCosas() {
@@ -220,5 +284,28 @@
                     console.log(responseError);
                 });
         }
+
+        function addLike() {
+            ServerService.addLike(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
+                .then(function (response) {
+                    console.log(response);
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se agregó el like!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function getYTLink(src) {
+            //return 'https://www.youtube.com/v/' + src + '?rel=0';
+            return src.replace("watch?v=", "embed/");
+            //https://www.youtube.com/embed/VIDEO_ID
+            //"https://www.youtube.com/watch?v=czmulJ9NBP0"
+        };
     }
 })();

@@ -17,9 +17,11 @@
 
         vm.palabraClave = '';
         vm.categoriaSeleccionada = '';
+        vm.usuarioLogueado = {};
 
         //Methods
         vm.buscar = buscar;
+        vm.addLike = addLike;
 
         activate();
         //activate2();
@@ -135,6 +137,8 @@
         }
 
         function activate() {
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+
             vm.tipo_config = {
                 valueField: 'value',
                 labelField: 'title',
@@ -152,6 +156,21 @@
                         //Valido la no existencia de la imagen:
                         if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
                             e.imagen_path = 'prueba.png';
+                        }
+
+                        e.estaActiva = true;
+                        e.fecha_texto = getFormattedDate(new Date(e.fecha_creacion));
+                        if (e.fecha_fin) {
+                            var _date = new Date();
+                            var _fechaFin = new Date(e.fecha_fin);
+
+                            e.fecha_texto_fin = getFormattedDate(_fechaFin);
+                            if (_fechaFin >= _date) {
+                                e.estaActiva = true;
+                            }
+                            else {
+                                e.estaActiva = false;
+                            }
                         }
                     });
                 });
@@ -172,6 +191,15 @@
                 });
         }
 
+        function getFormattedDate(date) {
+            var year = date.getFullYear();
+            var month = (1 + date.getMonth()).toString();
+            month = month.length > 1 ? month : '0' + month;
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+            return day + '/' + month + '/' + year;
+        }
+
         function buscar() {
             ServerService.searchDonacion(vm.palabraClave, vm.categoriaSeleccionada)
                 .then(function (response) {
@@ -179,10 +207,57 @@
 
                     if (Object.prototype.toString.call(response) === '[object Array]') {
                         vm.donaciones = response;
+
+                        vm.donaciones.forEach(function (e, i, a) {
+                            //Valido la no existencia de la imagen:
+                            if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
+                                e.imagen_path = 'prueba.png';
+                            }
+
+                            e.estaActiva = true;
+                            e.fecha_texto = getFormattedDate(new Date(e.fecha_creacion));
+                            if (e.fecha_fin) {
+                                var _date = new Date();
+                                var _fechaFin = new Date(e.fecha_fin);
+
+                                e.fecha_texto_fin = getFormattedDate(_fechaFin);
+                                if (_fechaFin >= _date) {
+                                    e.estaActiva = true;
+                                }
+                                else {
+                                    e.estaActiva = false;
+                                }
+                            }
+                        });
                     }
                     else {
                         vm.donaciones = [];
                     }
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function addLike(id_necesidad) {
+            ServerService.addLike(id_necesidad, vm.usuarioLogueado.usuario)
+                .then(function (response) {
+
+                    vm.donaciones.forEach(function (e, i, a) {
+                        if (e.id_necesidad == id_necesidad) {
+                            var cant = parseInt(e.cant_likes);
+                            cant++;
+                            e.cant_likes = cant;
+                        }
+                    });
+
+                    console.log(response);
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se agregó el like!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
                 },
                 function (responseError) {
                     console.log(responseError);

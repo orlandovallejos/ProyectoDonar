@@ -1,0 +1,36 @@
+<div class="md-card">
+    <div class="md-card-content">
+        <h3 class="heading_a">Mis donaciones concretadas</h3>
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-1-1">
+                <div class="uk-overflow-container">
+                    <table class="uk-table uk-table-nowrap" ng-if="vm.necesidades.length > 0">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Titulo</th>
+                                <th>Descripcion</th>
+                                <th>Donacion</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="fav in vm.necesidades">
+                                <td class="uk-width-1-10"><img class="img_thumb" ng-src="http://www.soydonar.com/imagenes/necesidades/{{ fav.imagen_path }}"
+                                        alt=""></td>
+                                <td class="uk-width-3-10 uk-text-large"><a ui-sref="restricted.donacion({id:fav.id_necesidad})">{{ fav.titulo }}</a></td>
+                                <td class="uk-width-4-10 uk-text-nowrap">{{fav.necesidad | limitTo: 60 }}{{fav.necesidad.length > 60 ? '...' : ''}}</td>
+                                <td class="uk-width-2-10 uk-text-large">{{ fav.aporte_donacion || '$ ' + fav.aporte_monetario }}</td>
+                                <td class="uk-width-1-10 uk-text-large">{{ fav.fecha }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="vm.necesidades.length === 0" style="text-align: center;">
+                        <h3>No tiene donaciones concretadas</h3>
+                        <i class="uk-icon-coffee uk-icon-large" style="color:#9c4a95;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

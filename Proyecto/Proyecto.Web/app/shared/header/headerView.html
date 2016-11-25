@@ -14,16 +14,10 @@
 								<a ui-sref="restricted.home" ui-sref-opts="{reload: true}"><i class="material-icons md-24">&#xE88A;</i></a>
 							</li>
 							<li class="uk-hidden-small">
-								<a href="#">Donaciones</a>
-							</li>
-							<li class="uk-hidden-small">
-								<a href="#">Noticias</a>
-							</li>
-							<li class="uk-hidden-small">
-								<a href="#">Voluntariado</a>
-							</li>
-							<li class="uk-hidden-small">
 								<a href="#">Como ayudar?</a>
+							</li>
+							<li class="uk-hidden-small">
+								<a ui-sref="restricted.geomapas" ><i class="uk-icon-map-marker" style="color: #676767;font-size: 18px;"></i> Donaciones cercanas</a>
 							</li>
 							<li ng-if="vm.isUserLogged" class="uk-hidden-small">
 								<a ui-sref="restricted.donacion-add" class="donacion-alta">Crear donacion</a>
@@ -80,7 +74,7 @@
 				<div class="uk-navbar-flip" ng-if="vm.isUserLogged" class="uk-hidden-small">
 					<ul class="uk-navbar-nav user_actions">
 						<li class="uk-hidden-small"><a href="#" class="user_action_icon" full-screen-toggle><i class="material-icons md-24 md-light negrita">&#xE5D0;</i></a></li>
-						<li><span class="donar-username">{{vm.usuario.usuario}}</span></li>
+						<li class="uk-hidden-small"><span class="donar-username">{{vm.usuario.usuario}}</span></li>
 						<li data-uk-dropdown="{mode:'click',pos:'bottom-right'}">
 							<a href="#" class="user_action_icon">
                                 <i class="material-icons md-24 md-light" style="color:#9e9e9e">notifications</i>

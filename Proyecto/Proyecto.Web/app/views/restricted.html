@@ -4,11 +4,13 @@
 			<li>
 				Menu
 				<ul>
-					<li>Donaciones</li>
-					<li>Noticias</li>
-					<li>Voluntariado</li>
-					<li>Como ayudar?</li>
-					<li><a ui-sref="restricted.donacion-add">Crear donacion</a></li>
+					<li>
+						<a href="#">Como ayudar?</a>
+					</li>
+					<li>
+						<a href="#"><i class="uk-icon-map-marker" style="color: #676767;font-size: 18px;"></i> Donaciones cercanas</a>
+					</li>
+					<li ng-show="vm.isUserLogged"><a ui-sref="restricted.donacion-add">Crear donacion</a></li>
 				</ul>
 			</li>
 		</ul>

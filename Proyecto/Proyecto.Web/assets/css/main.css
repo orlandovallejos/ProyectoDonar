@@ -1,6 +1,5 @@
 /*
-*  Altair Admin AngularJS
-*  author: tzd
+
 *
 *  Content:
 *    1. variables/mixins
@@ -13653,3 +13652,10 @@ body {
 	/* background:url('../img/home_resultados.png'); */
 }
 
+.not_login_page{
+	background:none !important;
+}
+
+.fecha-vencida{
+	color:red;
+}

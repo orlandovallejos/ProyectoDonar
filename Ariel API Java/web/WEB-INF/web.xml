@@ -4,13 +4,29 @@
 	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	 version="3.1">
+  
+
+      
+    
+ <servlet>
+<servlet-name>CORS Filter</servlet-name>
+<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+ <init-param>
+    <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
+    <param-value>Extras.CORSFilter</param-value>
+ </init-param>
+</servlet>
+<servlet-mapping>
+    <servlet-name>CORS Filter</servlet-name>
+    <url-pattern>/webresources/*</url-pattern>
+</servlet-mapping>
     
     <servlet>
     <servlet-name>Jersey Web Application</servlet-name>
     <servlet-class>
         com.sun.jersey.spi.container.servlet.ServletContainer
     </servlet-class>
-    <load-on-startup>1</load-on-startup>
+    <load-on-startup>1</load-on-startup>    
     </servlet>
 <servlet-mapping>
   <servlet-name>Jersey Web Application</servlet-name>
@@ -22,5 +38,46 @@
             30
         </session-timeout>
     </session-config>
+    <!-- SMTP settings -->
+    <!--
+    <context-param>
+        <param-name>host</param-name>
+        <param-value>smtp.gmail.com</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>port</param-name>
+        <param-value>587</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>user</param-name>
+        <param-value>donar.pass@gmail.com</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>pass</param-name>
+        <param-value>equipo111</param-value>
+    </context-param>
+    -->
+    <context-param>
+        <param-name>host</param-name>
+        <param-value>mail.soydonar.com</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>port</param-name>
+        <param-value>8025</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>user</param-name>
+        <param-value>info@soydonar.com</param-value>
+    </context-param>
+ 
+    <context-param>
+        <param-name>pass</param-name>
+        <param-value>111Equipo111</param-value>
+    </context-param>
     
 </web-app>

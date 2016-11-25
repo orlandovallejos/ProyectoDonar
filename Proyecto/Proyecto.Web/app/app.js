@@ -1,5 +1,4 @@
 /*
-*  Altair Admin AngularJS
 */
 (function () {
     "use strict";
@@ -134,10 +133,9 @@
 })();
 
 /*
- *  Altair Admin angularjs
  *  controller
  */
-(function () {
+(function() {
     "use strict";
 
     angular
@@ -145,24 +143,24 @@
         .controller('mainCtrl', [
             '$scope',
             '$rootScope',
-            function ($scope, $rootScope) { }
+            function($scope, $rootScope) { }
         ])
         .controller('MainHeaderController', MainHeaderController)
         .controller('main_sidebarCtrl', [
             '$timeout',
             '$scope',
             '$rootScope',
-            function ($timeout, $scope, $rootScope) {
+            function($timeout, $scope, $rootScope) {
 
-                $scope.$on('onLastRepeat', function (scope, element, attrs) {
-                    $timeout(function () {
+                $scope.$on('onLastRepeat', function(scope, element, attrs) {
+                    $timeout(function() {
                         if (!$rootScope.miniSidebarActive) {
                             // activate current section
                             $('#sidebar_main').find('.current_section > a').trigger('click');
                         } else {
                             // add tooltips to mini sidebar
                             var tooltip_elem = $('#sidebar_main').find('.menu_tooltip');
-                            tooltip_elem.each(function () {
+                            tooltip_elem.each(function() {
                                 var $this = $(this);
 
                                 $this.attr('title', $this.find('.menu_title').text());
@@ -187,13 +185,13 @@
                 $scope.langSwitcherConfig = {
                     maxItems: 1,
                     render: {
-                        option: function (langData, escape) {
+                        option: function(langData, escape) {
                             return '<div class="option">' +
                                 '<i class="item-icon flag-' + escape(langData.value).toUpperCase() + '"></i>' +
                                 '<span>' + escape(langData.title) + '</span>' +
                                 '</div>';
                         },
-                        item: function (langData, escape) {
+                        item: function(langData, escape) {
                             return '<div class="item"><i class="item-icon flag-' + escape(langData.value).toUpperCase() + '"></i></div>';
                         }
                     },
@@ -201,7 +199,7 @@
                     labelField: 'title',
                     searchField: 'title',
                     create: false,
-                    onInitialize: function (selectize) {
+                    onInitialize: function(selectize) {
                         $('#lang_switcher').next().children('.selectize-input').find('input').attr('readonly', true);
                     }
                 };
@@ -663,9 +661,18 @@
             }
         ])
 
-        .directive('banner', function () {
-            return function (scope, element, attrs) {
-                element.height($(window).height()-40);
+        .directive('banner', function() {
+            return function(scope, element, attrs) {
+                if ($(window).width() > 360) {
+                    element.height($(window).height() - 40);
+                }
+                else {
+                    element.css('background', 'none');
+                    element.css('min-height', '');
+                    element.css('height', '');
+
+                    element.find('form').css('position', '');
+                }
 
                 //$('#fondo_home').css('min-height', $(window).height() + "px");
             }
@@ -752,8 +759,8 @@
         activate();
 
         function activate() {
-            $('#menu_top').children('[data-uk-dropdown]').on('show.uk.dropdown', function () {
-                $timeout(function () {
+            $('#menu_top').children('[data-uk-dropdown]').on('show.uk.dropdown', function() {
+                $timeout(function() {
                     $($window).resize();
                 }, 280)
             });
@@ -779,7 +786,7 @@
         //Method definitions
         function eliminarNotificacion(id_notificacion) {
             ServerService.deleteNotificacion(id_notificacion)
-                .then(function () {
+                .then(function() {
                     cargarNotificaciones();
                 });
         }
@@ -787,24 +794,23 @@
         //Functions
         function cargarNotificaciones() {
             ServerService.mostrarNotificaciones(vm.usuario.usuario)
-                .then(function (data) {
+                .then(function(data) {
                     vm.notificaciones = data;
 
-                    vm.notificaciones.forEach(function (e, i, a) {
+                    vm.notificaciones.forEach(function(e, i, a) {
                         ServerService.getDonacion(e.necesidades_id_necesidad)
-                            .then(function (dataDonacion) {
+                            .then(function(dataDonacion) {
                                 e.donacion = dataDonacion;
                             });
                     });
                 })
-                .catch(function () {
+                .catch(function() {
 
                 });
         }
     }
 })();
 /*
-*  Altair Admin AngularJS
 *  directives
 */
 
@@ -2829,39 +2835,117 @@
             guardarResultado: guardarResultado,
             getResultado: getResultado,
             mostrarNotificaciones: mostrarNotificaciones,
-            deleteNotificacion: deleteNotificacion
+            deleteNotificacion: deleteNotificacion,
+            donacionesConcretadas: donacionesConcretadas,
+            addLike: addLike,
+            verLikes: verLikes
         };
 
         return service;
 
+        function parsearError(responseError) {
+            var errores = {
+                699: 'Usuario o contraseña invalida',
+                700: 'Usuario nulo',
+                701: 'Usuario mayor a 35',
+                702: 'El usuario ya existe',
+                703: 'Contaseña no puede ser vacía o mayor a 8 caracteres',
+                704: 'Nombre nulo o mayor a 20',
+                705: 'Apellido nulo o mayor a 30',
+                706: 'Nacionalidad nula',
+                707: 'Nacionalidad mayor a 30',
+                708: 'Residencia nula',
+                709: 'Residancia mayor a 50',
+                710: 'El mail no es un valor correcto',
+                711: 'No existen necesidades',
+                713: 'En el registro no coinciden las pass',
+                714: 'Error inesperado',
+                715: 'El usuario no existe',
+                716: 'Teléfono mayor a 13',
+                717: 'Facebook mayor a 25',
+                718: 'Twitter  mayor a 16',
+                719: 'Fecha nacimiento mayor a 10',
+                720: 'Necesidad nula',
+                721: 'Necesidad mayor a 1000',
+                722: 'No existen donaciones pendientes',
+                723: 'Fecha creacion de nec nula',
+                724: 'Fecha creacion de nec mayor a 10',
+                725: 'Fecha fin de nec mayor a 10',
+                726: 'Titulo nec nulo',
+                727: 'Titulo mayor a 25',
+                728: 'Direccion  nula',
+                729: 'Direccion mayor a 50',
+                730: 'Email nulo',
+                731: 'Día y horario mayor a 50',
+                732: 'Usuario_mp mayor a 40',
+                733: 'Dinero total mayor a 12',
+                734: 'Comentario demasiado extenso',
+                735: 'Aporte donacion extenso',
+                736: 'Resultado nulo',
+                737: 'Resultado mayor a 200',
+                738: 'Titulo nulo',
+                739: 'Titulo mayor a 100',
+                740: 'Fecha nula',
+                741: 'Id de necesidad nulo',
+                742: 'No hay resultado',
+                743: 'No hay donaciones concretadas',
+                744: 'No hay donaciones no concretadas',
+                745: 'Monto recaudado nulo',
+                746: 'Error al guardar una notificacion'
+            };
+
+            if (responseError && responseError.status) {
+                return errores[responseError.status];
+            }
+
+            return responseError;
+        }
+
         function homeGetDonaciones() {
-            return $http.get('http://soydonar.com/webservices/webresources/necesidadesHome')
+            return $http.get('http://www.soydonar.com/webservices/webresources/necesidadesHome')
                 .then(function (response) {
                     return response.data;
+                })
+                .catch(function (responseError) {
+                    console.log('Error homeGetDonaciones');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function login(request) {
-            return $http.get('http://soydonar.com/webservices/webresources/Login/' + request.username + '&' + request.password)
+            return $http.get('http://www.soydonar.com/webservices/webresources/Login/' + request.username + '&' + request.password)
                 .then(function (response) {
                     return response.data;
+                })
+                .catch(function (responseError) {
+                    console.log('Error login');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function register(request) {
-            return $http.get('http://soydonar.com/webservices/webresources/Register/' + request.username + '&' + request.password + '&' + request.password + '&' + request.name + '&' + request.lastname)
+            return $http.get('http://www.soydonar.com/webservices/webresources/Register/' + request.username + '&' + request.password + '&' + request.password + '&' + request.name + '&' + request.lastname)
                 .then(function (response) {
                     return response.data;
+                })
+                .catch(function (responseError) {
+                    console.log('Error register');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function getDonacion(id) {
-            return $http.get('http://soydonar.com/webservices/webresources/NecesidadInfo/' + id)
+            return $http.get('http://www.soydonar.com/webservices/webresources/NecesidadInfo/' + id)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error getDonacion');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -2870,15 +2954,16 @@
             console.log('Entra al servicio de comentario:');
             console.log(request);
 
-            return $http.post('http://soydonar.com/webservices/webresources/Comment/post1', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/Comment/post1', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Comentario');
                     console.log(response);
                     return response.data;
-                },
-                function (responseError) {
+                })
+                .catch(function (responseError) {
+                    console.log('Error addComment');
                     console.log(responseError);
-                    return responseError;
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -2888,68 +2973,78 @@
             console.log(request);
 
             if (request.id_necesidad) {
-                return $http.post('http://soydonar.com/webservices/webresources/editNecesidad/edit', JSON.stringify(request))
+                return $http.post('http://www.soydonar.com/webservices/webresources/editNecesidad/edit', JSON.stringify(request))
                     .then(function (response) {
                         console.log('Donacion edit');
                         console.log(response);
-                        return response.data;
-                    },
-                    function (responseError) {
+                        return $q.resolve(response.data);
+                    })
+                    .catch(function (responseError) {
+                        console.log('Error edit saveDonacion');
                         console.log(responseError);
-                        return responseError;
+                        return $q.reject(parsearError(responseError));
                     });
             }
             else {
-                return $http.post('http://soydonar.com/webservices/webresources/crearNecesidad/alta', JSON.stringify(request))
+                return $http.post('http://www.soydonar.com/webservices/webresources/crearNecesidad/alta', JSON.stringify(request))
                     .then(function (response) {
                         console.log('Donacion add');
                         console.log(response);
-                        return response.data;
-                    },
-                    function (responseError) {
+                        return $q.resolve(response.data);
+                    })
+                    .catch(function (responseError) {
+                        console.log('Error add saveDonacion');
                         console.log(responseError);
-                        return responseError;
+                        return $q.reject(parsearError(responseError));
                     });
             }
         }
 
         function getCategorias() {
-            return $http.get('http://soydonar.com/webservices/webresources/verCategorias/')
+            return $http.get('http://www.soydonar.com/webservices/webresources/verCategorias/')
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error getCategorias');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function addFavorite(idNecesidad, idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/addFav/' + idNecesidad + '&' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/addFav/' + idNecesidad + '&' + idUsuario)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error addFavorite');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function getFavorites(idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/verFavoritos/' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/verFavoritos/' + idUsuario)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error getFavorites');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function deleteFav(idDonacion, idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/DeleteFav/' + idDonacion + '&' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/DeleteFav/' + idDonacion + '&' + idUsuario)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error deleteFav');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -2959,91 +3054,104 @@
                 clave: filtro,
                 categoria: (categoria && categoria != '') ? categoria : 'todas'
             };
-            return $http.post('http://soydonar.com/webservices/webresources/filtro/Nec', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/filtro/Nec', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Search');
                     console.log(response);
                     return response.data;
-                },
-                function (responseError) {
+                })
+                .catch(function (responseError) {
+                    console.log('Error searchDonacion');
                     console.log(responseError);
-                    return responseError;
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function crearDonacionMP(request) {
-            return $http.post('http://soydonar.com/webservices/webresources/CrearDonacion/alta', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/CrearDonacion/alta', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Donacion edit');
                     console.log(response);
                     return response.data;
-                },
-                function (responseError) {
+                })
+                .catch(function (responseError) {
+                    console.log('Error crearDonacionMP');
                     console.log(responseError);
-                    return responseError;
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function getPendienteDonante(idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/pendientes/donante/' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/pendientes/donante/' + idUsuario)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error getPendienteDonante');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function getPendienteDonatario(idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/pendientes/donatario/' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/pendientes/donatario/' + idUsuario)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error getPendienteDonatario');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function savePendienteDonante(id_donacion) {
-            return $http.get('http://soydonar.com/webservices/webresources/donacionGuardarEstado/donante/' + id_donacion)
+            return $http.get('http://www.soydonar.com/webservices/webresources/donacionGuardarEstado/donante/' + id_donacion)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error savePendienteDonante');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function savePendienteDonatario(id_donacion) {
-            return $http.get('http://soydonar.com/webservices/webresources/donacionGuardarEstado/donatario/' + id_donacion)
+            return $http.get('http://www.soydonar.com/webservices/webresources/donacionGuardarEstado/donatario/' + id_donacion)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error savePendienteDonatario');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function getInfoUsuario(idUsuario) {
-            return $http.get('http://soydonar.com/webservices/webresources/infoUsuario/' + idUsuario)
+            return $http.get('http://www.soydonar.com/webservices/webresources/infoUsuario/' + idUsuario)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error getInfoUsuario');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
         function guardarUsuario(request) {
-            return $http.post('http://soydonar.com/webservices/webresources/editUsuario/edit', JSON.stringify(request))
+            return $http.post('http://www.soydonar.com/webservices/webresources/editUsuario/edit', JSON.stringify(request))
                 .then(function (response) {
                     console.log('Usuario edit');
                     console.log(response);
                     return response.data;
-                },
-                function (responseError) {
+                })
+                .catch(function (responseError) {
+                    console.log('Error guardarUsuario');
                     console.log(responseError);
-                    return responseError;
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -3051,9 +3159,11 @@
             return $http.get('http://www.soydonar.com/webservices/webresources/necesidadesPorUsuario/' + idUsuario)
                 .then(function (response) {
                     return response.data;
-                },
-                function (responseError) {
-                    return responseError;
+                })
+                .catch(function (responseError) {
+                    console.log('Error getMisDonaciones');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -3073,12 +3183,12 @@
                     // console.log(responseError);
                 });
 
-            return $http.get('http://soydonar.com/webservices/webresources/obtenerarchivos/' + folder)
+            return $http.get('http://www.soydonar.com/webservices/webresources/obtenerarchivos/' + folder)
                 .then(function (response) {
                     return $q.resolve(response.data);
                 },
                 function (responseError) {
-                    return $q.reject(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -3090,8 +3200,9 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error guardarVideo');
                     console.log(responseError);
-                    return $q.reject(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -3103,8 +3214,9 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error getVideos');
                     console.log(responseError);
-                    return $q.reject(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -3117,8 +3229,9 @@
                         return $q.resolve(response.data);
                     })
                     .catch(function (responseError) {
+                        console.log('Error add guardarResultado');
                         console.log(responseError);
-                        return $q.reject(responseError);
+                        return $q.reject(parsearError(responseError));
                     });
             }
             else {
@@ -3129,8 +3242,9 @@
                         return $q.resolve(response.data);
                     })
                     .catch(function (responseError) {
+                        console.log('Error edit guardarUsuario');
                         console.log(responseError);
-                        return $q.reject(responseError);
+                        return $q.reject(parsearError(responseError));
                     });
             }
         }
@@ -3143,8 +3257,9 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error getResultado');
                     console.log(responseError);
-                    return $q.reject(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -3156,8 +3271,9 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error mostrarNotificaciones');
                     console.log(responseError);
-                    return $q.reject(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
 
@@ -3169,10 +3285,54 @@
                     return $q.resolve(response.data);
                 })
                 .catch(function (responseError) {
+                    console.log('Error deleteNotificacion');
                     console.log(responseError);
-                    return $q.reject(responseError);
+                    return $q.reject(parsearError(responseError));
                 });
         }
+
+        function donacionesConcretadas(usuario) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/DonacionesConcretadas/' + usuario)
+                .then(function (response) {
+                    console.log('Get notificaciones');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log('Error donacionesConcretadas');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
+                });
+        }
+
+        function addLike(id_necesidad, usuario) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/addLike/' + id_necesidad + '&' + usuario)
+                .then(function (response) {
+                    console.log('Get addLike');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log('Error addLike');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
+                });
+        }
+
+        function verLikes(usuario) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/verLikes/' + usuario)
+                .then(function (response) {
+                    console.log('Get verLikes');
+                    console.log(response);
+                    return $q.resolve(response.data);
+                })
+                .catch(function (responseError) {
+                    console.log('Error verLikes');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
+                });
+        }
+        //
     }
 
     SessionStorageService.$inject = ['$window'];
@@ -3210,8 +3370,15 @@
         .module('donarApp')
         .config([
             '$stateProvider',
-            '$urlRouterProvider',
-            function ($stateProvider, $urlRouterProvider) {
+            '$urlRouterProvider','$locationProvider',
+            function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+                // $locationProvider.html5Mode({
+                //     enabled: true,
+                //     requireBase: false
+                //     });
+
+                //$locationProvider.html5Mode(true); 
 
                 // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
                 $urlRouterProvider
@@ -3292,8 +3459,8 @@
                     .state("restricted.my-profile.profile", {
                         url: "/perfil",
                         templateUrl: 'app/views/perfil/perfil.html',
-                        controller:  'PerfilController',
-                        controllerAs:'vm',
+                        controller: 'PerfilController',
+                        controllerAs: 'vm',
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
@@ -3314,6 +3481,12 @@
                         url: "/mis-necesidades",
                         templateUrl: 'app/views/perfil/mis-necesidades.html',
                         controller: 'MisNecesidadesController',
+                        controllerAs: 'vm'
+                    })
+                    .state("restricted.my-profile.mis-donaciones", {
+                        url: "/mis-donaciones",
+                        templateUrl: 'app/views/perfil/mis-donaciones.html',
+                        controller: 'MisDonacionesController',
                         controllerAs: 'vm'
                     })
                     .state("restricted.my-profile.pendiente", {
@@ -3345,7 +3518,8 @@
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
-                                    'lazy_ionRangeSlider'
+                                    'lazy_ionRangeSlider',
+                                    'lazy_google_maps'
                                 ], { serie: true });
                             }],
                             user_data: function ($http) {
@@ -3356,43 +3530,117 @@
                             }
                         }
                     })
-                    .state("restricted.donacion-add", {
-                        url: "/Donacion/Alta",
-                        controller: 'DonacionAddEditController',
+                    .state("restricted.donacion-resultado-ver", {
+                        url: "/Necesidad/Resultado/{id:int}",
+                        controller: 'DonacionViewResultadoController',
                         controllerAs: 'vm',
-                        templateUrl: 'app/views/donacion/add-edit.html',
+                        templateUrl: 'app/views/donacion/view-resultado.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_ionRangeSlider',
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
+                    // .state("restricted.donacion-add", {
+                    //     url: "/Donacion/Alta",
+                    //     controller: 'DonacionAddEditController',
+                    //     controllerAs: 'vm',
+                    //     templateUrl: 'app/views/donacion/add-edit.html',
+                    //     resolve: {
+                    //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    //             return $ocLazyLoad.load([
+                    //                 'assets/js/custom/uikit_fileinput.min.js',
+                    //                 'lazy_dropify',
+                    //                 'app/components/pages/user_editController.js'
+                    //             ], { serie: true });
+                    //         }],
+                    //         user_data: function ($http) {
+                    //             return $http({ method: 'GET', url: 'data/user_data.json' })
+                    //                 .then(function (data) {
+                    //                     return data.data;
+                    //                 });
+                    //         },
+                    //         groups_data: function ($http) {
+                    //             return $http({ method: 'GET', url: 'data/groups_data.json' })
+                    //                 .then(function (data) {
+                    //                     return data.data;
+                    //                 });
+                    //         }
+                    //     }
+                    // })
+                    // .state("restricted.donacion-edit", {
+                    //     url: "/Donacion/Editar/{id}",
+                    //     controller: 'DonacionAddEditController',
+                    //     controllerAs: 'vm',
+                    //     templateUrl: 'app/views/donacion/add-edit.html',
+                    //     resolve: {
+                    //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    //             return $ocLazyLoad.load([
+                    //                 'assets/js/custom/uikit_fileinput.min.js',
+                    //                 'lazy_dropify'
+                    //             ], { serie: true });
+                    //         }]
+                    //     }
+                    // })
+                    .state("restricted.mapas", {
+                        url: "/Donacion/Mapas",
+                        controller: 'MapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/mapa.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
+                    .state("restricted.geomapas", {
+                        url: "/Donacion/Cercanas",
+                        controller: 'GeoMapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/donacion-mapa.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
+                    //.state("restricted.donacion-add-mapa", {
+                    .state("restricted.donacion-add", {
+                        //url: "/Donacion/AltaMapa",
+                        url: "/Donacion/Alta",
+                        controller: 'DonacionAddEditMapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/add-edit-mapa.html',
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
                                     'assets/js/custom/uikit_fileinput.min.js',
                                     'lazy_dropify',
-                                    'app/components/pages/user_editController.js'
+                                    'lazy_google_maps'
                                 ], { serie: true });
-                            }],
-                            user_data: function ($http) {
-                                return $http({ method: 'GET', url: 'data/user_data.json' })
-                                    .then(function (data) {
-                                        return data.data;
-                                    });
-                            },
-                            groups_data: function ($http) {
-                                return $http({ method: 'GET', url: 'data/groups_data.json' })
-                                    .then(function (data) {
-                                        return data.data;
-                                    });
-                            }
+                            }]
                         }
                     })
+                    //.state("restricted.donacion-edit-mapa", {
                     .state("restricted.donacion-edit", {
+                        //url: "/Donacion/EditarMapa/{id}",
                         url: "/Donacion/Editar/{id}",
-                        controller: 'DonacionAddEditController',
+                        controller: 'DonacionAddEditMapaController',
                         controllerAs: 'vm',
-                        templateUrl: 'app/views/donacion/add-edit.html',
+                        templateUrl: 'app/views/donacion/add-edit-mapa.html',
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
                                     'assets/js/custom/uikit_fileinput.min.js',
-                                    'lazy_dropify'
+                                    'lazy_dropify',
+                                    'lazy_google_maps'
                                 ], { serie: true });
                             }]
                         }
@@ -4731,6 +4979,481 @@ angular
 
     angular
         .module('donarApp')
+        .controller('DonacionAddEditMapaController', DonacionAddEditMapaController);
+
+    DonacionAddEditMapaController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout', 'NgMap'];
+
+    function DonacionAddEditMapaController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService, $timeout, NgMap) {
+        var vm = this;
+
+        //Variables
+        vm.usuarioLogueado = {};
+        vm.donacion = {};
+        vm.categorias = [];
+        vm.categorias_config = {};
+        vm.tipo_config = {};
+        vm.tipo_options = [];
+        vm.isNew = true;
+        vm.imagen = {};
+        vm.images = [];
+        vm.videos = [];
+        vm.video = {};
+
+        //Methods:
+        vm.save = save;
+        vm.subirImagen = subirImagen;
+        vm.getYTLink = getYTLink;
+        vm.subirVideo = subirVideo;
+
+        activate();
+
+        function activate() {
+            $('#input-file-a-galeria').dropify({
+                messages: {
+                    default: 'Imagen default',
+                    replace: 'Haga click para reemplazar',
+                    remove: 'Eliminar',
+                    error: 'Hubo un error'
+                }
+            })
+                .on('dropify.afterClear', function (event, element) {
+                    $scope.imagenGaleria = null;
+                });
+
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+            if (!vm.usuarioLogueado) {
+                $state.go('restricted.home');
+            }
+
+            if ($stateParams.id) {
+                vm.isNew = false;
+
+                ServerService.getDonacion($stateParams.id)
+                    .then(function (data) {
+                        console.log(data);
+                        vm.donacion = data;
+
+                        if (vm.usuarioLogueado && vm.usuarioLogueado.usuario !== vm.donacion.usuario) {
+                            UIkit.notify({
+                                message: '<i class="uk-icon-times-circle"></i> No tiene permisos para editar esta necesidad.',
+                                status: 'danger',
+                                timeout: 5000,
+                                pos: 'top-right'
+                            });
+
+                            $state.go('restricted.home');
+                            vm.isCreatedUser = false;
+
+                            return;
+                        }
+
+                        //Valido la no existencia de la imagen:
+                        if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
+                            vm.donacion.imagen_path = 'prueba.png';
+                        }
+
+                        //Valido la conversion del nro que viene desde el server:
+                        if (vm.donacion.dineroTotal && vm.donacion.dineroTotal.replace(/[^.,0-9]/ig, '').length > 0) {
+                            vm.donacion.dineroTotal = parseFloat(vm.donacion.dineroTotal);
+                        }
+
+                        //Maps magic:
+                        //This should come from server:
+                        // vm.donacion.latitud = -34.66492800516767;
+                        // vm.donacion.longitud = -58.57205388302003;
+                        var _lat = '';
+                        if (vm.donacion.latitud) {
+                            _lat = vm.donacion.latitud.replace(/[ ]/ig, '');
+                        }
+
+                        var _long = '';
+                        if (vm.donacion.longitud) {
+                            _long = vm.donacion.longitud.replace(/[ ]/ig, '');
+                        }
+
+                        if (!_lat || !_long) {
+                            navigator.geolocation.getCurrentPosition(
+                                function (pos) {
+                                    var crd = pos.coords;
+
+                                    vm.donacion.latitud = crd.latitude;
+                                    vm.donacion.longitud = crd.longitude;
+                                },
+                                function error(err) {
+                                    console.warn('ERROR(' + err.code + '): ' + err.message);
+
+                                    //Posicion por defecto en caso de que los mapas no funcionen.
+                                    vm.donacion.latitud = -34.60832672898665;
+                                    vm.donacion.longitud = -58.37232587093507;
+                                },
+                                {
+                                    enableHighAccuracy: false,
+                                    timeout: 2000,
+                                    maximumAge: 6000000
+                                });
+                        }
+
+
+                        ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                            .then(function (data) {
+                                vm.images = data;
+                            });
+
+                        ServerService.getVideos($stateParams.id)
+                            .then(function (data) {
+                                vm.videos = data;
+                            });
+
+                        if (vm.usuarioLogueado && vm.usuarioLogueado.usuario === vm.donacion.usuario) {
+                            vm.isCreatedUser = true;
+                        }
+
+                        if (vm.donacion.imagen_path) {
+                            $('.dropify').dropify({
+                                messages: {
+                                    default: 'Imagen default',
+                                    replace: 'Haga click para reemplazar',
+                                    remove: 'Eliminar',
+                                    error: 'Hubo un error'
+                                },
+                                defaultFile: 'http://www.soydonar.com/imagenes/necesidades/' + vm.donacion.imagen_path
+                            })
+                                .on('dropify.afterClear', function (event, element) {
+                                    $scope.imagen = null;
+                                });
+                        }
+                        else {
+                            $('.dropify').dropify({
+                                messages: {
+                                    default: 'Imagen default',
+                                    replace: 'Haga click para reemplazar',
+                                    remove: 'Eliminar',
+                                    error: 'Hubo un error'
+                                },
+                                defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
+                            })
+                                .on('dropify.afterClear', function (event, element) {
+                                    $scope.imagen = null;
+                                });
+                        }
+                    });
+
+                // vm.blog_articles = [];
+                // $http({ method: 'GET', url: 'data/blog_articles.json' })
+                //     .then(function (data) {
+                //         vm.blog_articles = data.data;
+                //         console.log('Videos:');
+                //         console.log(data.data);
+                //     });
+            }
+            else {
+
+                vm.donacion.avatar = vm.usuarioLogueado.imagen_path;
+                vm.donacion.cant_likes = 0;
+                vm.donacion.cant_fotos = 0;
+                vm.donacion.cant_favs = 0;
+                vm.isCreatedUser = true;
+
+                navigator.geolocation.getCurrentPosition(
+                    function (pos) {
+                        var crd = pos.coords;
+
+                        vm.donacion.latitud = crd.latitude;
+                        vm.donacion.longitud = crd.longitude;
+                    },
+                    function error(err) {
+                        console.warn('ERROR(' + err.code + '): ' + err.message);
+
+                        //Posicion por defecto en caso de que los mapas no funcionen.
+                        vm.donacion.latitud = -34.60832672898665;
+                        vm.donacion.longitud = -58.37232587093507;
+                    },
+                    {
+                        enableHighAccuracy: false,
+                        timeout: 2000,
+                        maximumAge: 6000000
+                    });
+
+                $('.dropify').dropify({
+                    messages: {
+                        default: 'Imagen default',
+                        replace: 'Haga click para reemplazar',
+                        remove: 'Eliminar',
+                        error: 'Hubo un error'
+                    },
+                    defaultFile: 'http://www.soydonar.com/imagenes/necesidades/prueba.png'
+                })
+                    .on('dropify.afterClear', function (event, element) {
+                        $scope.imagen = null;
+                    });
+            }
+
+            ServerService.getCategorias()
+                .then(function (response) {
+                    vm.categorias = [];
+
+                    for (var i = 0; i < response.length; i++) {
+                        vm.categorias.push({ id: response[i], title: response[i] });
+                    }
+
+                    vm.tipo_options = [];
+                    for (var i = 0; i < response.length; i++) {
+                        vm.tipo_options.push({ value: response[i], title: response[i] });
+                    }
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+
+            vm.categorias_config = {
+                plugins: {
+                    'remove_button': {
+                        label: ''
+                    }
+                },
+                render: {
+                    option: function (langData, escape) {
+                        return '<div class="option">' +
+                            '<i class="item-icon"></i>' +
+                            '<span>' + escape(langData.title) + '</span>' +
+                            '</div>';
+                    },
+                    item: function (langData, escape) {
+                        return '<div class="item"><i class="item-icon"></i>' + escape(langData.title) + '</div>';
+                    }
+                },
+                valueField: 'id',
+                labelField: 'title',
+                searchField: 'title',
+                create: false,
+                placeholder: 'Seleccionar categoria...'
+            };
+
+            vm.tipo_config = {
+                valueField: 'value',
+                labelField: 'title',
+                create: false,
+                maxItems: 1,
+                placeholder: 'Seleccionar...'
+            };
+        }
+
+        function save() {
+
+            var file = $scope.imagen;
+            var uploadUrl = "../subir_imagen.php";
+            var folder = 'necesidades';//$stateParams.id.toString(); //TODO: Revisar esto porque no funciona cuando la necesidad es nueva.
+            var fileName = vm.donacion.imagen_path || 'prueba.png';
+            if (file) {
+                fileName = file.name;
+                fileUpload.uploadFileToUrl(file, uploadUrl, folder)
+                    .success(function () {
+                        console.log("Acaba de subir la imagen");
+                    })
+                    .error(function () {
+                        console.log("Error al subir la imagen");
+                    });
+            }
+
+            var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
+            var pad = "00";
+            dia = pad.substring(0, pad.length - dia.toString().length) + dia;
+            mes = pad.substring(0, pad.length - mes.toString().length) + mes;
+            var fecha = anio + '-' + mes + '-' + dia;
+
+            NgMap.getMap()
+                .then(function (map) {
+                    vm.donacion.latitud = map.markers[0].position.lat();
+                    vm.donacion.longitud = map.markers[0].position.lng();
+
+                    console.log(vm.donacion);
+
+                    var request = {
+                        titulo: vm.donacion.titulo,
+                        necesidad: vm.donacion.necesidad,
+                        fecha_fin: vm.donacion.fecha_fin || null,
+                        telefono: vm.donacion.telefono,
+                        facebook: vm.donacion.facebook,
+                        twitter: vm.donacion.twitter,
+                        usuario: vm.usuarioLogueado.usuario,
+                        direccion: vm.donacion.direccion,
+                        email: vm.donacion.email,
+                        categoria: vm.donacion.categoria,
+                        imagen_path: fileName,
+                        dineroTotal: vm.donacion.dineroTotal,
+                        dineroRecaudado: vm.donacion.dineroRecaudado,
+                        usuario_mp: vm.donacion.usuario_mp,
+                        latitud: vm.donacion.latitud,
+                        longitud: vm.donacion.longitud
+                    };
+
+                    if (!request.titulo || !request.necesidad || !request.categoria || !request.usuario) {
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> El título, la categoría y la necesidad son requeridos',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+
+                        return;
+                    }
+
+                    if (request.dineroTotal) {
+                        var _dinero = request.dineroTotal.toString().replace(/[ ]/ig, '');
+                        if (isNaN(_dinero)) {
+                            UIkit.notify({
+                                message: '<i class="uk-icon-times-circle"></i> El campo de dinero objetivo debe ser un número.',
+                                status: 'danger',
+                                timeout: 5000,
+                                pos: 'top-right'
+                            });
+
+                            return;
+                        }
+
+                        request.dineroTotal = _dinero.toString();
+                    }
+
+                    if (request.categoria == 'DINERO' && !request.dineroTotal) {
+                        UIkit.notify({
+                            message: '<i class="uk-icon-times-circle"></i> El campo de dinero objetivo es requerido.',
+                            status: 'danger',
+                            timeout: 5000,
+                            pos: 'top-right'
+                        });
+
+                        return;
+                    }
+
+                    if (!vm.isNew) {
+                        request.id_necesidad = $stateParams.id;
+
+                    }
+                    else {
+                        request.fecha_creacion = fecha;
+                    }
+
+                    ServerService.saveDonacion(request)
+                        .then(function (response) {
+                            console.log(response);
+
+                            UIkit.notify({
+                                message: '<i class="uk-icon-check"></i> Se ha guardado con éxito!',
+                                status: 'success',
+                                timeout: 5000,
+                                pos: 'top-right'
+                            });
+
+                            if (vm.isNew) {
+                                //$state.go('restricted.donacion-edit', { id: response.id_necesidad });
+                                $state.go('restricted.home');
+                            }
+                        })
+                        .catch(function (responseError) {
+                            UIkit.notify({
+                                message: '<i class="uk-icon-times-circle"></i> ' + responseError,
+                                status: 'danger',
+                                timeout: 5000,
+                                pos: 'top-right'
+                            });
+                        });
+                });
+        }
+
+        function subirImagen() {
+
+            $timeout(function () {
+                UIkit.notify({
+                    message: '<i class="uk-icon-check"></i> Imagen guardada!',
+                    status: 'success',
+                    timeout: 1000,
+                    pos: 'top-right'
+                });
+
+                ServerService.getFilesInFolder('galeria-' + $stateParams.id)
+                    .then(function (data) {
+                        vm.images = data;
+                    });
+            }, 3000);
+        }
+
+        function getYTLink(src) {
+            //return 'https://www.youtube.com/v/' + src + '?rel=0';
+            return src.replace("watch?v=", "embed/");
+            //https://www.youtube.com/embed/VIDEO_ID
+            //"https://www.youtube.com/watch?v=czmulJ9NBP0"
+        };
+
+        function subirVideo() {
+            var dia = new Date().getDate(), mes = new Date().getMonth() + 1, anio = new Date().getFullYear();
+            var pad = "00";
+            dia = pad.substring(0, pad.length - dia.toString().length) + dia;
+            mes = pad.substring(0, pad.length - mes.toString().length) + mes;
+            var fecha = anio + '-' + mes + '-' + dia;
+
+            if (!vm.video.descripcion) {
+                vm.video.descripcion = '';
+            }
+
+            if (!vm.video.titulo) {
+                vm.video.titulo = '';
+            }
+
+            if (!vm.video.url) {
+                vm.video.url = '';
+            }
+
+            var request = {
+                url: vm.video.url,
+                comentario: vm.video.descripcion,
+                fecha: fecha,
+                usuario: vm.usuarioLogueado.usuario,
+                id_necesidad: vm.donacion.id_necesidad,
+                titulo: vm.video.titulo
+            };
+
+            var tituloLimpio = vm.video.titulo.replace(/[ ]/ig, '');
+            var descripcionLimpio = vm.video.descripcion.replace(/[ ]/ig, '');
+            var urlLimpio = vm.video.url.replace(/[ ]/ig, '');
+            if (tituloLimpio.length === 0 || descripcionLimpio.length === 0 || urlLimpio.length === 0) {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> El título, la descripcion y la URL son requeridos',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+
+                return;
+            }
+
+            ServerService.guardarVideo(request)
+                .then(function (response) {
+                    console.log(response);
+
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se ha guardado el video!',
+                        status: 'success',
+                        //timeout: 5000,
+                        pos: 'top-right'
+                    });
+
+                    vm.video.titulo = '';
+                    vm.video.descripcion = '';
+                    vm.video.url = '';
+                })
+                .catch(function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        $scope.subirImagen = subirImagen;
+    }
+})();
+(function () {
+    "use strict";
+
+    angular
+        .module('donarApp')
         .controller('DonacionAddEditController', DonacionAddEditController);
 
     DonacionAddEditController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout'];
@@ -5101,6 +5824,130 @@ angular
 
     angular
         .module('donarApp')
+        .controller('GeoMapaController', GeoMapaController);
+
+    GeoMapaController.$inject = ['$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout', 'NgMap'];
+
+    function GeoMapaController($http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService, $timeout, NgMap) {
+        var vm = this;
+
+        //Variables
+        //vm.map = {};
+
+
+        //Methods:
+        vm.mapaClick = mapaClick;
+        vm.showDetail = showDetail;
+        vm.hideDetail = hideDetail;
+        vm.clicked = clicked;
+
+        activate();
+
+        function activate() {
+            //Key:  AIzaSyAwC6bRAW_7P_epNfEg517L2VJF6K6R7MM 
+
+            NgMap.getMap().then(function (map) {
+                console.log('map', map);
+                vm.map = map;
+
+                //console.log('markers', map.markers);
+
+                if (vm.map.markers[0].position.lat() == 0 && vm.map.markers[0].position.lng() == 0) {
+                    var latlng = new google.maps.LatLng(-34.66964091000385, -58.562965393066406);
+                    vm.map.markers[0].setPosition(latlng);
+                    vm.map.setCenter(latlng);
+                }
+
+                // navigator.geolocation.getCurrentPosition(
+                //     function (pos) {
+                //         var crd = pos.coords;
+                //         // vm.donacion.latitud = crd.latitude;
+                //         // vm.donacion.longitud = crd.longitude;
+                //     },
+                //     function error(err) {
+                //         console.warn('ERROR(' + err.code + '): ' + err.message);
+
+                //         //Posicion por defecto en caso de que los mapas no funcionen.
+                //         var latlng = new google.maps.LatLng(-34.66964091000385, -58.562965393066406);
+                //         map.markers[0].setPosition(latlng);
+                //     },
+                //     {
+                //         enableHighAccuracy: false,
+                //         timeout: 2000,
+                //         maximumAge: 6000000
+                //     });
+            });
+
+            ServerService.searchDonacion('', '')
+                .then(function (data) {
+                    console.log(data);
+                    vm.donaciones = data;
+
+                    vm.donaciones.forEach(function (e, i, a) {
+                        //Valido la no existencia de la imagen:
+                        if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
+                            e.imagen_path = 'prueba.png';
+                        }
+
+                        if (e.latitud && e.longitud) {
+                            e.position = [e.latitud, e.longitud];
+                        }
+
+                        // if (i == 0) {
+                        //     e.position = [-34.66492800516767, -58.57205388302003];
+                        // }
+                        // if (i == 1) {
+                        //     e.position = [-34.672782153026866, -58.58262062072754];
+                        // }
+                        // if (i == 2) {
+                        //     e.position = [-34.66565241857749, -58.55682849884033];
+                        // }
+                        // if (i == 3) {
+                        //     e.position = [-34.67669971615515, -58.57403755187988];
+                        // }
+                        // if (i == 4) {
+                        //     e.position = [-34.66981738748909, -58.59433650970459];
+                        // }
+                        // if (i == 5) {
+                        //     e.position = [-34.679664235346756 - -58.626136779785156];
+                        // }
+                        // if (i == 6) {
+                        //     e.position = [-34.68305212733052 - -58.53532791137695];
+                        // }
+                        // if (i == 7) {
+                        //     e.position = [-34.642388276457744 - -58.54717254638672];
+                        // }
+                        // if (i == 8) {
+                        //     e.position = [-34.644647902773045 - -58.62098693847656];
+                        // }
+                    });
+                });
+        }
+
+        function mapaClick(event) {
+            var ll = event.latLng;
+            console.log(ll.lat() + ' - ' + ll.lng());
+        }
+
+        function showDetail(e, donacion) {
+            vm.donacion = donacion;
+            vm.map.showInfoWindow('foo-iw', donacion.id_necesidad.toString());
+        };
+
+        function hideDetail() {
+            vm.map.hideInfoWindow('foo-iw');
+        };
+
+        function clicked(don) {
+            console.log(don);
+        }
+    }
+})();
+(function () {
+    "use strict";
+
+    angular
+        .module('donarApp')
         .controller('DonacionResultadoController', DonacionResultadoController);
 
     DonacionResultadoController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout'];
@@ -5292,13 +6139,80 @@ angular
 })();
 (function () {
     "use strict";
+
+    angular
+        .module('donarApp')
+        .controller('DonacionViewResultadoController', DonacionViewResultadoController);
+
+    DonacionViewResultadoController.$inject = ['fileUpload', '$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout'];
+
+    function DonacionViewResultadoController(fileUpload, $http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService, $timeout) {
+        var vm = this;
+
+        //Variables
+        vm.usuarioLogueado = {};
+        vm.donacion = {};
+        vm.categorias = [];
+        vm.categorias_config = {};
+        vm.tipo_config = {};
+        vm.tipo_options = [];
+        vm.isNew = true;
+        vm.imagen = {};
+        vm.images = [];
+        vm.videos = [];
+
+        //Methods:
+
+        activate();
+
+        function activate() {
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+            if (!vm.usuarioLogueado || !$stateParams.id) {
+                $state.go('restricted.home');
+            }
+
+            ServerService.getDonacion($stateParams.id)
+                .then(function (data) {
+                    vm.donacion = data;
+                    
+                    ServerService.getFilesInFolder('resultado-' + $stateParams.id)
+                        .then(function (data) {
+                            vm.images = data;
+                        });
+
+                    ServerService.getResultado($stateParams.id)
+                        .then(function (data) {
+                            vm.isNew = false;
+                            vm.resultado = data;
+
+                            //Valido la no existencia de la imagen:
+                            if (vm.donacion.imagen_path && vm.donacion.imagen_path.indexOf('.') === -1) {
+                                vm.donacion.imagen_path = 'prueba.png';
+                            }
+
+                            //Valido la conversion del nro que viene desde el server:
+                            if (vm.donacion.dineroTotal && vm.donacion.dineroTotal.replace(/[^.,0-9]/ig, '').length > 0) {
+                                vm.donacion.dineroTotal = parseFloat(vm.donacion.dineroTotal);
+                            }
+                        })
+                        .catch(function () {
+                            //Si entra por acá es porque no hay resultado, entonces hay que agregar uno nuevo:
+                            vm.isNew = true;
+                            vm.resultado = {};
+                        });
+                });
+        }
+    }
+})();
+(function () {
+    "use strict";
     angular
         .module('donarApp')
         .controller('DonacionController', DonacionController);
 
-    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService'];
+    DonacionController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'user_data', 'SessionStorageService', 'ServerService', 'NgMap', '$sce'];
 
-    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService) {
+    function DonacionController($window, $rootScope, $state, $stateParams, $scope, user_data, SessionStorageService, ServerService, NgMap, $sce) {
         var vm = this;
 
         //Variables
@@ -5308,6 +6222,7 @@ angular
         vm.comentario = '';
         vm.usuarioLogueado = null;
         vm.images = [];
+        vm.videos = [];
 
         //Methods
         vm.addComment = addComment;
@@ -5315,6 +6230,8 @@ angular
         vm.pagarMercadoPago = pagarMercadoPago;
         vm.addFavorite = addFavorite;
         vm.donarCosas = donarCosas;
+        vm.getYTLink = getYTLink;
+        vm.addLike = addLike;
 
         activate();
 
@@ -5336,9 +6253,58 @@ angular
                         vm.isCreatedUser = true;
                     }
 
+                    if (!isNaN(parseInt(vm.donacion.dineroRecaudado)) && !isNaN(parseInt(vm.donacion.dineroTotal))) {
+
+                        vm.donacion.dineroTotal = (parseInt(vm.donacion.dineroRecaudado) > parseInt(vm.donacion.dineroTotal)) ? vm.donacion.dineroRecaudado : vm.donacion.dineroTotal;
+                    }
+
+                    //Maps magic:
+                    //This should come from server:
+                    // vm.donacion.latitud = -34.66492800516767;
+                    // vm.donacion.longitud = -58.57205388302003;
+
+                    if (vm.donacion.email) {
+                        vm.donacion.email = vm.donacion.email.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.telefono) {
+                        vm.donacion.telefono = vm.donacion.telefono.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.facebook) {
+                        vm.donacion.facebook = vm.donacion.facebook.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.twitter) {
+                        vm.donacion.twitter = vm.donacion.twitter.replace(/ /g, '');
+                    }
+
+                    if (vm.donacion.usuario_mp) {
+                        vm.donacion.usuario_mp = vm.donacion.usuario_mp.replace(/ /g, '');
+                    }
+
+                    vm.estaActiva = true;
+                    if (vm.donacion.fecha_fin) {
+                        var _date = new Date();
+                        var _fechaFin = new Date(vm.donacion.fecha_fin);
+
+                        if (_fechaFin >= _date) {
+                            vm.estaActiva = true;
+                        }
+                        else {
+                            vm.estaActiva = false;
+                        }
+                    }
+                    //
+
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                        .then(function (data) {
-                            vm.images = data;
+                        .then(function (dataImages) {
+                            vm.images = dataImages;
+                        });
+
+                    ServerService.getVideos($stateParams.id)
+                        .then(function (dataVideo) {
+                            vm.videos = dataVideo;
                         });
                 });
         }
@@ -5407,6 +6373,16 @@ angular
             mes = pad.substring(0, pad.length - mes.toString().length) + mes;
             var fecha = anio + '-' + mes + '-' + dia;
 
+            if (isNaN(vm.donacionMonetaria) || vm.donacionMonetaria <= 0) {
+                UIkit.notify({
+                    message: '<i class="uk-icon-times-circle"></i> La donación tiene que ser un número positivo.',
+                    status: 'danger',
+                    timeout: 5000,
+                    pos: 'top-right'
+                });
+                return;
+            }
+
             if (vm.usuarioLogueado) {
                 var request = {
                     donante: vm.usuarioLogueado.usuario,
@@ -5422,19 +6398,21 @@ angular
                         console.log(response);
 
                         vm.donacionMonetaria = '';
-                        UIkit.notify({
-                            message: '<i class="uk-icon-check"></i> Donación concretada!',
-                            status: 'success',
-                            timeout: 5000,
-                            pos: 'top-right'
-                        });
+                        // UIkit.notify({
+                        //     message: '<i class="uk-icon-check"></i> Donación concretada!',
+                        //     status: 'success',
+                        //     timeout: 5000,
+                        //     pos: 'top-right'
+                        // });
+
+                        UIkit.modal("#modal_overflow").show();
+                        vm.mercadoPagoURL = $sce.trustAsResourceUrl("https://www.mercadopago.com.ar/money-transfer?dummyVar=" + (new Date()).getTime());
                     },
                     function (responseError) {
                         console.log(responseError);
                     });
             }
-
-            $window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
+            //$window.open('https://www.mercadopago.com.ar/money-transfer', '_blank');
         }
 
         function donarCosas() {
@@ -5512,6 +6490,29 @@ angular
                     console.log(responseError);
                 });
         }
+
+        function addLike() {
+            ServerService.addLike(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
+                .then(function (response) {
+                    console.log(response);
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se agregó el like!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function getYTLink(src) {
+            //return 'https://www.youtube.com/v/' + src + '?rel=0';
+            return src.replace("watch?v=", "embed/");
+            //https://www.youtube.com/embed/VIDEO_ID
+            //"https://www.youtube.com/watch?v=czmulJ9NBP0"
+        };
     }
 })();
 (function () {
@@ -5601,9 +6602,11 @@ angular
 
         vm.palabraClave = '';
         vm.categoriaSeleccionada = '';
+        vm.usuarioLogueado = {};
 
         //Methods
         vm.buscar = buscar;
+        vm.addLike = addLike;
 
         activate();
         //activate2();
@@ -5719,6 +6722,8 @@ angular
         }
 
         function activate() {
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+
             vm.tipo_config = {
                 valueField: 'value',
                 labelField: 'title',
@@ -5736,6 +6741,21 @@ angular
                         //Valido la no existencia de la imagen:
                         if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
                             e.imagen_path = 'prueba.png';
+                        }
+
+                        e.estaActiva = true;
+                        e.fecha_texto = getFormattedDate(new Date(e.fecha_creacion));
+                        if (e.fecha_fin) {
+                            var _date = new Date();
+                            var _fechaFin = new Date(e.fecha_fin);
+
+                            e.fecha_texto_fin = getFormattedDate(_fechaFin);
+                            if (_fechaFin >= _date) {
+                                e.estaActiva = true;
+                            }
+                            else {
+                                e.estaActiva = false;
+                            }
                         }
                     });
                 });
@@ -5756,6 +6776,15 @@ angular
                 });
         }
 
+        function getFormattedDate(date) {
+            var year = date.getFullYear();
+            var month = (1 + date.getMonth()).toString();
+            month = month.length > 1 ? month : '0' + month;
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+            return day + '/' + month + '/' + year;
+        }
+
         function buscar() {
             ServerService.searchDonacion(vm.palabraClave, vm.categoriaSeleccionada)
                 .then(function (response) {
@@ -5763,10 +6792,57 @@ angular
 
                     if (Object.prototype.toString.call(response) === '[object Array]') {
                         vm.donaciones = response;
+
+                        vm.donaciones.forEach(function (e, i, a) {
+                            //Valido la no existencia de la imagen:
+                            if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
+                                e.imagen_path = 'prueba.png';
+                            }
+
+                            e.estaActiva = true;
+                            e.fecha_texto = getFormattedDate(new Date(e.fecha_creacion));
+                            if (e.fecha_fin) {
+                                var _date = new Date();
+                                var _fechaFin = new Date(e.fecha_fin);
+
+                                e.fecha_texto_fin = getFormattedDate(_fechaFin);
+                                if (_fechaFin >= _date) {
+                                    e.estaActiva = true;
+                                }
+                                else {
+                                    e.estaActiva = false;
+                                }
+                            }
+                        });
                     }
                     else {
                         vm.donaciones = [];
                     }
+                },
+                function (responseError) {
+                    console.log(responseError);
+                });
+        }
+
+        function addLike(id_necesidad) {
+            ServerService.addLike(id_necesidad, vm.usuarioLogueado.usuario)
+                .then(function (response) {
+
+                    vm.donaciones.forEach(function (e, i, a) {
+                        if (e.id_necesidad == id_necesidad) {
+                            var cant = parseInt(e.cant_likes);
+                            cant++;
+                            e.cant_likes = cant;
+                        }
+                    });
+
+                    console.log(response);
+                    UIkit.notify({
+                        message: '<i class="uk-icon-check"></i> Se agregó el like!',
+                        status: 'success',
+                        timeout: 5000,
+                        pos: 'top-right'
+                    });
                 },
                 function (responseError) {
                     console.log(responseError);
@@ -5938,6 +7014,144 @@ angular
 })();
 (function () {
     "use strict";
+
+    angular
+        .module('donarApp')
+        .controller('MapaController', MapaController);
+
+    MapaController.$inject = ['$http', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService', '$timeout', 'NgMap'];
+
+    function MapaController($http, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService, $timeout, NgMap) {
+        var vm = this;
+
+        //Variables
+        //vm.map = {};
+
+        //Methods:
+        vm.mostrarPosicion = mostrarPosicion;
+        vm.mapaClick = mapaClick;
+        vm.showDetail = showDetail;
+        vm.hideDetail = hideDetail;
+        vm.clicked = clicked;
+
+        activate();
+
+        function activate() {
+            //Key:  AIzaSyAwC6bRAW_7P_epNfEg517L2VJF6K6R7MM 
+
+            NgMap.getMap().then(function (map) {
+                console.log('map', map);
+                vm.map = map;
+            });
+
+            vm.donaciones =
+                [
+                    { id: 1, name: 'donacion test 1', position: [-34.66492800516767, -58.57205388302003] },
+                    { id: 2, name: 'donacion test 2', position: [-34.672782153026866, -58.58262062072754] },
+                    { id: 3, name: 'donacion test 3', position: [-34.66565241857749, -58.55682849884033] },
+                    { id: 4, name: 'donacion test 4', position: [-34.67669971615515, -58.57403755187988] },
+                    { id: 5, name: 'donacion test 5', position: [-34.66981738748909, -58.59433650970459] }
+                ];
+        }
+
+        function mostrarPosicion() {
+            NgMap.getMap()
+                .then(function (map) {
+                    console.log(map.getCenter());
+                    console.log('markers', map.markers);
+                    console.log('shapes', map.shapes);
+
+                    console.log('latitud: ', map.markers[0].position.lat());
+                    console.log('longitud: ', map.markers[0].position.lng());
+
+                    // map.markers.forEach(function (e, i, a) {
+                    //     console.log('latitud: ', e.position.lat());
+                    //     console.log('longitud: ', e.position.lng());
+                    // });
+                });
+        }
+
+        function mapaClick(event) {
+            var ll = event.latLng;
+            console.log(ll.lat() + ' - ' + ll.lng());
+        }
+
+        function showDetail(e, donacion) {
+            vm.donacion = donacion;
+            vm.map.showInfoWindow('foo-iw', donacion.id.toString());
+        };
+
+        function hideDetail() {
+            vm.map.hideInfoWindow('foo-iw');
+        };
+
+        function clicked(don) {
+            console.log(don);
+        }
+    }
+})();
+(function () {
+    "use strict";
+    angular
+        .module('donarApp')
+        .controller('MisDonacionesController', MisDonacionesController);
+
+    MisDonacionesController.$inject = ['$window', '$rootScope', '$state', '$stateParams', '$scope', 'SessionStorageService', 'ServerService'];
+
+    function MisDonacionesController($window, $rootScope, $state, $stateParams, $scope, SessionStorageService, ServerService) {
+        var vm = this;
+
+        //Variables
+        vm.usuarioLogueado = null;
+        vm.favoritos = [];
+
+        //Methods
+        vm.edit = edit;
+        vm.resultado = resultado;
+
+        activate();
+
+        function activate() {
+
+            vm.usuarioLogueado = SessionStorageService.get('usuario');
+            if (vm.usuarioLogueado) {
+
+                ServerService.donacionesConcretadas(vm.usuarioLogueado.usuario)
+                    .then(function (data) {
+                        console.log(data);
+
+                        if (Object.prototype.toString.call(data) === '[object Array]') {
+                            vm.necesidades = data;
+
+                            vm.necesidades.forEach(function (e, i, a) {
+                                //Valido la no existencia de la imagen:
+                                if (e.imagen_path && e.imagen_path.indexOf('.') === -1) {
+                                    e.imagen_path = 'prueba.png';
+                                }
+                            });
+                        }
+                        else {
+                            vm.necesidades = [];
+                        }
+                    });
+            }
+            else {
+                $state.go('restricted.home');
+            }
+        }
+
+        //Method definitions
+        function edit(idNecesidad) {
+            $state.go('restricted.donacion-edit', { id: idNecesidad });
+        }
+
+        function resultado(idNecesidad) {
+            $state.go('restricted.donacion-resultado', { id: idNecesidad });
+        }
+    }
+})();
+(function () {
+    "use strict";
     angular
         .module('donarApp')
         .controller('MisNecesidadesController', MisNecesidadesController);
@@ -6065,6 +7279,18 @@ angular
         }
 
         function savePendienteDonante(id_donacion) {
+            if (!vm.PendientesDonante) {
+                return;
+            }
+
+            var elem = vm.PendientesDonante.find(function (e) {
+                return e.id_donacion == id_donacion;
+            });
+
+            if (elem && elem.estado_donante == '1') {
+                return;
+            }
+
             ServerService.savePendienteDonante(id_donacion)
                 .then(function (data) {
                     console.log(data);
@@ -6091,6 +7317,17 @@ angular
         }
 
         function savePendienteDonatario(id_donacion) {
+            if (!vm.PendientesDonatario) {
+                return;
+            }
+
+            var elem = vm.PendientesDonatario.find(function (e) {
+                return e.id_donacion == id_donacion;
+            });
+
+            if (elem && elem.estado_donatario == '1') {
+                return;
+            }
             ServerService.savePendienteDonatario(id_donacion)
                 .then(function (data) {
                     console.log(data);

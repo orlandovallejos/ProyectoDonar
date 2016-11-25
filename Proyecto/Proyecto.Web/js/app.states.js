@@ -5,8 +5,15 @@
         .module('donarApp')
         .config([
             '$stateProvider',
-            '$urlRouterProvider',
-            function ($stateProvider, $urlRouterProvider) {
+            '$urlRouterProvider','$locationProvider',
+            function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+                // $locationProvider.html5Mode({
+                //     enabled: true,
+                //     requireBase: false
+                //     });
+
+                //$locationProvider.html5Mode(true); 
 
                 // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
                 $urlRouterProvider
@@ -87,8 +94,8 @@
                     .state("restricted.my-profile.profile", {
                         url: "/perfil",
                         templateUrl: 'app/views/perfil/perfil.html',
-                        controller:  'PerfilController',
-                        controllerAs:'vm',
+                        controller: 'PerfilController',
+                        controllerAs: 'vm',
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
@@ -109,6 +116,12 @@
                         url: "/mis-necesidades",
                         templateUrl: 'app/views/perfil/mis-necesidades.html',
                         controller: 'MisNecesidadesController',
+                        controllerAs: 'vm'
+                    })
+                    .state("restricted.my-profile.mis-donaciones", {
+                        url: "/mis-donaciones",
+                        templateUrl: 'app/views/perfil/mis-donaciones.html',
+                        controller: 'MisDonacionesController',
                         controllerAs: 'vm'
                     })
                     .state("restricted.my-profile.pendiente", {
@@ -140,7 +153,8 @@
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
-                                    'lazy_ionRangeSlider'
+                                    'lazy_ionRangeSlider',
+                                    'lazy_google_maps'
                                 ], { serie: true });
                             }],
                             user_data: function ($http) {
@@ -151,43 +165,117 @@
                             }
                         }
                     })
-                    .state("restricted.donacion-add", {
-                        url: "/Donacion/Alta",
-                        controller: 'DonacionAddEditController',
+                    .state("restricted.donacion-resultado-ver", {
+                        url: "/Necesidad/Resultado/{id:int}",
+                        controller: 'DonacionViewResultadoController',
                         controllerAs: 'vm',
-                        templateUrl: 'app/views/donacion/add-edit.html',
+                        templateUrl: 'app/views/donacion/view-resultado.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_ionRangeSlider',
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
+                    // .state("restricted.donacion-add", {
+                    //     url: "/Donacion/Alta",
+                    //     controller: 'DonacionAddEditController',
+                    //     controllerAs: 'vm',
+                    //     templateUrl: 'app/views/donacion/add-edit.html',
+                    //     resolve: {
+                    //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    //             return $ocLazyLoad.load([
+                    //                 'assets/js/custom/uikit_fileinput.min.js',
+                    //                 'lazy_dropify',
+                    //                 'app/components/pages/user_editController.js'
+                    //             ], { serie: true });
+                    //         }],
+                    //         user_data: function ($http) {
+                    //             return $http({ method: 'GET', url: 'data/user_data.json' })
+                    //                 .then(function (data) {
+                    //                     return data.data;
+                    //                 });
+                    //         },
+                    //         groups_data: function ($http) {
+                    //             return $http({ method: 'GET', url: 'data/groups_data.json' })
+                    //                 .then(function (data) {
+                    //                     return data.data;
+                    //                 });
+                    //         }
+                    //     }
+                    // })
+                    // .state("restricted.donacion-edit", {
+                    //     url: "/Donacion/Editar/{id}",
+                    //     controller: 'DonacionAddEditController',
+                    //     controllerAs: 'vm',
+                    //     templateUrl: 'app/views/donacion/add-edit.html',
+                    //     resolve: {
+                    //         deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    //             return $ocLazyLoad.load([
+                    //                 'assets/js/custom/uikit_fileinput.min.js',
+                    //                 'lazy_dropify'
+                    //             ], { serie: true });
+                    //         }]
+                    //     }
+                    // })
+                    .state("restricted.mapas", {
+                        url: "/Donacion/Mapas",
+                        controller: 'MapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/mapa.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
+                    .state("restricted.geomapas", {
+                        url: "/Donacion/Cercanas",
+                        controller: 'GeoMapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/donacion-mapa.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_google_maps'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
+                    //.state("restricted.donacion-add-mapa", {
+                    .state("restricted.donacion-add", {
+                        //url: "/Donacion/AltaMapa",
+                        url: "/Donacion/Alta",
+                        controller: 'DonacionAddEditMapaController',
+                        controllerAs: 'vm',
+                        templateUrl: 'app/views/donacion/add-edit-mapa.html',
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
                                     'assets/js/custom/uikit_fileinput.min.js',
                                     'lazy_dropify',
-                                    'app/components/pages/user_editController.js'
+                                    'lazy_google_maps'
                                 ], { serie: true });
-                            }],
-                            user_data: function ($http) {
-                                return $http({ method: 'GET', url: 'data/user_data.json' })
-                                    .then(function (data) {
-                                        return data.data;
-                                    });
-                            },
-                            groups_data: function ($http) {
-                                return $http({ method: 'GET', url: 'data/groups_data.json' })
-                                    .then(function (data) {
-                                        return data.data;
-                                    });
-                            }
+                            }]
                         }
                     })
+                    //.state("restricted.donacion-edit-mapa", {
                     .state("restricted.donacion-edit", {
+                        //url: "/Donacion/EditarMapa/{id}",
                         url: "/Donacion/Editar/{id}",
-                        controller: 'DonacionAddEditController',
+                        controller: 'DonacionAddEditMapaController',
                         controllerAs: 'vm',
-                        templateUrl: 'app/views/donacion/add-edit.html',
+                        templateUrl: 'app/views/donacion/add-edit-mapa.html',
                         resolve: {
                             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
                                 return $ocLazyLoad.load([
                                     'assets/js/custom/uikit_fileinput.min.js',
-                                    'lazy_dropify'
+                                    'lazy_dropify',
+                                    'lazy_google_maps'
                                 ], { serie: true });
                             }]
                         }

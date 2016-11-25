@@ -17,21 +17,22 @@ public class Conexion {
         
        
         try{
-            //LOCAL FUNCIONA
-           //Class.forName(driver);
-           //con=DriverManager.getConnection(url, user, pass);
-            
-            String url="jdbc:mysql://mysql13.000webhost.com:3306/a8095365_donar";
-            String driver="org.gjt.mm.mysql.Driver";
-            String user="a8095365_donarus";
-            String pass="equipo111";  
-            
-
-           //WEB FUNCIONA
+            //LOCAL FUNCIONA, se usa para probar localmente y poder usar la base de datos del servidor
            Class.forName("com.mysql.jdbc.Driver").newInstance();
-           con = DriverManager.getConnection("jdbc:mysql://MYSQL5011.Smarterasp.net:3306/db_9ff664_donar?user=9ff664_donar&password=equipo111");
-           //con = DriverManager.getConnection(url, user, pass);
-        
+           con = DriverManager.getConnection("jdbc:mysql://jns3.dailyrazor.com:3306/soydonar_db?user=soydonar_us&password=111Equipo111");
+        //finaliza conexion local
+
+           //WEB FUNCIONA con smart.net
+           //Class.forName("com.mysql.jdbc.Driver").newInstance();
+           //con = DriverManager.getConnection("jdbc:mysql://MYSQL5011.Smarterasp.net:3306/db_9ff664_donar?user=9ff664_donar&password=equipo111");
+        //finaliza conexion con smart.net
+           
+           
+            //WEB FUNCION CON BD DEFINITIVA
+           //Class.forName("com.mysql.jdbc.Driver").newInstance();
+           //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/soydonar_db?user=soydonar_us&password=111Equipo111");
+           //finaliza conexion con bd definitiva
+            
         }
         catch(Exception e){
             System.out.println("Falló la conexion a la base de datos");          
@@ -41,5 +42,7 @@ public class Conexion {
 
     public Conexion() {
     }
+    
+    
     
 }
