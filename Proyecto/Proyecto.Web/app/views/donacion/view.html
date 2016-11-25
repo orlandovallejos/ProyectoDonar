@@ -310,11 +310,11 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div ng-if="vm.usuarioLogueado && vm.usuarioLogueado.usuario != vm.donacion.usuario && vm.donacion.categoria.toUpperCase() == 'VOLUNTARIADO' && vm.estaActiva" class="uk-grid"
-                                data-uk-grid-margin data-uk-grid-match>
+                            <div ng-if="vm.usuarioLogueado && vm.usuarioLogueado.usuario != vm.donacion.usuario && vm.donacion.categoria.toUpperCase() == 'VOLUNTARIADO' && vm.estaActiva"
+                                class="uk-grid" data-uk-grid-margin data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
-                                  <!--<a class="md-btn md-btn-success md-btn-block md-btn-wave-light" href="javascript:void(0)">Quiero ser voluntario!</a>  -->
-                                  <span class="uk-input-group-addon">
+                                    <!--<a class="md-btn md-btn-success md-btn-block md-btn-wave-light" href="javascript:void(0)">Quiero ser voluntario!</a>  -->
+                                    <span class="uk-input-group-addon">
                                         <a class="md-btn md-btn-success md-btn-block md-btn-wave-light" style="background-color: #00b650;" ng-click="vm.donarVoluntariado()">
                                             <i class="uk-icon-smile-o" style="color: #f3f67b;font-size: 25px;padding-top: 7px;"></i>
                                             Quiero ser voluntario!
@@ -337,7 +337,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div ng-if="vm.usuarioLogueado && vm.usuarioLogueado.usuario != vm.donacion.usuario && vm.estaActiva" class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+                            <div ng-if="vm.usuarioLogueado && vm.usuarioLogueado.usuario != vm.donacion.usuario && vm.estaActiva" class="uk-grid" data-uk-grid-margin
+                                data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
                                     <div class="uk-input-group">
                                         <label>Donar elementos</label>
@@ -374,6 +375,25 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="md-card">
+                    <div class="md-card-content">
+                        <h3 class="heading_c uk-margin-bottom">Donaciones</h3>
+                        <ul class="md-list md-list-addon uk-margin-bottom">
+                            <li ng-repeat="aporte in vm.aportes">
+                                <div class="md-list-addon-element">
+                                    <img class="md-user-image md-list-addon-avatar" ng-src="http://www.soydonar.com/imagenes/usuarios/{{aporte.donante}}.jpg"
+                                        alt="" />
+                                </div>
+                                <div class="md-list-content">
+                                    <span class="md-list-heading">{{aporte.donante}}</span>
+                                    <span class="uk-text-small uk-text-muted" style="font-weigh:bold" >{{aporte.fecha}}</span>
+                                    <br>
+                                    <span class="uk-text-small uk-text-muted">{{aporte.aporte_donacion}}</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

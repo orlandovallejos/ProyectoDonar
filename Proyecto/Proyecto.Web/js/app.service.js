@@ -97,7 +97,8 @@
             deleteNotificacion: deleteNotificacion,
             donacionesConcretadas: donacionesConcretadas,
             addLike: addLike,
-            verLikes: verLikes
+            verLikes: verLikes,
+            donacionesPorNecesidad: donacionesPorNecesidad
         };
 
         return service;
@@ -591,7 +592,18 @@
                     return $q.reject(parsearError(responseError));
                 });
         }
-        //
+
+        function donacionesPorNecesidad(id_necesidad) {
+            return $http.get('http://www.soydonar.com/webservices/webresources/donacionesPorNec/' + id_necesidad)
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch(function (responseError) {
+                    console.log('Error donacionesPorNecesidad');
+                    console.log(responseError);
+                    return $q.reject(parsearError(responseError));
+                });
+        }
     }
 
     SessionStorageService.$inject = ['$window'];

@@ -1,4 +1,4 @@
-(function () {
+(function() {
     "use strict";
     angular
         .module('donarApp')
@@ -35,7 +35,7 @@
             vm.usuarioLogueado = SessionStorageService.get('usuario');
 
             ServerService.getDonacion($stateParams.id)
-                .then(function (data) {
+                .then(function(data) {
                     console.log(data);
                     vm.donacion = data;
 
@@ -93,14 +93,19 @@
                     //
 
                     ServerService.getFilesInFolder('galeria-' + $stateParams.id)
-                        .then(function (dataImages) {
+                        .then(function(dataImages) {
                             vm.images = dataImages;
                         });
 
                     ServerService.getVideos($stateParams.id)
-                        .then(function (dataVideo) {
+                        .then(function(dataVideo) {
                             vm.videos = dataVideo;
                         });
+                });
+
+            ServerService.donacionesPorNecesidad($stateParams.id)
+                .then(function(dataAportes) {
+                    vm.aportes = dataAportes;
                 });
         }
 
@@ -146,13 +151,13 @@
             }
 
             ServerService.addComment(request)
-                .then(function (response) {
+                .then(function(response) {
                     console.log(response);
                     request.imagen_path = vm.usuarioLogueado.imagen_path;
                     vm.donacion.lista_coment.push(request);
                     vm.comentario = '';
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }
@@ -189,7 +194,7 @@
                 };
 
                 ServerService.crearDonacionMP(request)
-                    .then(function (response) {
+                    .then(function(response) {
                         console.log(response);
 
                         vm.donacionMonetaria = '';
@@ -203,7 +208,7 @@
                         UIkit.modal("#modal_overflow").show();
                         vm.mercadoPagoURL = $sce.trustAsResourceUrl("https://www.mercadopago.com.ar/money-transfer?dummyVar=" + (new Date()).getTime());
                     },
-                    function (responseError) {
+                    function(responseError) {
                         console.log(responseError);
                     });
             }
@@ -253,7 +258,7 @@
 
 
                 ServerService.crearDonacionMP(request)
-                    .then(function (response) {
+                    .then(function(response) {
                         console.log(response);
 
                         vm.donacionDeCosas = '';
@@ -264,7 +269,7 @@
                             pos: 'top-right'
                         });
                     },
-                    function (responseError) {
+                    function(responseError) {
                         console.log(responseError);
                     });
             }
@@ -272,7 +277,7 @@
 
         function addFavorite() {
             ServerService.addFavorite(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
-                .then(function (response) {
+                .then(function(response) {
                     console.log(response);
                     UIkit.notify({
                         message: '<i class="uk-icon-check"></i> Se agregó a la lista de favoritos!',
@@ -281,14 +286,14 @@
                         pos: 'top-right'
                     });
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }
 
         function addLike() {
             ServerService.addLike(vm.donacion.id_necesidad, vm.usuarioLogueado.usuario)
-                .then(function (response) {
+                .then(function(response) {
                     console.log(response);
                     UIkit.notify({
                         message: '<i class="uk-icon-check"></i> Se agregó el like!',
@@ -297,7 +302,7 @@
                         pos: 'top-right'
                     });
                 },
-                function (responseError) {
+                function(responseError) {
                     console.log(responseError);
                 });
         }
@@ -327,7 +332,7 @@
                 };
 
                 ServerService.crearDonacionMP(request)
-                    .then(function (response) {
+                    .then(function(response) {
                         console.log(response);
 
                         vm.donacionDeCosas = '';
@@ -338,7 +343,7 @@
                             pos: 'top-right'
                         });
                     },
-                    function (responseError) {
+                    function(responseError) {
                         UIkit.notify({
                             message: '<i class="uk-icon-times-circle"></i> Hubo un error',
                             status: 'danger',
