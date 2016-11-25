@@ -70,7 +70,7 @@
                 imagen_path: fileName,
                 fecha_nacimiento: '2019-08-30'
             };
-            
+
             SessionStorageService.set('usuario', request);
             ServerService.guardarUsuario(request)
                 .then(function () {
