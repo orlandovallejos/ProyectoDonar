@@ -293,6 +293,7 @@
                                     </span>
                                 </div>
                             </div>
+                            <!--Este es el label del usuario de mercado pago-->
                             <div ng-if="vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp" class="uk-grid" data-uk-grid-margin
                                 data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
@@ -309,7 +310,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div ng-if="vm.usuarioLogueado && vm.donacion.categoria.toUpperCase() == 'VOLUNTARIADO' && vm.estaActiva" class="uk-grid"
+                            <div ng-if="vm.usuarioLogueado && vm.usuarioLogueado.usuario != vm.donacion.usuario && vm.donacion.categoria.toUpperCase() == 'VOLUNTARIADO' && vm.estaActiva" class="uk-grid"
                                 data-uk-grid-margin data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
                                   <!--<a class="md-btn md-btn-success md-btn-block md-btn-wave-light" href="javascript:void(0)">Quiero ser voluntario!</a>  -->
@@ -321,7 +322,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div ng-if="vm.usuarioLogueado && vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp &&  vm.estaActiva"
+                            <div ng-if="vm.usuarioLogueado && vm.usuarioLogueado.usuario != vm.donacion.usuario && vm.donacion.categoria.toUpperCase() == 'DINERO' && vm.donacion.usuario_mp &&  vm.estaActiva"
                                 class="uk-grid" data-uk-grid-margin data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
                                     <div class="uk-input-group">
@@ -336,7 +337,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div ng-if="vm.usuarioLogueado  && vm.estaActiva" class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+                            <div ng-if="vm.usuarioLogueado && vm.usuarioLogueado.usuario != vm.donacion.usuario && vm.estaActiva" class="uk-grid" data-uk-grid-margin data-uk-grid-match>
                                 <div class="uk-width-large-1-1">
                                     <div class="uk-input-group">
                                         <label>Donar elementos</label>
