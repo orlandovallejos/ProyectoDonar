@@ -172,6 +172,8 @@
                                 e.estaActiva = false;
                             }
                         }
+
+                        e.necesidad = e.necesidad.replace(/<(?:.|\n)*?>/gm, '');
                     });
                 });
 
@@ -228,6 +230,7 @@
                                     e.estaActiva = false;
                                 }
                             }
+                            e.necesidad = e.necesidad.replace(/<(?:.|\n)*?>/gm, '');
                         });
                     }
                     else {
