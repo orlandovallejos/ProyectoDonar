@@ -6186,7 +6186,7 @@ angular
             ServerService.getDonacion($stateParams.id)
                 .then(function (data) {
                     vm.donacion = data;
-                    
+
                     ServerService.getFilesInFolder('resultado-' + $stateParams.id)
                         .then(function (data) {
                             vm.images = data;
@@ -6212,6 +6212,11 @@ angular
                             vm.isNew = true;
                             vm.resultado = {};
                         });
+                });
+
+            ServerService.donacionesPorNecesidad($stateParams.id)
+                .then(function (dataAportes) {
+                    vm.aportes = dataAportes;
                 });
         }
     }
