@@ -179,6 +179,17 @@
                             }]
                         }
                     })
+                    .state("restricted.como-ayudar", {
+                        url: "/Como-Ayudar/",
+                        templateUrl: 'app/views/donacion/help.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                return $ocLazyLoad.load([
+                                    'lazy_ionRangeSlider'
+                                ], { serie: true });
+                            }]
+                        }
+                    })
                     // .state("restricted.donacion-add", {
                     //     url: "/Donacion/Alta",
                     //     controller: 'DonacionAddEditController',

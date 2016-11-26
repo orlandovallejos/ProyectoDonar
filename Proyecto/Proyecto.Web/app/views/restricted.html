@@ -5,12 +5,14 @@
 				Menu
 				<ul>
 					<li>
-						<a href="#">Como ayudar?</a>
+						<a ui-sref="restricted.como-ayudar"><i class="uk-icon-question-circle" style="color: #676767;font-size: 18px;"></i> Como ayudar?</a>
 					</li>
 					<li>
-						<a href="#"><i class="uk-icon-map-marker" style="color: #676767;font-size: 18px;"></i> Donaciones cercanas</a>
+						<a ui-sref="restricted.geomapas"><i class="uk-icon-map-marker" style="color: #676767;font-size: 18px;"></i> Donaciones cercanas</a>
 					</li>
-					<li ng-show="estaLogueado"><a ui-sref="restricted.donacion-add">Crear donacion</a></li>
+					<li ng-show="estaLogueado">
+						<a ui-sref="restricted.donacion-add"><i class="uk-icon-newspaper-o" style="color: #676767;font-size: 18px;"></i> Crear donacion</a>
+					</li>
 				</ul>
 			</li>
 		</ul>
