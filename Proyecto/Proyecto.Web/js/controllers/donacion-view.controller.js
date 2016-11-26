@@ -17,6 +17,7 @@
         vm.usuarioLogueado = null;
         vm.images = [];
         vm.videos = [];
+        vm.color_header = '';
 
         //Methods
         vm.addComment = addComment;
@@ -31,6 +32,10 @@
         activate();
 
         function activate() {
+
+            var colors = ['#1976d2','#c83f34','#964387','#474194','#4caf50','#13b5c7','#f5b31c','#e279ae','#559c5b','#dac826']
+            var indexColor = Math.floor((Math.random() * 10));
+            vm.color_header = colors[indexColor];  
 
             vm.usuarioLogueado = SessionStorageService.get('usuario');
 
