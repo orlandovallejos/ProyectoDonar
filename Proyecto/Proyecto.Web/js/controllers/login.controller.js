@@ -71,6 +71,8 @@
             var num = Math.floor((Math.random() * 10) + 1);
             $('body').css('background-image', 'url("../assets/img/login/' + num + '.jpg")');
             SessionStorageService.clear();
+
+            $rootScope.estaLogueado=false;
         }
 
         //Method definitions
@@ -117,6 +119,9 @@
                         $timeout(function () {
                             $state.go('restricted.home');
                         }, 1000);
+
+                         //$rootScope.$broadcast('verificar-login');
+                         $rootScope.estaLogueado=true;
                     }
                     else {
                         UIkit.notify({

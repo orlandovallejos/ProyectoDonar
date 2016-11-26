@@ -549,6 +549,8 @@
     function MainHeaderController($timeout, $scope, $window, SessionStorageService, ServerService) {
         var vm = this;
 
+        //$scope.$on('verificar-login', activate);
+
         //Variables
         vm.user_data = {
             name: "Lue Feest",
