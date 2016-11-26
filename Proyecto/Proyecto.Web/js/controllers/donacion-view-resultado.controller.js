@@ -27,10 +27,6 @@
         activate();
 
         function activate() {
-            vm.usuarioLogueado = SessionStorageService.get('usuario');
-            if (!vm.usuarioLogueado || !$stateParams.id) {
-                $state.go('restricted.home');
-            }
 
             ServerService.getDonacion($stateParams.id)
                 .then(function (data) {
